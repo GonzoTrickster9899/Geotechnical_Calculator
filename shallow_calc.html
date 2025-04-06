@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Shallow Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <style>
+        /* Center the tabs */
+        .nav-tabs-centered {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Title of Calculator-->
+    <div class="container">
+        <div class="mt-5">
+            <h1>
+                <center>Shallow Foundation Calculator</center>
+            </h1>
+        </div>
+    </div>
+
+    <!-- Shear Type Selection-->
+    <div class="container mt-5">
+        <div class="d-flex justify-content-center">
+            <ul class="nav nav-tabs nav-tabs-centered" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="analysis-beam-shear-tab" data-bs-toggle="tab"
+                        data-bs-target="#analysis-beam-shear" type="button" role="tab"
+                        aria-controls="analysis-beam-shear" aria-selected="true">Analysis Beam Shear</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="analysis-punching-shear-tab" data-bs-toggle="tab"
+                        data-bs-target="#analysis-punching-shear" type="button" role="tab"
+                        aria-controls="analysis-punching-shear" aria-selected="false">Analysis Punching Shear</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="design-tab" data-bs-toggle="tab" data-bs-target="#design" type="button"
+                        role="tab" aria-controls="design" aria-selected="false">Design</button>
+                </li>
+            </ul>
+        </div>
+        <hr>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="tab-content" id="myTabContent">
+
+        <!-- Analysis Beam Shear Tab -->
+        <div class="tab-pane fade show active" id="analysis-beam-shear" role="tabpanel"
+            aria-labelledby="analysis-beam-shear-tab">
+            <div class="container mt-5">
+                <form onsubmit="return computeBeamShear();" id="beamShearForm">
+                    <!-- Common Inputs (shared across tabs) -->
+                    <!-- Dead Load (DL) input-->
+                    <div class="mb-3 row">
+                        <label for="dl_bs" class="col-sm-3 col-form-label">Dead Load (DL)</label>
+                        <div class="col-sm-6">
+                            <input type="number" step="any" class="form-control" id="dl_bs"
+                                placeholder="Enter dead load value">
+                        </div>
+                        <label class="col-sm-3">kN</label>
+                    </div>
+                    <!-- Live Load (LL) input -->
+                    <div class="mb-3 row">
+                        <label for="ll_bs" class="col-sm-3 col-form-label">Live Load (LL)</label>
+                        <div class="col-sm-6">
+                            <input type="number" step="any" class="form-control" id="ll_bs"
+                                placeholder="Enter live load value">
+                        </div>
+                        <label class="col-sm-3">kN</label>
+                    </div>
+                    <!-- Size of Column (c) input -->
+                    <div class="mb-3 row">
+                        <label for="c_bs" class="col-sm-3 col-form-label">Size of Column (c)</label>
+                        <div class="col-sm-6">
+                            <input type="number" step="any" class="form-control" id="c_bs"
+                                placeholder="Enter size of column value">
+                        </div>
+                        <label class="col-sm-3">mm</label>
+                    </div>
+                    <!-- Size of Footing input -->
+                    <div class="mb-3 row">
+                        <label for="b_bs" class="col-sm-3 col-form-label">Size of Footing (B)</label>
+                        <div class="col-sm-6">
+                            <input type="number" step="any" class="form-control" id="b_bs"
+                                placeholder="Enter size of footing value">
+                        </div>
+                        <label class="col-sm-3">m</label>
+                    </div>
+                    <!-- Thickness of Footing input -->
+                    <div class="mb-3 row">
+                        <label for="t_bs" class="col-sm-3 col-form-label">Thickness of Footing</label>
+                        <div class="col-sm-6">
+                            <input type="number" step="any" class="form-control" id="t_bs"
+                                placeholder="Enter thickness of footing value">
+                        </div>
+                        <label class="col-sm-3">mm</label>
+                    </div>
+                    <!-- Thickness of Footing input -->
+                    <div class="mb-3 row">
+                        <label for="t_bs" class="col-sm-3 col-form-label">Thickness of Footing</label>
+                        <div class="col-sm-6">
+                            <input type="number" step="any" class="form-control" id="t_bs"
+                                placeholder="Enter thickness of footing value">
+                        </div>
+                        <label class="col-sm-3">mm</label>
+                    </div>
+                    <!-- Concrete Compressive Strength input-->
+                    <div class="mb-3 row">
+                        <label for="fc_bs" class="col-sm-3 col-form-label">Concrete Compressive Strength (fc')</label>
+                        <div class="col-sm-6">
+                            <input type="number" step="any" class="form-control" id="fc_bs"
+                                placeholder="Enter concrete compressive strength value">
+                        </div>
+                        <label class="col-sm-3">MPa</label>
+                    </div>
+
+                    
+
+                    <!-- Compute button-->
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary">Compute</button>
+                    </div>
+                </form>
+
+                <h2 class="mt-4 d-flex justify-content-center">Result</h2>
+
+                <!-- Results Section for Beam Shear -->
+                <div class="container mt-5">
+                    <div>Beam Shear Results</div>
+                    <!-- Example Output -->
+                    <div class="mb-3 row">
+                        <label for="vu_bs" class="col-sm-2 col-form-label">Vu</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control bg-white text-dark" id="vu_bs" readonly>
+                        </div>
+                        <label class="col-sm-2">kN</label>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="vc_bs" class="col-sm-2 col-form-label">Vc</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control bg-white text-dark" id="vc_bs" readonly>
+                        </div>
+                        <label class="col-sm-2">kN</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analysis Punching Shear Tab -->
+        <div class="tab-pane fade" id="analysis-punching-shear" role="tabpanel"
+            aria-labelledby="analysis-punching-shear-tab">
+            <div class="container mt-5">
+                <form onsubmit="return computePunchingShear();" id="punchingShearForm">
+                    <!-- Common Inputs (shared across tabs) -->
+                    <!-- Size of Column (c) input -->
+                    <div class="mb-3 row">
+                        <label for="c_ps" class="col-sm-3 col-form-label">Size of Column (c)</label>
+                        <div class="col-sm-6">
+                            <input type="number" step="any" class="form-control" id="c_ps"
+                                placeholder="Enter size of column value">
+                        </div>
+                        <label class="col-sm-3">mm</label>
+                    </div>
+                    <!-- Size of Footing input -->
+                    <div class="mb-3 row">
+                        <label for="b_ps" class="col-sm-3 col-form-label">Size of Footing (B)</label>
+                        <div class="col-sm-6">
+                            <input type="number" step="any" class="form-control" id="b_ps"
+                                placeholder="Enter size of footing value">
+                        </div>
+                        <label class="col-sm-3">m</label>
+                    </div>
+                    <!-- Thickness of Footing input -->
+                    <div class="mb-3 row">
+                        <label for="t_ps" class="col-sm-3 col-form-label">Thickness of Footing</label>
+                        <div class="col-sm-6">
+                            <input type="number" step="any" class="form-control" id="t_ps"
+                                placeholder="Enter thickness of footing value">
+                        </div>
+                        <label class="col-sm-3">mm</label>
+                    </div>
+                    <!-- Concrete Compressive Strength input-->
+                    <div class="mb-3 row">
+                        <label for="fc_ps" class="col-sm-3 col-form-label">Concrete Compressive Strength (fc')</label>
+                        <div class="col-sm-6">
+                            <input type="number" step="any" class="form-control" id="fc_ps"
+                                placeholder="Enter concrete compressive strength value">
+                        </div>
+                        <label class="col-sm-3">MPa</label>
+                    </div>
+
+                    <!-- Dead Load (DL) input-->
+                    <div class="mb-3 row">
+                        <label for="dl_ps" class="col-sm-3 col-form-label">Dead Load (DL)</label>
+                        <div class="col-sm-6">
+                            <input type="number" step="any" class="form-control" id="dl_ps"
+                                placeholder="Enter dead load value">
+                        </div>
+                        <label class="col-sm-3">kN</label>
+                    </div>
+                    <!-- Live Load (LL) input -->
+                    <div class="mb-3 row">
+                        <label for="ll_ps" class="col-sm-3 col-form-label">Live Load (LL)</label>
+                        <div class="col-sm-6">
+                            <input type="number" step="any" class="form-control" id="ll_ps"
+                                placeholder="Enter live load value">
+                        </div>
+                        <label class="col-sm-3">kN</label>
+                    </div>
+
+                    <!-- Compute button-->
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary">Compute</button>
+                    </div>
+                </form>
+
+                <h2 class="mt-4 d-flex justify-content-center">Result</h2>
+
+                <!-- Results Section for Punching Shear -->
+                <div class="container mt-5">
+                    <div>Punching Shear Results</div>
+                    <!-- Example Output -->
+                    <div class="mb-3 row">
+                        <label for="vu_ps" class="col-sm-2 col-form-label">Vu</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control bg-white text-dark" id="vu_ps" readonly>
+                        </div>
+                        <label class="col-sm-2">kN</label>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="vc_ps" class="col-sm-2 col-form-label">Vc</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control bg-white text-dark" id="vc_ps" readonly>
+                        </div>
+                        <label class="col-sm-2">kN</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Design Tab -->
+        <div class="tab-pane fade" id="design" role="tabpanel" aria-labelledby="design-tab">
+            <div class="container mt-5">
+                <form onsubmit="return computeDesign();" id="designForm">
+                    <!-- Common Inputs (shared across tabs) -->
+                    <!-- Size of Column (c) input -->
+                    <div class="mb-3 row">
+                        <label for="c_d" class="col-sm-3 col-form-label">Size of Column (c)</label>
+                        <div class="col-sm-6">
+                            <input type="number" step="any" class="form-control" id="c_d"
+                                placeholder="Enter size of column value">
+                        </div>
+                        <label class="col-sm-3">mm</label>
+                    </div>
+                    <!-- Size of Footing input -->
+                    <div class="mb-3 row">
+                        <label for="b_d" class="col-sm-3 col-form-label">Size of Footing (B)</label>
+                        <div class="col-sm-6">
+                            <input type="number" step="any" class="form-control" id="b_d"
+                                placeholder="Enter size of footing value">
+                        </div>
+                        <label class="col-sm-3">m</label>
+                    </div>
+                    <!-- Thickness of Footing input -->
+                    <div class="mb-3 row">
+                        <label for="t_d" class="col-sm-3 col-form-label">Thickness of Footing</label>
+                        <div class="col-sm-6">
+                            <input type="number" step="any" class="form-control" id="t_d"
+                                placeholder="Enter thickness of footing value">
+                        </div>
+                        <label class="col-sm-3">mm</label>
+                    </div>
+                    <!-- Concrete Compressive Strength input-->
+                    <div class="mb-3 row">
+                        <label for="fc_d" class="col-sm-3 col-form-label">Concrete Compressive Strength (fc')</label>
+                        <div class="col-sm-6">
+                            <input type="number" step="any" class="form-control" id="fc_d"
+                                placeholder="Enter concrete compressive strength value">
+                        </div>
+                        <label class="col-sm-3">MPa</label>
+                    </div>
+                    <!-- Steel Yield Strength input-->
+                    <div class="mb-3 row">
+                        <label for="fy_d" class="col-sm-3 col-form-label">Steel Yield Strength (fy)</label>
+                        <div class="col-sm-9">
+                            <input type="number" step="any" class="form-control" id="fy_d"
+                                placeholder="Enter steel yield strength value">
+                        </div>
+                        <label class="col-sm-3">MPa</label>
+                    </div>
+
+                    <!-- Dead Load (DL) input-->
+                    <div class="mb-3 row">
+                        <label for="dl_d" class="col-sm-3 col-form-label">Dead Load (DL)</label>
+                        <div class="col-sm-6">
+                            <input type="number" step="any" class="form-control" id="dl_d"
+                                placeholder="Enter dead load value">
+                        </div>
+                        <label class="col-sm-3">kN</label>
+                    </div>
+                    <!-- Live Load (LL) input -->
+                    <div class="mb-3 row">
+                        <label for="ll_d" class="col-sm-3 col-form-label">Live Load (LL)</label>
+                        <div class="col-sm-6">
+                            <input type="number" step="any" class="form-control" id="ll_d"
+                                placeholder="Enter live load value">
+                        </div>
+                        <label class="col-sm-3">kN</label>
+                    </div>
+
+                    <!-- Compute button-->
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary">Compute</button>
+                    </div>
+                </form>
+
+                <h2 class="mt-4 d-flex justify-content-center">Result</h2>
+
+                <!-- Results Section for Design -->
+                <div class="container mt-5">
+                    <div>Design Results</div>
+                    <!-- Example Output -->
+                    <div class="mb-3 row">
+                        <label for="rebar_spacing_d" class="col-sm-3 col-form-label">Rebar Spacing</label>
+                        <div class="col-sm-6">
+                            <input type="number" class="form-control bg-white text-dark" id="rebar_spacing_d" readonly>
+                        </div>
+                        <label class="col-sm-3">mm</label>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="area_steel_d" class="col-sm-3 col-form-label">Area of Steel</label>
+                        <div class="col-sm-6">
+                            <input type="number" class="form-control bg-white text-dark" id="area_steel_d" readonly>
+                        </div>
+                        <label class="col-sm-3">mm<sup>2</sup></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Original Form for input values -->
+    <div class="container mt-5" style="display:none;">
+        <form onsubmit="return compute();" id="foundationForm">
+            <!-- Dead Load (DL) input-->
+            <div class="mb-3 row">
+                <label for="dl" class="col-sm-3 col-form-label">Dead Load (DL)</label>
+                <div class="col-sm-6">
+                    <input type="number" step="any" class="form-control" id="dl" placeholder="Enter dead load value">
+                </div>
+                <label class="col-sm-3">kN</label>
+            </div>
+            <!-- Live Load (LL) input -->
+            <div class="mb-3 row">
+                <label for="ll" class="col-sm-3 col-form-label">Live Load (LL)</label>
+                <div class="col-sm-6">
+                    <input type="number" step="any" class="form-control" id="ll" placeholder="Enter live load value">
+                </div>
+                <label class="col-sm-3">kN</label>
+            </div>
+            <!-- Size of Column (c) input -->
+            <div class="mb-3 row">
+                <label for="c" class="col-sm-3 col-form-label">Size of Column (c)</label>
+                <div class="col-sm-6">
+                    <input type="number" step="any" class="form-control" id="c" placeholder="Enter size of column value">
+                </div>
+                <label class="col-sm-3">mm</label>
+            </div>
+            <!-- Size of Footing input -->
+            <div class="mb-3 row">
+                <label for="b" class="col-sm-3 col-form-label">Size of Footing (B)</label>
+                <div class="col-sm-6">
+                    <input type="number" step="any" class="form-control" id="b" placeholder="Enter size of footing value">
+                </div>
+                <label class="col-sm-3">m</label>
+            </div>
+            <!-- Thickness of Footing input -->
+            <div class="mb-3 row">
+                <label for="t" class="col-sm-3 col-form-label">Thickness of Footing</label>
+                <div class="col-sm-6">
+                    <input type="number" step="any" class="form-control" id="t" placeholder="Enter thickness of footing value">
+                </div>
+                <label class="col-sm-3">mm</label>
+            </div>
+            <!-- Main Bar Diameter input -->
+            <div class="mb-3 row">
+                <label for="mdb" class="col-sm-3 col-form-label">Main Bar Diameter (Ø)</label>
+                <div class="col-sm-6">
+                    <input type="number" step="any" class="form-control" id="mdb" placeholder="Enter depth of footing value">
+                </div>
+                <label class="col-sm-3">mm</label>
+            </div>
+            <!-- Solid Unit Weight input -->
+            <div class="mb-3 row">
+                <label for="y" class="col-sm-3 col-form-label">Solid Unit Weight (γ)</label>
+                <div class="col-sm-6">
+                    <input type="number" step="any" class="form-control" id="y" placeholder="Enter solid unit weight value">
+                </div>
+                <label class="col-sm-3">kN/m<sup>3</sup></label>
+            </div>
+            <!-- Concrete Unit Weight input-->
+            <div class="mb-3 row">
+                <label for="yc" class="col-sm-3 col-form-label">Concrete Unit Weight (γ<sub>c</sub>)</label>
+                <div class="col-sm-6">
+                    <input type="number" step="any" class="form-control" id="yc" placeholder="Enter concrete unit weight value">
+                </div>
+                <label class="col-sm-3">kN/m<sup>3</sup></label>
+            </div>
+            <!-- Concrete Compressive Strength input-->
+            <div class="mb-3 row">
+                <label for="fc" class="col-sm-3 col-form-label">Concrete Compressive Strength (fc')</label>
+                <div class="col-sm-6">
+                    <input type="number" step="any" class="form-control" id="fc" placeholder="Enter concrete compressive strength value">
+                </div>
+                <label class="col-sm-3">MPa</label>
+            </div>
+            <!-- Steel Yield Strength input-->
+            <div class="mb-3 row">
+                <label for="fy" class="col-sm-3 col-form-label">Steel Yield Strength (fy)</label>
+                <div class="col-sm-9">
+                    <input type="number" step="any" class="form-control" id="fy" placeholder="Enter steel yield strength value">
+                </div>
+                <label class="col-sm-3">MPa</label>
+            </div>
+            <!-- Depth of Footing input-->
+            <div class="mb-3 row">
+                <label for="df" class="col-sm-3 col-form-label">Depth of Footing (df)</label>
+                <div class="col-sm-9">
+                    <input type="number" step="any" class="form-control" id="df" placeholder="Enter depth of footing value">
+                </div>
+                <label class="col-sm-3">m</label>
+            </div>
+            <!-- Concrete Cover input-->
+            <div class="mb-3 row">
+                <label for="cc" class="col-sm-3 col-form-label">Concrete Cover (cc)</label>
+                <div class="col-sm-9">
+                    <input type="number" step="any" class="form-control" id="cc" placeholder="Enter concrete cover value">
+                </div>
+                <label class="col-sm-3">m</label>
+            </div>
+
+            <!-- Compute button-->
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary">Compute</button>
+            </div>
+
+        </form>
+
+        <h2 class="mt-4 d-flex justify-content-center">Result</h2>
+
+        <!-- Step 1 -->
+        <div class="container mt-5">
+            <div>Step 1: Solving for Effective Stress (q')</div>
+            <!-- qu output-->
+            <div class="mb-3 row">
+                <label for="first_term" class="col-sm-2 col-form-label">First Term</label>
+                <div class="col-sm-8">
+                    <input type="number" class="form-control bg-white text-dark" id="first_term" readonly>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="second_term" class="col-sm-2 col-form-label">Second Term</label>
+                <div class="col-sm-8">
+                    <input type="number" class="form-control bg-white text-dark" id="second_term" readonly>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="q" class="col-sm-2 col-form-label">Effective Stress</label>
+                <div class="col-sm-8">
+                    <input type="number" class="form-control bg-white text-dark" id="q" readonly>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="container mt-5">
+            <div>Step 2: Solving for y'</div>
+            <!-- qu output-->
+            <div class="mb-3 row">
+                <label for="case" class="col-sm-2 col-form-label">Case Type</label>
+                <div class="col-sm-8">
+                    <input type="number" class="form-control bg-white text-dark" id="case" readonly>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="y_prime" class="col-sm-2 col-form-label">y'</label>
+                <div class="col-sm-8">
+                    <input type="number" class="form-control bg-white text-dark" id="y_prime" readonly>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+<script>
+    function compute() {
+        // Inputs for the calculation
+        var c = parseFloat(document.getElementById("c").value); // Soil Cohesion
+        var b = parseFloat(document.getElementById("b").value); // Base of the Foundation
+        var y = parseFloat(document.getElementById("y").value); // Moist Unit of Weight
+        var ys = parseFloat(document.getElementById("ys").value); // Saturated Unit of Weight
+        var dw = parseFloat(document.getElementById("dw").value); // Depth of Water Table
+        var fs = parseFloat(document.getElementById("fs").value); // Factor of Safety
+        var df = parseFloat(document.getElementById("df").value); // Depth of Footing
+        var nc = parseFloat(document.getElementById("nc").value); // Nc
+        var nq = parseFloat(document.getElementById("nq").value); // Nq
+        var ny = parseFloat(document.getElementById("ny").value); // Ny
+        var shearType = document.getElementById("shearType").value; // shearType
+
+        // RESULTS
+        if (isNaN(nc) || isNaN(nq) || isNaN(ny) || isNaN(c) || isNaN(b) || isNaN(y) || isNaN(ys) || isNaN(dw) || isNaN(df)) {
+            alert("Please enter valid numbers");
+            return false;
+        } else if (nc < 0 || nq < 0 || ny < 0 || c < 0 || b < 0 || y < 0 || ys < 0 || dw < 0 || df < 0) {
+            alert("Please enter positive values only");
+            return false;
+        } else {
+            // Step 1: Solving for Effective Stress (q')
+            var first_term; // Declare first_term outside the if/else blocks
+            if (dw > df) {
+                first_term = y * df;
+            } else if (dw < df) {
+                first_term = y * dw;
+            } else {
+                first_term = y * dw; // Handle dw == df case
+            }
+            document.getElementById("first_term").value = first_term;
+
+            var second_term; // Declare second_term outside the if/else block
+            if (df - dw > 0) {
+                second_term = ys - 9.81;
+            } else {
+                second_term = 0;
+            }
+            document.getElementById("second_term").value = second_term;
+
+            // Calculate effective stress
+            var q = first_term + second_term;
+            document.getElementById("q").value = q;
+
+            // Step 2: Solving for y'
+            var caseType; // Declare caseType outside the if/else if/else blocks
+            if (dw <= df + b) {
+                caseType = 1;
+            } else if (dw < df + b && dw > df) {
+                caseType = 2;
+            } else if (dw < df && dw > 0) {
+                caseType = 3;
+            } else {
+                caseType = 0;
+            }
+            document.getElementById("case").value = caseType;
+
+            var y_prime; // Declare y_prime outside the if/else if/else blocks
+            if (caseType == 1) {
+                var y_prime;  //y_prime redeclared, removed this to prevent confusion, this variable is already defined outside the if else if else scope
+                if (ys > y) {
+                    y_prime = ys - 9.81;
+                } else {
+                    y_prime = y - 9.81;
+                }
+            // var y_prime = effective_stress - (ys * dw); Remove this statement cause you have already defined y_prime within the if else statement above
+            } else if (caseType == 2) {
+                y_prime = q - (ys * df) + (ys * dw);
+            } else if (caseType == 3) {
+                if (ys > y) {
+                    y_prime = ys;
+                } else {
+                    y_prime = y;
+                }
+            } else {
+                y_prime = q;
+            }
+            document.getElementById("y_prime").value = y_prime;
+
+            // Step 3: Solving for qu, qa and P.
+            if (shearType === "1") {
+                //! ULTIMATE BEARING CAPACITY OF SOIL
+                //! Strip foundation computation
+                var qu01 = (c * nc) + (q * nq) + (0.5 * y * b * ny);
+                var qall01 = qu01 / FS;
+                var P01 = qall01 * (b * b);
+                // ULTIMATE BEARING CAPACITY OF SOIL
+                //! Square foundation computation 
+                var qu02 = (1.3 * c * nc) + (q * nq) + (0.4 * y * b * ny);
+                var qall02 = qu02 / FS;
+                var P02 = qall02 * (b * b);
+
+                //! Circular foundation computation
+                var qu03 = (1.3 * c * nc) + (q * nq) + (0.3 * y * b * ny);
+                var qall03 = qu03 / FS;
+                var P03 = qall03 * (b * b);
+
+                //! Strip foundation display results
+                document.getElementById("qu01").value = qu01;
+                document.getElementById("qall01").value = qall01;
+                document.getElementById("p01").value = P01;
+
+                //! Square foundation display results
+                document.getElementById("qu02").value = qu02;
+                document.getElementById("qall02").value = qall02;
+                document.getElementById("p02").value = P02;
+
+                //! Circular foundation display results
+                document.getElementById("qu03").value = qu03;
+                document.getElementById("qall03").value = qall03;
+                document.getElementById("p03").value = P03;
+            } else if (shearType === "2") {
+                //! Strip foundation computation
+                var qu11 = ((2 / 3) * c * nc) + (q * nq) + (0.5 * y * b * ny);
+                var qall11 = qu11 / FS;
+                var P11 = qall11 * (b * b);
+
+                //! Square foundation computation 
+                var qu12 = (0.867 * c * nc) + (q * nq) + (0.4 * y * b * ny);
+                var qall12 = qu12 / FS;
+                var P12 = qall12 * (b * b);
+
+                //! Circular foundation computation
+                var qu13 = (0.867 * c * nc) + (q * nq) + (0.3 * y * b * ny);
+                var qall13 = qu13 / FS;
+                var P13 = qall13 * (b * b);
+
+                //! Strip foundation display results
+                document.getElementById("qu01").value = qu11;
+                document.getElementById("qall01").value = qall11;
+                document.getElementById("p01").value = P11;
+
+                //! Square foundation display results
+                document.getElementById("qu02").value = qu12;
+                document.getElementById("qall02").value = qall12;
+                document.getElementById("p02").value = P12;
+
+                //! Circular foundation display results
+                document.getElementById("qu03").value = qu13;
+                document.getElementById("qall03").value = qall13;
+                document.getElementById("p03").value = P13;
+            } else {
+                alert("Please select a shear failure type");
+            }
+        }
+
+        
+
+        /**
+        if (isNaN(nc) || isNaN(nq) || isNaN(ny) || isNaN(c)) {
+            alert("Please enter valid numbers");
+            return false;
+        } else if (shearType === "") {
+            alert("Please select a shear failure type");
+            return false;
+        } else if (nc < 0 || nq < 0 || ny < 0 || c < 0) {
+            alert("Please enter positive values only");
+            return false;
+        } else {
+            if (isNaN(height_s_soil) || isNaN(weight_s_soil) || isNaN(height_m_soil) || isNaN(weight_m_soil)) {
+                alert("Please enter valid numbers for soil properties.");
+                return false;
+            } else if (height_s_soil < 0 || weight_s_soil < 0 || height_m_soil < 0 || weight_m_soil < 0) {
+                alert("Please enter positive values only for soil properties");
+                return false;
+            } else {
+                if (height_s_soil > 0 && weight_s_soil > 0 && height_m_soil == 0 && weight_m_soil == 0) {
+                    var q = height_s_soil * weight_s_soil;
+                } else if (height_m_soil > 0 && weight_m_soil > 0 && height_s_soil == 0 && weight_s_soil == 0) {
+                    var q = (height_m_soil - 9.81) * weight_m_soil;
+                } else {
+                    var q = (height_s_soil * weight_s_soil) + ((weight_m_soil - 9.81) * height_m_soil);
+                }
+
+                document.getElementById("q").value = q;
+
+                if (shearType === "1") {
+                    //! ULTIMATE BEARING CAPACITY OF SOIL
+                    //! Strip foundation computation
+                    var qu01 = (c * nc) + (q * nq) + (0.5 * y * b * ny);
+                    var qall01 = qu01 / FS;
+                    var P01 = qall01 * (b * b);
+                    // ULTIMATE BEARING CAPACITY OF SOIL
+                    //! Square foundation computation 
+                    var qu02 = (1.3 * c * nc) + (q * nq) + (0.4 * y * b * ny);
+                    var qall02 = qu02 / FS;
+                    var P02 = qall02 * (b * b);
+
+                    //! Circular foundation computation
+                    var qu03 = (1.3 * c * nc) + (q * nq) + (0.3 * y * b * ny);
+                    var qall03 = qu03 / FS;
+                    var P03 = qall03 * (b * b);
+
+                    //! Strip foundation display results
+                    document.getElementById("qu01").value = qu01;
+                    document.getElementById("qall01").value = qall01;
+                    document.getElementById("p01").value = P01;
+
+                    //! Square foundation display results
+                    document.getElementById("qu02").value = qu02;
+                    document.getElementById("qall02").value = qall02;
+                    document.getElementById("p02").value = P02;
+
+                    //! Circular foundation display results
+                    document.getElementById("qu03").value = qu03;
+                    document.getElementById("qall03").value = qall03;
+                    document.getElementById("p03").value = P03;
+                } else if (shearType === "2") {
+                    //! Strip foundation computation
+                    var qu11 = ((2 / 3) * c * nc) + (q * nq) + (0.5 * y * b * ny);
+                    var qall11 = qu11 / FS;
+                    var P11 = qall11 * (b * b);
+
+                    //! Square foundation computation 
+                    var qu12 = (0.867 * c * nc) + (q * nq) + (0.4 * y * b * ny);
+                    var qall12 = qu12 / FS;
+                    var P12 = qall12 * (b * b);
+
+                    //! Circular foundation computation
+                    var qu13 = (0.867 * c * nc) + (q * nq) + (0.3 * y * b * ny);
+                    var qall13 = qu13 / FS;
+                    var P13 = qall13 * (b * b);
+
+                    //! Strip foundation display results
+                    document.getElementById("qu01").value = qu11; // Corrected ID
+                    document.getElementById("qall01").value = qall11; // Corrected ID
+                    document.getElementById("p01").value = P11; // Corrected ID
+
+                    //! Square foundation display results
+                    document.getElementById("qu02").value = qu12; // Corrected ID
+                    document.getElementById("qall02").value = qall12; // Corrected ID
+                    document.getElementById("p02").value = P12; // Corrected ID
+
+                    //! Circular foundation display results
+                    document.getElementById("qu03").value = qu13; // Corrected ID
+                    document.getElementById("qall03").value = qall13; // Corrected ID
+                    document.getElementById("p03").value = P13; // Corrected ID
+                } else {
+                    alert("Please select a shear failure type");
+                }
+
+            }
+            return false; // Prevent form submission
+        }
+        **/
+        return false; // Prevent form submission
+
+    }
+</script>
