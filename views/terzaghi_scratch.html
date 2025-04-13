@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Terzaghi Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+    <style>
+        .calculator-btn {
+            transition: all 0.3s ease;
+        }
+        .calculator-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        .logo {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            background-color: #0d6efd;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Center the tabs */
+        .nav-tabs-centered {
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Add border to input and output groups */
+        .input-group-border,
+        .output-group-border {
+            border: 5px solid #ced4da; /* Bootstrap's default border color */
+            padding: 15px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+        }
+        .sidebar-image {
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        @media (max-width: 991.98px) {
+            .sidebar-images {
+                display: flex;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                margin-top: 30px;
+                padding-bottom: 15px;
+            }
+            .sidebar-image {
+                flex: 0 0 auto;
+                width: 200px;
+                margin-right: 15px;
+                margin-bottom: 0;
+            }
+        }
+        </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+        <!-- Logo and Brand Name -->
+        <a class="navbar-brand logo-container" href="index.html">
+            <div class="logo">GEO</div>
+            <span>GeoCalc</span>
+        </a>
+        
+        <!-- Toggle Button for Mobile -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <!-- Navigation Items -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="about.html">About</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Calculators
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="views/terzaghi.html">Terzaghi</a></li>
+                <li><a class="dropdown-item" href="views/shallow_square_footing_foundation.html">Shallow Square Footing Foundation</a></li>
+                <li><a class="dropdown-item" href="views/shallow_foundation.html">Shallow Foundation</a></li>
+                <li><a class="dropdown-item" href="views/deep_foundation.html">Deep Foundation</a></li>
+                </ul>
+            </li>
+            </ul>
+        </div>
+        </div>
+    </nav>
+
+    <!-- Title of Calculator-->
+    <div class="container">
+        <div class="mt-3">
+            <h1>
+                <center>Terzaghi Calculator</center>
+            </h1>
+        </div>
+    </div>
+
+    <div class="container py-5">
+        <!-- Form for input values -->
+        <div class="container mt-3">
+            <form onsubmit="return compute();" id="terzaghiForm">
+                <div class="input-group-border">
+                    <div class="mb-2 row">
+                        <!-- Cohesion (c) input-->
+                        <label for="cohesion" class="col-sm-2 col-form-label fw-bold">Soil Cohesion (c)</label>
+                        <div class="col-sm-3">
+                            <input type="number" step="any" class="form-control" id="c" placeholder="Enter cohesion value">
+                        </div>
+                        <label class="col-sm-1">kPa</label>
+                        <!-- Base of the Foundation (B) input -->
+                        <label for="b" class="col-sm-2 col-form-label fw-bold" >Base of Foundation (B)</label>
+                        <div class="col-sm-3">
+                            <input type="number" step="any" class="form-control" id="b" placeholder="Enter base of foundation value">
+                        </div>
+                        <label class="col-sm-1">m</label>
+                    </div>
+                    
+                    <div class="mb-2 row">
+                        <!-- Moist Unit Weight (y) input -->
+                        <label for="y" class="col-sm-2 col-form-label fw-bold">Moist Unit Weight (γ)</label>
+                        <div class="col-sm-3">
+                            <input type="number" step="any" class="form-control" id="y" placeholder="Enter moist unit weight value">
+                        </div>
+                        <label class="col-sm-1">kN/m3</label>
+                        <!-- Saturated Unit Weight (ys) input -->
+                        <label for="ys" class="col-sm-2 col-form-label fw-bold">Saturated Unit Weight (γ<sub>s</sub>)</label>
+                        <div class="col-sm-3">
+                            <input type="number" step="any" class="form-control" id="ys" placeholder="Enter saturated unit weight value">
+                        </div>
+                        <label class="col-sm-1">kN/m3</label>
+                    </div>
+                    
+                    <div class="mb-2 row">
+                        <!-- Depth of Water Tabel (Dw) input -->
+                        <label for="dw" class="col-sm-2 col-form-label fw-bold">Depth of Water Table (Dw)</label>
+                        <div class="col-sm-3">
+                            <input type="number" step="any" class="form-control" id="dw" placeholder="Enter depth of water table value">
+                        </div>
+                        <label class="col-sm-1">m</label>
+                        <!-- Depth of Footing (Df) input -->
+                        <label for="df" class="col-sm-2 col-form-label fw-bold">Depth of Footing (Df)</label>
+                        <div class="col-sm-3">
+                            <input type="number" step="any" class="form-control" id="df" placeholder="Enter depth of footing value">
+                        </div>
+                        <label class="col-sm-1">m</label>
+                    </div>
+                    
+                    <div class="mb-3 row">
+                        <!-- Factor of Safety (FS) input -->
+                        <label for="fs" class="col-sm-2 col-form-label fw-bold">Factor of Safety (FS)</label>
+                        <div class="col-sm-3">
+                            <input type="number" step="any" class="form-control" id="fs" placeholder="Enter factor of safety value">
+                        </div>
+                        <div class="col-sm-1"></div>
+                        <!-- Nc input-->
+                        <label for="nc" class="col-sm-2 col-form-label fw-bold">Nc</label>
+                        <div class="col-sm-3">
+                            <input type="number" step="any" class="form-control" id="nc" placeholder="Enter Nc value">
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="mb-2 row">
+                        <!-- Nq input-->
+                        <label for="nq" class="col-sm-2 col-form-label fw-bold">Nq</label>
+                        <div class="col-sm-3">
+                            <input type="number" step="any" class="form-control" id="nq" placeholder="Enter Nq value">
+                        </div>
+                        <div class="col-sm-1"></div>
+                        <!-- Ny input-->
+                        <label for="ny" class="col-sm-2 col-form-label fw-bold">Ny</label>
+                        <div class="col-sm-3">
+                            <input type="number" step="any" class="form-control" id="ny" placeholder="Enter Ny value">
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <!-- Shear Failure Type Selection-->
+                        <label for="shearType" class="col-sm-2 col-form-label fw-bold">Shear Failure Type</label>
+                        <div class="col-sm-3">
+                            <select class="form-select" id="shearType">
+                                <option value="" disabled selected>Select shear type</option>
+                                <option value="1">General Shear Failure</option>
+                                <option value="2">Local Shear Failure</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary">Compute</button>
+                    <button type="button" class="btn btn-danger ms-4 ps-4 pe-4 onclick="terzaghiForm()>Clear</button>
+                </div>
+
+            </form>
+
+            <div class="input-group-border mt-3">
+
+                <!-- Step 1 -->
+                <div class="container mt-3">
+                    <div class="fw-bold">Step 1: Solving for Effective Stress (q')</div>
+                    <!-- qu output-->
+                    <div class="mb-2 row">
+                        <label for="first_term" class="col-sm-2 col-form-label">First Term</label>
+                        <div class="col-sm-3">
+                            <input type="number" class="form-control bg-white text-dark" id="first_term" readonly>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="second_term" class="col-sm-2 col-form-label">Second Term</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control bg-white text-dark" id="second_term" readonly>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="q" class="col-sm-2 col-form-label">Effective Stress</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control bg-white text-dark" id="q" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="container mt-5">
+                    <div>Step 2: Solving for y'</div>
+                    <!-- qu output-->
+                    <div class="mb-3 row">
+                        <label for="case" class="col-sm-2 col-form-label">Case Type</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control bg-white text-dark" id="case" readonly>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="y_prime" class="col-sm-2 col-form-label">y'</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control bg-white text-dark" id="y_prime" readonly>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Test for Tab -->
+                <ul class="nav nav-tabs" id="foundationTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="continuous-strip-tab" data-bs-toggle="tab" href="#continuous-strip"
+                            role="tab" aria-controls="continuous-strip" aria-selected="true">Continuous Strip Foundation</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="square-tab" data-bs-toggle="tab" href="#square" role="tab"
+                            aria-controls="square" aria-selected="false">Square Foundation</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="circular-tab" data-bs-toggle="tab" href="#circular" role="tab"
+                            aria-controls="circular" aria-selected="false">Circular Foundation</a>
+                    </li>
+                </ul>
+
+                <!-- Tab Content -->
+                <div class="tab-content" id="foundationTabsContent">
+                    <!-- Continuous Strip Foundation -->
+                    <div class="tab-pane fade show active" id="continuous-strip" role="tabpanel"
+                        aria-labelledby="continuous-strip-tab">
+                        <label class="mb-1 col-form-label">Continuous Strip Foundation</label>
+
+                        <!-- qu output-->
+                        <div class="mb-3 row">
+                            <label for="qu01" class="col-sm-2 col-form-label">q<sub>u</sub></label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control bg-white text-dark" id="qu01" readonly>
+                            </div>
+                            <div class="col-sm-2">kPa</div>
+                        </div>
+
+                        <!-- qall output-->
+                        <div class="mb-3 row">
+                            <label for="qall01" class="col-sm-2 col-form-label">q<sub>all</sub></label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control bg-white text-dark" id="qall01" readonly>
+                            </div>
+                            <div class="col-sm-2">kPa</div>
+                        </div>
+
+                        <!-- P output-->
+                        <div class="mb-3 row">
+                            <label for="p01" class="col-sm-2 col-form-label">P</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control bg-white text-dark" id="p01" readonly>
+                            </div>
+                            <div class="col-sm-2">kN</div>
+                        </div>
+                    </div>
+
+                    <!-- Square Foundation -->
+                    <div class="tab-pane fade" id="square" role="tabpanel" aria-labelledby="square-tab">
+                        <label class="mb-1 col-form-label">Square Foundation</label>
+
+                        <!-- qu output-->
+                        <div class="mb-3 row">
+                            <label for="qu02" class="col-sm-2 col-form-label">q<sub>u</sub></label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control bg-white text-dark" id="qu02" readonly>
+                            </div>
+                            <div class="col-sm-2">kPa</div>
+                        </div>
+
+                        <!-- qall output-->
+                        <div class="mb-3 row">
+                            <label for="qall02" class="col-sm-2 col-form-label">q<sub>all</sub></label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control bg-white text-dark" id="qall02" readonly>
+                            </div>
+                            <div class="col-sm-2">kPa</div>
+                        </div>
+
+                        <!-- P output-->
+                        <div class="mb-3 row">
+                            <label for="p02" class="col-sm-2 col-form-label">P</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control bg-white text-dark" id="p02" readonly>
+                            </div>
+                            <div class="col-sm-2">kN</div>
+                        </div>
+                    </div>
+
+                    <!-- Circular Foundation -->
+                    <div class="tab-pane fade" id="circular" role="tabpanel" aria-labelledby="circular-tab">
+                        <label class="mb-1 col-form-label">Circular Foundation</label>
+
+                        <!-- qu output-->
+                        <div class="mb-3 row">
+                            <label for="qu03" class="col-sm-2 col-form-label">q<sub>u</sub></label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control bg-white text-dark" id="qu03" readonly>
+                            </div>
+                            <div class="col-sm-2">kPa</div>
+                        </div>
+
+                        <!-- qall output-->
+                        <div class="mb-3 row">
+                            <label for="qall03" class="col-sm-2 col-form-label">q<sub>all</sub></label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control bg-white text-dark" id="qall03" readonly>
+                            </div>
+                            <div class="col-sm-2">kPa</div>
+                        </div>
+
+                        <!-- P output-->
+                        <div class="mb-3 row">
+                            <label for="p03" class="col-sm-2 col-form-label">P</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control bg-white text-dark" id="p03" readonly>
+                            </div>
+                            <div class="col-sm-2">kN</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Sidebar with 3 Vertical Images -->
+        <div class="col-lg-4">
+            <div class="sidebar-images d-flex flex-column">
+                <!-- Image 1 -->
+                <div class="sidebar-image">
+                <img src="/api/placeholder/400/250" alt="Geotechnical engineering illustration" class="img-fluid w-100">
+                </div>
+                
+                <!-- Image 2 -->
+                <div class="sidebar-image">
+                <img src="/api/placeholder/400/250" alt="Foundation design diagram" class="img-fluid w-100">
+                </div>
+                
+                <!-- Image 3 -->
+                <div class="sidebar-image">
+                <img src="/api/placeholder/400/250" alt="Soil testing equipment" class="img-fluid w-100">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script src="scripts/terzaghi.js"></script>

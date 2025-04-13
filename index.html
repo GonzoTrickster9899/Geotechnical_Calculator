@@ -1,291 +1,155 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Terzaghi Calculator</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Geotechnical Calculators</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .calculator-btn {
+      transition: all 0.3s ease;
+    }
+    .calculator-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .logo-container {
+      display: flex;
+      align-items: center;
+    }
+    .logo {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+      background-color: #0d6efd;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+    }
+  </style>
 </head>
-
 <body>
-    <!-- Title of Calculator-->
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
     <div class="container">
-        <div class="mt-5">
-            <h1>
-                <center>Terzaghi Calculator</center>
-            </h1>
-        </div>
-    </div>
-
-    <!-- Form for input values -->
-    <div class="container mt-5">
-        <form onsubmit="return compute();">
-            <!-- Cohesion (c) input-->
-            <div class="mb-3 row">
-                <label for="cohesion" class="col-sm-3 col-form-label">Soil Cohesion (c)</label>
-                <div class="col-sm-6">
-                    <input type="number" step="any" class="form-control" id="c" placeholder="Enter cohesion value">
-                </div>
-                <label class="col-sm-3">kPa</label>
-            </div>
-            <!-- Base of the Foundation (B) input -->
-            <div class="mb-3 row">
-                <label for="b" class="col-sm-3 col-form-label">Base of Foundation (B)</label>
-                <div class="col-sm-6">
-                    <input type="number" step="any" class="form-control" id="b" placeholder="Enter base of foundation value">
-                </div>
-                <label class="col-sm-3">m</label>
-            </div>
-            <!-- Moist Unit Weight (y) input -->
-            <div class="mb-3 row">
-                <label for="y" class="col-sm-3 col-form-label">Moist Unit Weight (γ)</label>
-                <div class="col-sm-6">
-                    <input type="number" step="any" class="form-control" id="y" placeholder="Enter moist unit weight value">
-                </div>
-                <label class="col-sm-3">kN/m3</label>
-            </div>
-            <!-- Saturated Unit Weight (ys) input -->
-            <div class="mb-3 row">
-                <label for="ys" class="col-sm-3 col-form-label">Saturated Unit Weight (γ<sub>s</sub>)</label>
-                <div class="col-sm-6">
-                    <input type="number" step="any" class="form-control" id="ys" placeholder="Enter saturated unit weight value">
-                </div>
-                <label class="col-sm-3">kN/m3</label>
-            </div>
-            <!-- Depth of Water Tabel (Dw) input -->
-            <div class="mb-3 row">
-                <label for="dw" class="col-sm-3 col-form-label">Depth of Water Table (Dw)</label>
-                <div class="col-sm-6">
-                    <input type="number" step="any" class="form-control" id="dw" placeholder="Enter depth of water table value">
-                </div>
-                <label class="col-sm-3">m</label>
-            </div>
-            <!-- Depth of Footing (Df) input -->
-            <div class="mb-3 row">
-                <label for="df" class="col-sm-3 col-form-label">Depth of Footing (Df)</label>
-                <div class="col-sm-6">
-                    <input type="number" step="any" class="form-control" id="df" placeholder="Enter depth of footing value">
-                </div>
-                <label class="col-sm-3">m</label>
-            </div>
-            <!-- Factor of Safety (FS) input -->
-            <div class="mb-3 row">
-                <label for="fs" class="col-sm-3 col-form-label">Factor of Safety (FS)</label>
-                <div class="col-sm-9">
-                    <input type="number" step="any" class="form-control" id="fs" placeholder="Enter factor of safety value">
-                </div>
-            </div>
-            <!-- Nc input-->
-            <div class="mb-3 row">
-                <label for="nc" class="col-sm-3 col-form-label">Nc</label>
-                <div class="col-sm-9">
-                    <input type="number" step="any" class="form-control" id="nc" placeholder="Enter Nc value">
-                </div>
-            </div>
-            <!-- Nq input-->
-            <div class="mb-3 row">
-                <label for="nq" class="col-sm-3 col-form-label">Nq</label>
-                <div class="col-sm-9">
-                    <input type="number" step="any" class="form-control" id="nq" placeholder="Enter Nq value">
-                </div>
-            </div>
-            <!-- Ny input-->
-            <div class="mb-3 row">
-                <label for="ny" class="col-sm-3 col-form-label">Ny</label>
-                <div class="col-sm-9">
-                    <input type="number" step="any" class="form-control" id="ny" placeholder="Enter Ny value">
-                </div>
-            </div>
-
-            <!-- Shear Failure Type Selection-->
-            <div class="mb-3 row">
-                <label for="shearType" class="col-sm-3 col-form-label">Shear Failure Type</label>
-                <div class="col-sm-9">
-                    <select class="form-select" id="shearType">
-                        <option value="" disabled selected>Select shear type</option>
-                        <option value="1">General Shear Failure</option>
-                        <option value="2">Local Shear Failure</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-primary">Compute</button>
-            </div>
-
-        </form>
-
-        <h2 class="mt-4 d-flex justify-content-center">Result</h2>
-
-        <!-- Step 1 -->
-        <div class="container mt-5">
-            <div>Step 1: Solving for Effective Stress (q')</div>
-            <!-- qu output-->
-            <div class="mb-3 row">
-                <label for="first_term" class="col-sm-2 col-form-label">First Term</label>
-                <div class="col-sm-8">
-                    <input type="number" class="form-control bg-white text-dark" id="first_term" readonly>
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label for="second_term" class="col-sm-2 col-form-label">Second Term</label>
-                <div class="col-sm-8">
-                    <input type="number" class="form-control bg-white text-dark" id="second_term" readonly>
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label for="q" class="col-sm-2 col-form-label">Effective Stress</label>
-                <div class="col-sm-8">
-                    <input type="number" class="form-control bg-white text-dark" id="q" readonly>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 2 -->
-        <div class="container mt-5">
-            <div>Step 2: Solving for y'</div>
-            <!-- qu output-->
-            <div class="mb-3 row">
-                <label for="case" class="col-sm-2 col-form-label">Case Type</label>
-                <div class="col-sm-8">
-                    <input type="number" class="form-control bg-white text-dark" id="case" readonly>
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label for="y_prime" class="col-sm-2 col-form-label">y'</label>
-                <div class="col-sm-8">
-                    <input type="number" class="form-control bg-white text-dark" id="y_prime" readonly>
-                </div>
-            </div>
-        </div>
-
-
-        <!-- Test for Tab -->
-        <ul class="nav nav-tabs" id="foundationTabs" role="tablist">
-            <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="continuous-strip-tab" data-bs-toggle="tab" href="#continuous-strip"
-                    role="tab" aria-controls="continuous-strip" aria-selected="true">Continuous Strip Foundation</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="square-tab" data-bs-toggle="tab" href="#square" role="tab"
-                    aria-controls="square" aria-selected="false">Square Foundation</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="circular-tab" data-bs-toggle="tab" href="#circular" role="tab"
-                    aria-controls="circular" aria-selected="false">Circular Foundation</a>
-            </li>
+      <!-- Logo and Brand Name -->
+      <a class="navbar-brand logo-container" href="index.html">
+        <div class="logo">GEO</div>
+        <span>GeoCalc</span>
+      </a>
+      
+      <!-- Toggle Button for Mobile -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <!-- Navigation Items -->
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Calculators
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="views/terzaghi.html">Terzaghi</a></li>
+              <li><a class="dropdown-item" href="views/shallow_square_footing.html">Shallow Square Footing</a></li>
+              <li><a class="dropdown-item" href="views/shallow_foundation.html">Shallow Foundation</a></li>
+              <li><a class="dropdown-item" href="views/deep_foundation.html">Deep Foundation</a></li>
+            </ul>
+          </li>
         </ul>
-
-        <!-- Tab Content -->
-        <div class="tab-content" id="foundationTabsContent">
-            <!-- Continuous Strip Foundation -->
-            <div class="tab-pane fade show active" id="continuous-strip" role="tabpanel"
-                aria-labelledby="continuous-strip-tab">
-                <label class="mb-1 col-form-label">Continuous Strip Foundation</label>
-
-                <!-- qu output-->
-                <div class="mb-3 row">
-                    <label for="qu01" class="col-sm-2 col-form-label">q<sub>u</sub></label>
-                    <div class="col-sm-8">
-                        <input type="number" class="form-control bg-white text-dark" id="qu01" readonly>
-                    </div>
-                    <div class="col-sm-2">kPa</div>
-                </div>
-
-                <!-- qall output-->
-                <div class="mb-3 row">
-                    <label for="qall01" class="col-sm-2 col-form-label">q<sub>all</sub></label>
-                    <div class="col-sm-8">
-                        <input type="number" class="form-control bg-white text-dark" id="qall01" readonly>
-                    </div>
-                    <div class="col-sm-2">kPa</div>
-                </div>
-
-                <!-- P output-->
-                <div class="mb-3 row">
-                    <label for="p01" class="col-sm-2 col-form-label">P</label>
-                    <div class="col-sm-8">
-                        <input type="number" class="form-control bg-white text-dark" id="p01" readonly>
-                    </div>
-                    <div class="col-sm-2">kN</div>
-                </div>
-            </div>
-
-            <!-- Square Foundation -->
-            <div class="tab-pane fade" id="square" role="tabpanel" aria-labelledby="square-tab">
-                <label class="mb-1 col-form-label">Square Foundation</label>
-
-                <!-- qu output-->
-                <div class="mb-3 row">
-                    <label for="qu02" class="col-sm-2 col-form-label">q<sub>u</sub></label>
-                    <div class="col-sm-8">
-                        <input type="number" class="form-control bg-white text-dark" id="qu02" readonly>
-                    </div>
-                    <div class="col-sm-2">kPa</div>
-                </div>
-
-                <!-- qall output-->
-                <div class="mb-3 row">
-                    <label for="qall02" class="col-sm-2 col-form-label">q<sub>all</sub></label>
-                    <div class="col-sm-8">
-                        <input type="number" class="form-control bg-white text-dark" id="qall02" readonly>
-                    </div>
-                    <div class="col-sm-2">kPa</div>
-                </div>
-
-                <!-- P output-->
-                <div class="mb-3 row">
-                    <label for="p02" class="col-sm-2 col-form-label">P</label>
-                    <div class="col-sm-8">
-                        <input type="number" class="form-control bg-white text-dark" id="p02" readonly>
-                    </div>
-                    <div class="col-sm-2">kN</div>
-                </div>
-            </div>
-
-            <!-- Circular Foundation -->
-            <div class="tab-pane fade" id="circular" role="tabpanel" aria-labelledby="circular-tab">
-                <label class="mb-1 col-form-label">Circular Foundation</label>
-
-                <!-- qu output-->
-                <div class="mb-3 row">
-                    <label for="qu03" class="col-sm-2 col-form-label">q<sub>u</sub></label>
-                    <div class="col-sm-8">
-                        <input type="number" class="form-control bg-white text-dark" id="qu03" readonly>
-                    </div>
-                    <div class="col-sm-2">kPa</div>
-                </div>
-
-                <!-- qall output-->
-                <div class="mb-3 row">
-                    <label for="qall03" class="col-sm-2 col-form-label">q<sub>all</sub></label>
-                    <div class="col-sm-8">
-                        <input type="number" class="form-control bg-white text-dark" id="qall03" readonly>
-                    </div>
-                    <div class="col-sm-2">kPa</div>
-                </div>
-
-                <!-- P output-->
-                <div class="mb-3 row">
-                    <label for="p03" class="col-sm-2 col-form-label">P</label>
-                    <div class="col-sm-8">
-                        <input type="number" class="form-control bg-white text-dark" id="p03" readonly>
-                    </div>
-                    <div class="col-sm-2">kN</div>
-                </div>
-            </div>
-        </div>
-
+      </div>
     </div>
+  </nav>
 
+  <!-- Main Content -->
+  <div class="container py-5">
+    <div class="row">
+      <div class="col-12 text-center mb-5">
+        <h1 class="display-4">Calculators</h1>
+        <p class="lead text-muted">Select a calculator to begin your geotechnical analysis</p>
+      </div>
+    </div>
+    
+    <!-- Calculator Buttons -->
+    <div class="row g-4 justify-content-center">
+      <!-- Terzaghi Calculator -->
+      <div class="col-md-6 col-lg-3">
+        <div class="card h-100 border-0 calculator-btn">
+          <div class="card-body text-center p-4">
+            <div class="mb-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="#0d6efd" class="bi bi-calculator" viewBox="0 0 16 16">
+                <path d="M12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h8zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z"/>
+                <path d="M4 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-2zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-4z"/>
+              </svg>
+            </div>
+            <h3 class="card-title h5 mb-3">Terzaghi</h3>
+            <p class="card-text small text-muted mb-4">Bearing capacity calculation based on Terzaghi's theory</p>
+            <a href="views/terzaghi.html" class="btn btn-primary">Open Calculator</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Shallow Square Foundation Calculator -->
+      <div class="col-md-6 col-lg-3">
+        <div class="card h-100 border-0 calculator-btn">
+          <div class="card-body text-center p-4">
+            <div class="mb-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="#0d6efd" class="bi bi-bounding-box" viewBox="0 0 16 16">
+                <path d="M5 2V0H0v5h2v6H0v5h5v-2h6v2h5v-5h-2V5h2V0h-5v2H5zm6 1v2h2v6h-2v2H5v-2H3V5h2V3h6zm1-1H4v1h1v1H3v1H2v6h1v1h1v1h6v-1h1v-1h1V5h-1V4h-1V3h-1V2zm-6 11H4v1h1v-1zm1-1V4H5v1H4v6h1v1h1v-1zm7-7h-1v1h1V5zm-1-1h-1v1h1V4zm-1 3h-1v1h1V7zm-2 1H4v1h1V8h6V7h1v1z"/>
+              </svg>
+            </div>
+            <h3 class="card-title h5 mb-3">Shallow Square Footing</h3>
+            <p class="card-text small text-muted mb-4">Design and analysis for shallow square footings</p>
+            <a href="views/shallow_square_footing.html" class="btn btn-primary">Open Calculator</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Shallow Foundation Calculator -->
+      <div class="col-md-6 col-lg-3">
+        <div class="card h-100 border-0 calculator-btn">
+          <div class="card-body text-center p-4">
+            <div class="mb-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="#0d6efd" class="bi bi-layers" viewBox="0 0 16 16">
+                <path d="M8.235 1.559a.5.5 0 0 0-.47 0l-7.5 4a.5.5 0 0 0 0 .882L3.188 8 .765 9.559a.5.5 0 0 0 0 .882l7.5 4a.5.5 0 0 0 .47 0l7.5-4a.5.5 0 0 0 0-.882L12.813 8l2.922-1.559a.5.5 0 0 0 0-.882l-7.5-4zm3.515 7.008L14.438 10 8 13.433 1.562 10 4.25 8.567l3.515 1.874a.5.5 0 0 0 .47 0l3.515-1.874zM8 9.433 1.562 6 8 2.567 14.438 6 8 9.433z"/>
+              </svg>
+            </div>
+            <h3 class="card-title h5 mb-3">Shallow Foundation</h3>
+            <p class="card-text small text-muted mb-4">General shallow foundation analysis tools</p>
+            <a href="views/shallow_foundation.html" class="btn btn-primary">Open Calculator</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Deep Foundation Calculator -->
+      <div class="col-md-6 col-lg-3">
+        <div class="card h-100 border-0 calculator-btn">
+          <div class="card-body text-center p-4">
+            <div class="mb-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="#0d6efd" class="bi bi-arrow-down-square" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 2.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
+              </svg>
+            </div>
+            <h3 class="card-title h5 mb-3">Deep Foundation</h3>
+            <p class="card-text small text-muted mb-4">Pile and deep foundation analysis tools</p>
+            <a href="views/deep_foundation.html" class="btn btn-primary">Open Calculator</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS with Popper -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
-
-<script src="terzaghi.js"></script>

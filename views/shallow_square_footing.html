@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Shallow Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <style>
+        /* Center the tabs */
+        .nav-tabs-centered {
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Add border to input and output groups */
+        .input-group-border,
+        .output-group-border {
+            border: 5px solid #ced4da; /* Bootstrap's default border color */
+            padding: 15px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Title of Calculator-->
+    <div class="container">
+        <div class="mt-5">
+            <h1>
+                <center>Shallow Square Footing Calculator</center>
+            </h1>
+        </div>
+    </div>
+
+    <!-- Shear Type Selection-->
+    <div class="container mt-2">
+        <div class="d-flex justify-content-center">
+            <ul class="nav nav-tabs nav-tabs-centered" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="analysis-beam-shear-tab" data-bs-toggle="tab"
+                        data-bs-target="#analysis-beam-shear" type="button" role="tab"
+                        aria-controls="analysis-beam-shear" aria-selected="true">Analysis Beam Shear</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="analysis-punching-shear-tab" data-bs-toggle="tab"
+                        data-bs-target="#analysis-punching-shear" type="button" role="tab"
+                        aria-controls="analysis-punching-shear" aria-selected="false">Analysis Punching Shear</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="design-tab" data-bs-toggle="tab" data-bs-target="#design" type="button"
+                        role="tab" aria-controls="design" aria-selected="false">Design</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="tab-content" id="myTabContent">
+
+        <!-- Analysis Beam Shear Tab -->
+        <div class="tab-pane fade show active" id="analysis-beam-shear" role="tabpanel"
+            aria-labelledby="analysis-beam-shear-tab">
+            <div class="container mt-8">
+                <form onsubmit="return computeBeamShear();" id="beamShearForm">
+                    <!-- Common Inputs (shared across tabs) -->
+                    <div class="input-group-border">
+                        <div class="mb-2 row">
+                            <!-- Dead Load (DL) input-->
+                            <label for="abs_dl" class="col-sm-2 col-form-label">Dead Load (DL)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="abs_dl"
+                                    placeholder="Enter dead load value">
+                            </div>
+                            <label class="col-sm-1">kN</label>
+                            <!-- Live Load (LL) input -->
+                            <label for="abs_ll" class="col-sm-2 col-form-label">Live Load (LL)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="abs_ll"
+                                    placeholder="Enter live load value">
+                            </div>
+                            <label class="col-sm-1">kN</label>
+                        </div>
+                        
+                        <div class="mb-2 row">
+                            <!-- Size of Column (c) input -->
+                            <label for="abs_c" class="col-sm-2 col-form-label">Size of Column (c)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="abs_c"
+                                    placeholder="Enter size of column value">
+                            </div>
+                            <label class="col-sm-1">mm</label>
+                            <!-- Size of Footing input -->
+                            <label for="abs_b" class="col-sm-2 col-form-label">Size of Footing (B)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="abs_b"
+                                    placeholder="Enter size of footing value">
+                            </div>
+                            <label class="col-sm-1">m</label>
+                        </div>
+        
+                        <div class="mb-2 row">
+                            <!-- Thickness of Footing input -->
+                            <label for="abs_t" class="col-sm-2 col-form-label">Thickness of Footing</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="abs_t"
+                                    placeholder="Enter thickness of footing value">
+                            </div>
+                            <label class="col-sm-1">mm</label>
+                            <!-- Main Bar Diameter input -->
+                            <label for="abs_mbd" class="col-sm-2 col-form-label">Main Bar Diameter (Ø)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="abs_mbd"
+                                    placeholder="Enter thickness of footing value">
+                            </div>
+                            <label class="col-sm-1">mm</label>
+                        </div>
+                        
+                        <div class="mb-2 row">
+                            <!-- Solid Unit Weight input -->
+                            <label for="abs_y" class="col-sm-2 col-form-label">Solid Unit Weight(γ)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="abs_y"
+                                    placeholder="Enter solid unit weight value">
+                            </div>
+                            <label class="col-sm-1">kN/m<sup>3</sup></label>
+                            <!-- Concrete Unit Weight input -->
+                            <label for="abs_yc" class="col-sm-2 col-form-label">Concrete Unit Weight(γ<sub>c</sub>)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="abs_yc"
+                                    placeholder="Enter concrete unit strength value">
+                            </div>
+                            <label class="col-sm-1">kN/m<sup>3</sup></label>
+                        </div>
+                        
+                        <div class="mb-2 row">
+                            <!-- Concrete Compressive Strength input-->
+                            <label for="abs_fc" class="col-sm-2 col-form-label">Concrete Compressive Strength (fc')</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="abs_fc"
+                                    placeholder="Enter concrete compressive strength value">
+                            </div>
+                            <label class="col-sm-1">MPa</label>
+                            <!-- Steel Yield Strength input-->
+                            <label for="abs_fy" class="col-sm-2 col-form-label">Steel Yield Strength (fy)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="abs_fy"
+                                    placeholder="Enter steel yield strength value">
+                            </div>
+                            <label class="col-sm-1">MPa</label>
+                        </div>
+
+                        <div class="mb-2 row">
+                            <!-- Depth of Footing input-->
+                            <label for="abs_df" class="col-sm-2 col-form-label">Depth of Footing (df)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="abs_df"
+                                    placeholder="Enter steel yield strength value">
+                            </div>
+                            <label class="col-sm-1">m</label>
+                            <!-- Concrete Cover input-->
+                            <label for="abs_cc" class="col-sm-2 col-form-label">Concrete Cover (cc)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="abs_cc"
+                                    placeholder="Enter steel yield strength value">
+                            </div>
+                            <label class="col-sm-1">mm</label>
+                        </div>
+                    </div>
+
+                    <!-- Compute button-->
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary">Compute</button>
+                    </div>
+                </form>                
+
+                <!-- Results Section for Beam Shear -->
+                <div class="container mt-3 output-group-border">
+                    <h4 class="mt-1 d-flex justify-content-center">Output Values</h4>
+                    <div class="mb-2 row">
+                        <label for="abs_vu" class="col-sm-2 col-form-label">Demand Load (V<sub>u</sub>)</label>
+                        <div class="col-sm-3">
+                            <input type="number" class="form-control bg-white text-dark" id="abs_vu" readonly>
+                        </div>
+                        <label class="col-sm-1">kN</label>
+                        <label for="abs_mvu" class="col-sm-2 col-form-label">Capacity of Footing (ØV<sub>u</sub>)</label>
+                        <div class="col-sm-3">
+                            <input type="number" class="form-control bg-white text-dark" id="abs_mvu" readonly>
+                        </div>
+                        <label class="col-sm-1">kN</label>
+                    </div>
+                    <div class="mb-2 row center">
+                        <label for="abs_r" class="col-sm-4 col-form-label">Remarks</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control bg-white text-dark" id="abs_r" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analysis Beam Shear Tab -->
+        <div class="tab-pane fade show" id="analysis-punching-shear" role="tabpanel"
+            aria-labelledby="analysis-punching-shear-tab">
+            <div class="container mt-8">
+                <form onsubmit="return computePunchingShear();" id="punchingShearForm">
+                    <!-- Common Inputs (shared across tabs) -->
+                    <div class="input-group-border">
+                        <div class="mb-2 row">
+                            <!-- Dead Load (DL) input-->
+                            <label for="aps_dl" class="col-sm-2 col-form-label">Dead Load (DL)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="aps_dl"
+                                    placeholder="Enter dead load value">
+                            </div>
+                            <label class="col-sm-1">kN</label>
+                            <!-- Live Load (LL) input -->
+                            <label for="aps_ll" class="col-sm-2 col-form-label">Live Load (LL)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="aps_ll"
+                                    placeholder="Enter live load value">
+                            </div>
+                            <label class="col-sm-1">kN</label>
+                        </div>
+                        
+                        <div class="mb-2 row">
+                            <!-- Size of Column (c) input -->
+                            <label for="aps_c" class="col-sm-2 col-form-label">Size of Column (c)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="aps_c"
+                                    placeholder="Enter size of column value">
+                            </div>
+                            <label class="col-sm-1">mm</label>
+                            <!-- Size of Footing input -->
+                            <label for="aps_b" class="col-sm-2 col-form-label">Size of Footing (B)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="aps_b"
+                                    placeholder="Enter size of footing value">
+                            </div>
+                            <label class="col-sm-1">m</label>
+                        </div>
+        
+                        <div class="mb-2 row">
+                            <!-- Thickness of Footing input -->
+                            <label for="aps_t" class="col-sm-2 col-form-label">Thickness of Footing</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="aps_t"
+                                    placeholder="Enter thickness of footing value">
+                            </div>
+                            <label class="col-sm-1">mm</label>
+                            <!-- Main Bar Diameter input -->
+                            <label for="aps_mbd" class="col-sm-2 col-form-label">Main Bar Diameter (Ø)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="aps_mbd"
+                                    placeholder="Enter thickness of footing value">
+                            </div>
+                            <label class="col-sm-1">mm</label>
+                        </div>
+                        
+                        <div class="mb-2 row">
+                            <!-- Solid Unit Weight input -->
+                            <label for="aps_y" class="col-sm-2 col-form-label">Solid Unit Weight(γ)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="aps_y"
+                                    placeholder="Enter solid unit weight value">
+                            </div>
+                            <label class="col-sm-1">kN/m<sup>3</sup></label>
+                            <!-- Concrete Unit Weight input -->
+                            <label for="aps_yc" class="col-sm-2 col-form-label">Concrete Unit Weight(γ<sub>c</sub>)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="aps_yc"
+                                    placeholder="Enter concrete unit strength value">
+                            </div>
+                            <label class="col-sm-1">kN/m<sup>3</sup></label>
+                        </div>
+                        
+                        <div class="mb-2 row">
+                            <!-- Concrete Compressive Strength input-->
+                            <label for="aps_fc" class="col-sm-2 col-form-label">Concrete Compressive Strength (fc')</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="aps_fc"
+                                    placeholder="Enter concrete compressive strength value">
+                            </div>
+                            <label class="col-sm-1">MPa</label>
+                            <!-- Steel Yield Strength input-->
+                            <label for="aps_fy" class="col-sm-2 col-form-label">Steel Yield Strength (fy)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="aps_fy"
+                                    placeholder="Enter steel yield strength value">
+                            </div>
+                            <label class="col-sm-1">MPa</label>
+                        </div>
+
+                        <div class="mb-2 row">
+                            <!-- Depth of Footing input-->
+                            <label for="aps_df" class="col-sm-2 col-form-label">Depth of Footing (df)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="aps_df"
+                                    placeholder="Enter steel yield strength value">
+                            </div>
+                            <label class="col-sm-1">m</label>
+                            <!-- Concrete Cover input-->
+                            <label for="aps_cc" class="col-sm-2 col-form-label">Concrete Cover (cc)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="aps_cc"
+                                    placeholder="Enter steel yield strength value">
+                            </div>
+                            <label class="col-sm-1">mm</label>
+                        </div>
+                    </div>
+
+                    <!-- Compute button-->
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary">Compute</button>
+                    </div>
+                </form>                
+
+                <!-- Results Section for Beam Shear -->
+                <div class="container mt-3 output-group-border">
+                    <h4 class="mt-1 d-flex justify-content-center">Output Values</h4>
+                    <div class="mb-2 row">
+                        <label for="aps_vu" class="col-sm-2 col-form-label">Demand Load (V<sub>u</sub>)</label>
+                        <div class="col-sm-3">
+                            <input type="number" class="form-control bg-white text-dark" id="aps_vu" readonly>
+                        </div>
+                        <label class="col-sm-1">kN</label>
+                        <label for="aps_mvu" class="col-sm-2 col-form-label">Capacity of Footing (ØV<sub>u</sub>)</label>
+                        <div class="col-sm-3">
+                            <input type="number" class="form-control bg-white text-dark" id="aps_mvu" readonly>
+                        </div>
+                        <label class="col-sm-1">kN</label>
+                    </div>
+                    <div class="mb-2 row center">
+                        <label for="aps_r" class="col-sm-4 col-form-label">Remarks</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control bg-white text-dark" id="aps_r" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Design Tab -->
+        <div class="tab-pane fade show" id="design" role="tabpanel"
+            aria-labelledby="design-tab">
+            <div class="container mt-8">
+                <form onsubmit="return computeDesign();" id="designForm">
+                    <!-- Common Inputs (shared across tabs) -->
+                    <div class="input-group-border">
+                        <div class="mb-2 row">
+                            <!-- Dead Load (DL) input-->
+                            <label for="d_dl" class="col-sm-2 col-form-label">Dead Load (DL)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="d_dl"
+                                    placeholder="Enter dead load value">
+                            </div>
+                            <label class="col-sm-1">kN</label>
+                            <!-- Live Load (LL) input -->
+                            <label for="d_ll" class="col-sm-2 col-form-label">Live Load (LL)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="d_ll"
+                                    placeholder="Enter live load value">
+                            </div>
+                            <label class="col-sm-1">kN</label>
+                        </div>
+                        
+                        <div class="mb-2 row">
+                            <!-- Size of Column (c) input -->
+                            <label for="d_c" class="col-sm-2 col-form-label">Size of Column (c)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="d_c"
+                                    placeholder="Enter size of column value">
+                            </div>
+                            <label class="col-sm-1">mm</label>
+                            <!-- Thickness of Footing input -->
+                            <label for="d_t" class="col-sm-2 col-form-label">Thickness of Footing</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="d_t"
+                                    placeholder="Enter thickness of footing value">
+                            </div>
+                            <label class="col-sm-1">mm</label>
+                        </div>
+        
+                        <div class="mb-2 row">
+                            <!-- Allowable Soil Pressure input -->
+                            <label for="d_qa" class="col-sm-2 col-form-label">Allowable Soil Pressure (q<sub>a</sub>)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="d_qa"
+                                    placeholder="Enter allowable soil pressure value">
+                            </div>
+                            <label class="col-sm-1">kPa</label>
+                            <!-- Slab Pressure -->
+                            <label for="d_s" class="col-sm-2 col-form-label">Slab Pressure (c)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="d_s"
+                                    placeholder="Enter slab pressure value">
+                            </div>
+                            <label class="col-sm-1">kN/m<sup>3</sup></label>
+                        </div>
+                        
+                        <div class="mb-2 row">
+                            <!-- Solid Unit Weight input -->
+                            <label for="d_y" class="col-sm-2 col-form-label">Solid Unit Weight(γ)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="d_y"
+                                    placeholder="Enter solid unit weight value">
+                            </div>
+                            <label class="col-sm-1">kN/m<sup>3</sup></label>
+                            <!-- Concrete Unit Weight input -->
+                            <label for="d_yc" class="col-sm-2 col-form-label">Concrete Unit Weight(γ<sub>c</sub>)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="d_yc"
+                                    placeholder="Enter concrete unit strength value">
+                            </div>
+                            <label class="col-sm-1">kN/m<sup>3</sup></label>
+                        </div>
+                        
+                        <div class="mb-2 row">
+                            <!-- Concrete Compressive Strength input-->
+                            <label for="d_fc" class="col-sm-2 col-form-label">Concrete Compressive Strength (fc')</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="d_fc"
+                                    placeholder="Enter concrete compressive strength value">
+                            </div>
+                            <label class="col-sm-1">MPa</label>
+                            <!-- Steel Yield Strength input-->
+                            <label for="aps_fy" class="col-sm-2 col-form-label">Steel Yield Strength (fy)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="aps_fy"
+                                    placeholder="Enter steel yield strength value">
+                            </div>
+                            <label class="col-sm-1">MPa</label>
+                        </div>
+
+                        <div class="mb-2 row">
+                            <!-- Depth of Footing input-->
+                            <label for="aps_df" class="col-sm-2 col-form-label">Depth of Footing (df)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="aps_df"
+                                    placeholder="Enter steel yield strength value">
+                            </div>
+                            <label class="col-sm-1">m</label>
+                            <!-- Concrete Cover input-->
+                            <label for="aps_cc" class="col-sm-2 col-form-label">Concrete Cover (cc)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="aps_cc"
+                                    placeholder="Enter steel yield strength value">
+                            </div>
+                            <label class="col-sm-1">mm</label>
+                        </div>
+
+                        <div class="mb-2 row">
+                            <!-- Main Bar Diameter input -->
+                            <label for="d_mbd" class="col-sm-2 col-form-label">Main Bar Diameter (Ø)</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="d_mbd"
+                                    placeholder="Enter thickness of footing value">
+                            </div>
+                            <label class="col-sm-1">mm</label>
+
+                            <!-- Number of Steel Bars input -->
+                            <label for="d_n" class="col-sm-2 col-form-label">Number of Steel Bars</label>
+                            <div class="col-sm-3">
+                                <input type="number" step="any" class="form-control" id="d_n"
+                                    placeholder="Enter number of steel bars value">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Compute button-->
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary">Compute</button>
+                    </div>
+                </form>                
+
+                <!-- Results Section for Beam Shear -->
+                <div class="container mt-5">
+                    <div class="input-group-border">
+                            <div class="mb-2 row">
+                                <label class="col-sm-6"><strong>Step 1: Initial Effective Depth</strong></label>
+                                <label class="col-sm-6"><strong>Step 2: Solving for Effective Soil Pressure</strong></label>
+                            </div>                
+                            
+                            <div class="mb-2 row">
+                                <label for="d_d" class="col-sm-2 col-form-label">Effective Depth (d)</label>
+                                <div class="col-sm-3">
+                                    <input type="number" class="form-control bg-white text-dark" id="d_d" readonly>
+                                </div>
+                                <label class="col-sm-1">mm</label>
+
+                                <label for="d_qeff" class="col-sm-2 col-form-label">Net Soil Pressure (q<sub>eff</sub>)</label>
+                                <div class="col-sm-3">
+                                    <input type="number" class="form-control bg-white text-dark" id="d_qeff" readonly>
+                                </div>
+                                <label class="col-sm-1">kPa</label>
+                            </div>
+
+                            <div class="mb-2 row">
+                                <label class="col-sm-6"><strong>Step 3: Solving Dimension of Footing</strong></label>
+                                <label class="col-sm-6"><strong>Step 4: Ultimate Upward Soil Pressure</strong></label>
+                            </div>  
+                        
+                        <div class="mb-2 row">
+                            <label for="d_b" class="col-sm-2 col-form-label">Footing Dimension (B)</label>
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control bg-white text-dark" id="d_b" readonly>
+                            </div>
+                            <label class="col-sm-1">m</label>
+                            <label for="d_qu" class="col-sm-2 col-form-label">Ultimate Upward Pressure (q<sub>u</sub>)</label>
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control bg-white text-dark" id="d_qu" readonly>
+                            </div>
+                            <label class="col-sm-1">kPa</label>
+                        </div>
+
+                        <div><strong>Step 5: Check if Safe in Beam Shear (One-Way Shear)</strong></div>
+                        <div class="mb-2 row">
+                            <label for="d_x" class="col-sm-2 col-form-label">Effective Dimension (x)</label>
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control bg-white text-dark" id="d_x" readonly>
+                            </div>
+                            <label class="col-sm-1">m</label>
+
+                            <label for="d_vu1" class="col-sm-2 col-form-label">Beam Shear Capacity (V<sub>u</sub>)</label>
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control bg-white text-dark" id="d_vu1" readonly>
+                            </div>
+                            <label class="col-sm-1">kN</label>
+                        </div>
+
+                        <div class="mb-2 row">
+                            <label for="d_d1" class="col-sm-2 col-form-label">Effective Depth (d<sub>1=</sub>)</label>
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control bg-white text-dark" id="d_d1" readonly>
+                            </div>
+                            <label class="col-sm-1">mm</label>
+
+                            <label for="d_cs1" class="col-sm-2 col-form-label">Check if Safe(d<sub>1</sub>)</label>
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control bg-white text-dark" id="d_cs1" readonly>
+                            </div>
+                            <label class="col-sm-1">mm</label>
+                        </div>
+
+                        <div><strong>Step 6: Check if Safe in Punching Shear</strong></div>
+                        <div class="mb-2 row">
+                            <label for="d_cd" class="col-sm-2 col-form-label">c + d</label>
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control bg-white text-dark" id="d_cd" readonly>
+                            </div>
+                            <label class="col-sm-1">mm</label>
+
+                            <label for="d_vu2" class="col-sm-2 col-form-label">Punching Shear Capacity (V<sub>u</sub>)</label>
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control bg-white text-dark" id="d_vu2" readonly>
+                            </div>
+                        </div>
+
+                        <div class="mb-2 row">
+                            <label for="d_d2" class="col-sm-2 col-form-label">Effective Depth (d<sub>2</sub>)</label>
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control bg-white text-dark" id="d_d2" readonly>
+                            </div>
+                            <label class="col-sm-1">mm</label>
+
+                            <label for="d_cs2" class="col-sm-2 col-form-label">Check if Safe(d<sub>1=</sub>)</label>
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control bg-white text-dark" id="d_cs2" readonly>
+                            </div>
+                        </div>
+
+                        <div><strong>Step 7: Reinforcement of Square Footing</strong></div>
+                        <div class="mb-2 row">
+                            <label for="d_n" class="col-sm-2 col-form-label">Required Number of Steel Bars (n) (d<sub>1=</sub>)</label>
+                            <div class="col-sm-6">
+                                <input type="number" class="form-control bg-white text-dark" id="d_n" readonly>
+                            </div>
+                        </div>
+                        <hr>
+                        <h4><center>Output Values (Final Answer)</center></h4>
+                        <h5><center>Summary of Results</center></h5>
+                        <div class="mb-2 row">
+                            <label for="d_final_dimension" class="col-sm-2 col-form-label">Final Dimension</label>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control bg-white text-dark" id="d_final_dimension" readonly>
+                            </div>
+                            <div class="col-sm-1">m</div>
+                            <label for="d_footing_dimension" class="col-sm-2 col-form-label">Footing Dimension</label>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control bg-white text-dark" id="d_footing_dimension" readonly>
+                            </div>
+                            <label class="col-sm-1">mm</label>
+                            <label for="d_n" class="col-sm-2 col-form-label">Number of Bars on Both Ways</label>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control bg-white text-dark" id="d_n" readonly>
+                            </div>
+                            <label class="col-sm-1">mm</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="shallow_calc.js"></script>
+</body>
+
+</html>

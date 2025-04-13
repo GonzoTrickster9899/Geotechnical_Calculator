@@ -140,3 +140,7 @@ function compute() {
     }
     return false; // Prevent form submission
 }
+
+function clearForm(){
+    document.getElementById("terzaghiForm").reset(); // Reset the form fields
+}
