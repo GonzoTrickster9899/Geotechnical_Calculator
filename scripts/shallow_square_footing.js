@@ -129,9 +129,9 @@ function computeDesign() {
     }
 
     if (d_cs1 = d_cs2){
-        var d_final_dimension = 
+        //var d_final_dimension = 
     } else {
-        var d_final_dimension = 
+        //var d_final_dimension = 
     }
     
     
@@ -156,4 +156,34 @@ function computeDesign() {
 
     // Prevent form submission
     return false;
+}
+
+function clearForm() {
+    document.getElementById("beamShearForm").reset();
+    document.getElementById("punchingShearForm").reset();
+    document.getElementById("designForm").reset(); 
+    
+    document.getElementById("abs_vu").value = ''; 
+    document.getElementById("abs_mvu").value = ''; 
+    document.getElementById("abs_r").value = ''; 
+    
+    document.getElementById("aps_vu").value = ''; 
+    document.getElementById("aps_mvu").value = ''; 
+    document.getElementById("aps_r").value = ''; 
+    
+    document.getElementById("d_d").value = ''; 
+    document.getElementById("d_qeff").value = ''; 
+    document.getElementById("d_fd").value = ''; 
+    document.getElementById("d_qu").value = ''; 
+    document.getElementById("d_x").value = ''; 
+    document.getElementById("d_vu1").value = ''; 
+    document.getElementById("d_d1").value = ''; 
+    document.getElementById("d_cs1").value = ''; 
+    document.getElementById("d_cd").value = ''; 
+    document.getElementById("d_vu2").value = ''; 
+    document.getElementById("d_d2").value = ''; 
+    document.getElementById("d_cs2").value = ''; 
+    document.getElementById("d_final_dimension").value = ''; 
+    document.getElementById("d_footing_dimension").value = ''; 
+    document.getElementById("d_n").value = ''; 
 }
