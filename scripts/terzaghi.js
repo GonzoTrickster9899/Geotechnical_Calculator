@@ -143,4 +143,15 @@ function compute() {
 
 function clearForm(){
     document.getElementById("terzaghiForm").reset(); // Reset the form fields
+    document.getElementById("first_term").value = ""; // Clear the first term field
+    document.getElementById("second_term").value = ""; // Clear the second term field
+    document.getElementById("q").value = ""; // Clear the q field
+    document.getElementById("case").value = ""; // Clear the case field
+    document.getElementById("y_prime").value = ""; // Clear the y' field
+    document.getElementById("qu01").value = ""; // Clear the qu field
+    document.getElementById("qall01").value = ""; // Clear the qall field
+    document.getElementById("qu02").value = ""; // Clear the qu field
+    document.getElementById("qall02").value = ""; // Clear the qall field   
+    document.getElementById("qu03").value = ""; // Clear the qu field
+    document.getElementById("qall03").value = ""; // Clear the qall field
 }

@@ -145,38 +145,43 @@
                 <!-- Form for input values -->
                 <form onsubmit="event.preventDefault(); compute();" id="terzaghiForm">
                     <div class="input-group-border">
-                        <div class="mb-3 row align-items-center">
-                            <!-- Cohesion (c) input-->
-                            <label for="c" class="col-sm-3 col-form-label fw-bold">Soil Cohesion (c)</label>
-                            <div class="col-sm-7">
+
+                        <!-- Cohesion (c) input-->
+                        <div class="mb-2 row align-items-center">    
+                            <label for="c" class="col-sm-4 col-form-label fw-bold">Soil Cohesion (c)</label>
+                            <div class="col-sm-6">
                                 <input type="number" step="any" class="form-control" id="c" placeholder="Enter cohesion value" required>
                             </div>
                             <label class="col-sm-2 col-form-label">kPa</label>
                         </div>
-                        <div class="mb-3 row align-items-center">
-                           <!-- Base of the Foundation (B) input -->
-                           <label for="b" class="col-sm-3 col-form-label fw-bold" >Base of Foundation (B)</label>
-                            <div class="col-sm-7">
+
+                        <!-- Base of the Foundation (B) input -->
+                        <div class="mb-2 row align-items-center">
+                           <label for="b" class="col-sm-4 col-form-label fw-bold" >Base of Foundation (B)</label>
+                            <div class="col-sm-6">
                                 <input type="number" step="any" class="form-control" id="b" placeholder="Enter base width" required>
                             </div>
                             <label class="col-sm-2 col-form-label">m</label>
                         </div>
-                        <div class="mb-3 row align-items-center">
-                             <!-- Moist Unit Weight (y) input -->
-                             <label for="y" class="col-sm-3 col-form-label fw-bold">Moist Unit Weight (γ)</label>
-                            <div class="col-sm-7">
+
+                        <!-- Moist Unit Weight (y) input -->
+                        <div class="mb-2 row align-items-center">
+                            <label for="y" class="col-sm-4 col-form-label fw-bold">Moist Unit Weight (γ)</label>
+                            <div class="col-sm-6">
                                 <input type="number" step="any" class="form-control" id="y" placeholder="Enter moist unit weight" required>
                             </div>
                             <label class="col-sm-2 col-form-label">kN/m³</label>
                         </div>
-                         <div class="mb-3 row align-items-center">
-                            <!-- Saturated Unit Weight (ys) input -->
-                            <label for="ys" class="col-sm-3 col-form-label fw-bold">Saturated Unit Wt (γ<sub>s</sub>)</label>
-                            <div class="col-sm-7">
+
+                        <!-- Saturated Unit Weight (ys) input -->
+                        <div class="mb-3 row align-items-center">
+                            <label for="ys" class="col-sm-4 col-form-label fw-bold">Saturated Unit Wt (γ<sub>s</sub>)</label>
+                            <div class="col-sm-6">
                                 <input type="number" step="any" class="form-control" id="ys" placeholder="Enter saturated unit weight" required>
                             </div>
                             <label class="col-sm-2 col-form-label">kN/m³</label>
                         </div>
+
                         <div class="mb-3 row align-items-center">
                            <!-- Depth of Water Table (Dw) input -->
                            <label for="dw" class="col-sm-3 col-form-label fw-bold">Depth of Water Table (Dw)</label>
@@ -235,7 +240,7 @@
                                     <option value="2">Local Shear Failure</option>
                                 </select>
                             </div>
-                             <div class="col-sm-2"></div>
+                            <div class="col-sm-2"></div>
                         </div>
                     </div>
 
@@ -327,7 +332,7 @@
                                     </div>
                                     <div class="col-sm-2 col-form-label">kPa</div>
                                 </div>
-                                <div class="mb-2 row align-items-center">
+                                <div class="mb-2 row align-items-center" style="display:none">
                                     <label for="p01" class="col-sm-3 col-form-label">Load per unit length (P)</label>
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control" id="p01" readonly>
@@ -353,7 +358,7 @@
                                     </div>
                                     <div class="col-sm-2 col-form-label">kPa</div>
                                 </div>
-                                <div class="mb-2 row align-items-center">
+                                <div class="mb-2 row align-items-center" style="display:none;">
                                     <label for="p02" class="col-sm-3 col-form-label">Total Allowable Load (P)</label>
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control" id="p02" readonly>
@@ -379,7 +384,7 @@
                                     </div>
                                     <div class="col-sm-2 col-form-label">kPa</div>
                                 </div>
-                                <div class="mb-2 row align-items-center">
+                                <div class="mb-2 row align-items-center" style="display:none;">
                                     <label for="p03" class="col-sm-3 col-form-label">Total Allowable Load (P)</label>
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control" id="p03" readonly>
