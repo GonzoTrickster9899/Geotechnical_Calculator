@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Shallow Rectangular Footing Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <style>
+        .calculator-btn {
+            transition: all 0.3s ease;
+        }
+        .calculator-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        .logo {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            background-color: #0d6efd;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Center the tabs */
+        .nav-tabs-centered {
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Add border to input and output groups */
+        .input-group-border,
+        .output-group-border {
+            border: 1px solid #ced4da; /* Reduced border thickness for subtlety */
+            padding: 20px;
+            border-radius: 10px; /* Slightly reduced radius */
+            margin-bottom: 20px;
+            background-color: #f8f9fa; /* Light background for contrast */
+        }
+        .output-group-border {
+             background-color: #e9ecef; /* Slightly different background for output */
+        }
+
+        /* --- Removed Sidebar Image CSS as elements weren't in HTML --- */
+        /* .sidebar-image { ... } */
+        /* .sidebar-image img { ... } */
+        /* .sidebar-image label { ... } */
+        /* .sidebar-images { ... } */
+
+        /* Style read-only fields */
+        input[readonly] {
+            background-color: #e9ecef !important; /* Match output group background */
+            opacity: 1; /* Ensure text is clearly visible */
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <!-- Logo and Brand Name -->
+            <a class="navbar-brand logo-container" href="../index.html">
+                <div class="logo">GEO</div>
+                <span>GeoCalc</span>
+            </a>
+            <!-- Toggle Button for Mobile -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Navigation Items -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../about.html">About</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Calculators
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" aria-current="page" href="terzaghi.html">Terzaghi</a></li>
+                            <li><a class="dropdown-item" href="shallow_square_footing.html">Shallow Square Footing</a></li>
+                            <li><a class="dropdown-item active" href="shallow_rectangle_footing.html">Shallow Rectangular footing</a></li>
+                            <li><a class="dropdown-item" href="deep_foundation.html">Deep Foundation</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-8"> <!-- Calculator Column (Left Side on Large Screens) -->
+                <!-- Title of Calculator-->
+                <div class="mt-5">
+                    <h1 class="text-center"> <!-- Simplified centering -->
+                        Shallow Rectangular Footing Calculator
+                    </h1>
+                </div>
+
+                <!-- Shear Type Selection-->
+                <div class="container mt-2">
+                    <div class="d-flex justify-content-center">
+                        <ul class="nav nav-tabs nav-tabs-centered" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="footing-net-and-gross-pressure-tab" data-bs-toggle="tab"
+                                    data-bs-target="#footing-net-and-gross-pressure" type="button" role="tab"
+                                    aria-controls="footing-net-and-gross-pressure" aria-selected="true">Footing Net and Gross Pressure</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="footing-wide-beam-shear-tab" data-bs-toggle="tab"
+                                    data-bs-target="#footing-wide-beam-shear" type="button" role="tab"
+                                    aria-controls="footing-wide-beam-shear" aria-selected="false">Footing Wide Beam Shear</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="rectangular-footing-design-tab" data-bs-toggle="tab" data-bs-target="#rectangular-footing-design" type="button"
+                                    role="tab" aria-controls="rectangular-footing-design" aria-selected="false">Footing Design</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Tab Content -->
+                <div class="tab-content" id="myTabContent">
+
+                    <!-- Footing Net and Gross Pressure Tab -->
+                    <div class="tab-pane fade show active" id="footing-net-and-gross-pressure" role="tabpanel"
+                    aria-labelledby="footing-net-and-gross-pressure-tab">
+                        <div class="container mt-4"> <!-- Changed mt-8 to mt-4 -->
+                            <!-- Added return false; to prevent page reload -->
+                            <form onsubmit="computeFootingNet(); return false;" id="beamShearForm">
+                                <!-- Common Inputs (shared across tabs) -->
+                                <div class="input-group-border">
+
+                                    <!-- Force Dead Load (PDL) input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfn_pdl" class="col-sm-5 col-form-label fw-bold">Force Dead Load (P<sub>DL</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfn_pdl"
+                                                placeholder="Enter force dead load value" required> <!-- Added required -->
+                                        </div>
+                                        <label class="col-sm-2">kN</label>
+                                    </div>
+
+                                    <!-- Live Load (LL) input -->
+                                    <div class="mb-2 row">
+                                        <label for="rfn_pll" class="col-sm-5 col-form-label fw-bold">Force Live Load (P<sub>LL</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfn_pll"
+                                                placeholder="Enter force live load value" required> <!-- Added required -->
+                                        </div>
+                                        <label class="col-sm-2">kN</label>
+                                    </div>
+
+                                    <!-- Moment Dead Load input -->
+                                    <div class="mb-2 row">
+                                        <label for="rfn_mdl" class="col-sm-5 col-form-label fw-bold">Moment Dead Load (M<sub>DL</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfn_mdl"
+                                                placeholder="Enter moment dead load value" required> <!-- Added required -->
+                                        </div>
+                                        <label class="col-sm-2">kN-m</label>
+                                    </div>
+
+                                    <!-- Moment Live Load input -->
+                                    <div class="mb-2 row">
+                                        <label for="rfn_mll" class="col-sm-5 col-form-label fw-bold">Moment Live Load (M<sub>LL</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfn_mll"
+                                                placeholder="Enter moment live load value" required> <!-- Added required -->
+                                        </div>
+                                        <label class="col-sm-2">kN-m</label>
+                                    </div>
+
+                                    <!-- Direction of Moment (from the center) Selection-->
+                                    <!-- This input seems unused in the current calculation logic, but kept for structure -->
+                                    <div class="mb-2 row">
+                                        <label for="rfn_dm" class="col-sm-5 col-form-label fw-bold">Direction of Moment (from the center)</label>
+                                        <div class="col-sm-5">
+                                            <select class="form-select" id="rfn_dm" required>
+                                                <option value="" disabled selected>Select direction of moment</option>
+                                                <option value="1">Clockwise</option>
+                                                <option value="2">Counterclockwise</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Orientation of Moment Selection-->
+                                    <div class="mb-2 row">
+                                        <label for="rfn_om" class="col-sm-5 col-form-label fw-bold">Orientation of Moment Type</label>
+                                        <div class="col-sm-5">
+                                            <select class="form-select" id="rfn_om" required>
+                                                <option value="" disabled selected>Select Orientation of moment</option>
+                                                <option value="1">Parallel to B</option>
+                                                <option value="2">Parallel to L</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Footing Dimention (L) input -->
+                                    <div class="mb-2 row">
+                                        <label for="rfn_l" class="col-sm-5 col-form-label fw-bold">Footing Dimension (L)</label> <!-- Corrected spelling -->
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfn_l"
+                                                placeholder="Enter footing dimension (L) value" required> <!-- Added required -->
+                                        </div>
+                                        <label class="col-sm-1">m</label>
+                                    </div>
+
+                                    <!-- Footing Dimention (B) input -->
+                                    <div class="mb-2 row">
+                                        <label for="rfn_b" class="col-sm-5 col-form-label fw-bold">Footing Dimension (B)</label> <!-- Corrected spelling -->
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfn_b"
+                                                placeholder="Enter footing dimension (B) value" required> <!-- Added required -->
+                                        </div>
+                                        <label class="col-sm-1">m</label>
+                                    </div>
+
+                                    <!-- Column Dimension (CL) input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfn_cl" class="col-sm-5 col-form-label fw-bold">Column Dimension (C<sub>L</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfn_cl"
+                                                placeholder="Enter column dimension (CL) value" required> <!-- Added required -->
+                                        </div>
+                                        <label class="col-sm-1">mm</label>
+                                    </div>
+
+                                    <!-- Colummn Dimension (CB) input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfn_cb" class="col-sm-5 col-form-label fw-bold">Column Dimension (C<sub>B</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfn_cb"
+                                                placeholder="Enter column dimension (CB) value" required> <!-- Added required -->
+                                        </div>
+                                        <label class="col-sm-1">mm</label>
+                                    </div>
+
+                                    <!-- Center Distance b/w Column and Footing input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfn_cd" class="col-sm-5 col-form-label fw-bold">Center Distance b/w Column and Footing</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfn_cd"
+                                                placeholder="Enter center distance value" required> <!-- Added required -->
+                                        </div>
+                                        <label class="col-sm-2">m</label>
+                                    </div>
+
+                                    <!-- Solid Unit Weight input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfn_y" class="col-sm-5 col-form-label fw-bold">Soil Unit Weight (γ)</label> <!-- Clarified label -->
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfn_y"
+                                                placeholder="Enter soil unit weight value" required> <!-- Added required -->
+                                        </div>
+                                        <label class="col-sm-2">kN/m<sup>3</sup></label> <!-- Corrected unit display -->
+                                    </div>
+
+                                    <!-- Concrete Unit Weight (yc) input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfn_yc" class="col-sm-5 col-form-label fw-bold">Concrete Unit Weight (γ<sub>c</sub>)</label> <!-- Clarified label -->
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfn_yc"
+                                                placeholder="Enter concrete unit weight value" required> <!-- Added required -->
+                                        </div>
+                                        <label class="col-sm-2">kN/m<sup>3</sup></label>
+                                    </div>
+
+                                    <!-- Depth of Footing (Df) input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfn_df" class="col-sm-5 col-form-label fw-bold">Depth of Footing (D<sub>f</sub>)</label> <!-- Clarified label -->
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfn_df"
+                                                placeholder="Enter depth of footing value" required> <!-- Added required -->
+                                        </div>
+                                        <label class="col-sm-1">m</label>
+                                    </div>
+
+                                    <!-- Center Thickness of Footing (t) input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfn_t" class="col-sm-5 col-form-label fw-bold">Thickness of Footing (t)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfn_t"
+                                                placeholder="Enter thickness of footing value" required> <!-- Added required -->
+                                        </div>
+                                        <label class="col-sm-1">m</label>
+                                    </div>
+
+                                </div>
+
+                                
+                                <div class="d-flex justify-content-center mt-3  gap-2 fw-bold"> <!-- Added margin top -->
+                                    <!-- Compute button-->
+                                    <button type="submit" class="btn btn-primary calculator-btn">Compute</button> <!-- Added calculator-btn class -->
+                                    <!-- Clear button -->
+                                    <button type="button" class="btn btn-secondary calculator-btn" onclick="clearFootingNetForm()">Clear</button> <!-- Added clear button -->
+                                </div>
+                            </form>
+
+                            <!-- Results Section for Rectangular Footing Net and Gross Pressure -->
+                            <div class="container mt-4 output-group-border"> <!-- Changed mt-3 to mt-4 -->
+                                <h4 class="mt-1 mb-3 d-flex justify-content-center">Output Values</h4> <!-- Added margin bottom -->
+
+                                <!-- Result: Uplift Check (Optional - Add if needed) -->
+                                <!-- <div class="mb-2 row">
+                                    <label for="rfn_uplift_result" class="col-sm-5 col-form-label fw-bold">Uplift Check Result</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="rfn_uplift_result" readonly>
+                                    </div>
+                                </div> -->
+                                <div class="mb-4 p-3 bg-light rounded boarder">
+                                    <!-- Result of Max Soil Net Pressure-->
+                                    <div class="mb-2 row">
+                                        <label for="rfn_qnmax" class="col-sm-5 col-form-label fw-bold">Max Soil Net Pressure (q<sub>n,max</sub>)</label> <!-- Corrected label -->
+                                        <div class="col-sm-5">
+                                            <!-- Removed bg-white text-dark -->
+                                            <input type="number" class="form-control" id="rfn_qnmax" readonly>
+                                        </div>
+                                        <label class="col-sm-2">kPa</label>
+                                    </div>
+
+                                    <!-- Result of Min Soil Net Pressure-->
+                                    <div class="mb-2 row">
+                                        <label for="rfn_qnmin" class="col-sm-5 col-form-label fw-bold">Min Soil Net Pressure (q<sub>n,min</sub>)</label> <!-- Corrected label -->
+                                        <div class="col-sm-5">
+                                            <input type="number" class="form-control" id="rfn_qnmin" readonly>
+                                        </div>
+                                        <label class="col-sm-2">kPa</label>
+                                    </div>
+
+                                    <!-- Result of Max Soil Gross Pressure-->
+                                    <div class="mb-2 row">
+                                        <label for="rfn_qgmax" class="col-sm-5 col-form-label fw-bold">Max Soil Gross Pressure (q<sub>g,max</sub>)</label> <!-- Corrected label -->
+                                        <div class="col-sm-5">
+                                            <input type="number" class="form-control" id="rfn_qgmax" readonly>
+                                        </div>
+                                        <label class="col-sm-2">kPa</label>
+                                    </div>
+
+                                    <!-- Result of Min Soil Gross Pressure-->
+                                    <div class="mb-2 row">
+                                        <label for="rfn_qgmin" class="col-sm-5 col-form-label fw-bold">Min Soil Gross Pressure (q<sub>g,min</sub>)</label> <!-- Corrected label -->
+                                        <div class="col-sm-5">
+                                            <input type="number" class="form-control" id="rfn_qgmin" readonly>
+                                        </div>
+                                        <label class="col-sm-2">kPa</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footing Wide Beam Shear Tab-->
+                    <div class="tab-pane fade" id="footing-wide-beam-shear" role="tabpanel" aria-labelledby="footing-wide-beam-shear-tab">
+                        <div class="container mt-4">
+                            <!-- Corrected: Changed form ID -->
+                            <form onsubmit="computeFootingWide(); return false;" id="wideBeamShearForm">
+                                <!-- Common Inputs (shared across tabs) -->
+                                <div class="input-group-border">
+
+                                    <!-- Force Dead Load (PDL) input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfw_pdl" class="col-sm-5 col-form-label fw-bold">Force Dead Load (P<sub>DL</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfw_pdl" placeholder="Enter force dead load value" required>
+                                        </div>
+                                        <label class="col-sm-2">kN</label>
+                                    </div>
+
+                                    <!-- Live Load (LL) input -->
+                                    <div class="mb-2 row">
+                                        <label for="rfw_pll" class="col-sm-5 col-form-label fw-bold">Force Live Load (P<sub>LL</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfw_pll" placeholder="Enter force live load value" required>
+                                        </div>
+                                        <label class="col-sm-2">kN</label>
+                                    </div>
+
+                                    <!-- Moment Dead Load input -->
+                                    <div class="mb-2 row">
+                                        <label for="rfw_mdl" class="col-sm-5 col-form-label fw-bold">Moment Dead Load (M<sub>DL</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfw_mdl" placeholder="Enter moment dead load value" required>
+                                        </div>
+                                        <label class="col-sm-2">kN-m</label>
+                                    </div>
+
+                                    <!-- Moment Live Load input -->
+                                    <div class="mb-2 row">
+                                        <label for="rfw_mll" class="col-sm-5 col-form-label fw-bold">Moment Live Load (M<sub>LL</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfw_mll" placeholder="Enter moment live load value" required>
+                                        </div>
+                                        <label class="col-sm-2">kN-m</label>
+                                    </div>
+
+                                    <!-- Direction of Moment (from the center) Selection-->
+                                    <div class="mb-2 row">
+                                        <label for="rfw_dm" class="col-sm-5 col-form-label fw-bold">Direction of Moment</label> <!-- Simplified label -->
+                                        <div class="col-sm-5">
+                                            <!-- Corrected ID -->
+                                            <select class="form-select" id="rfw_dm" required>
+                                                <option value="" disabled selected>Select direction</option>
+                                                <option value="1">Clockwise</option>
+                                                <option value="2">Counterclockwise</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Orientation of Moment Selection-->
+                                    <div class="mb-2 row">
+                                        <label for="rfw_om" class="col-sm-5 col-form-label fw-bold">Orientation of Moment Type</label>
+                                        <div class="col-sm-5">
+                                            <select class="form-select" id="rfw_om" required>
+                                                <option value="" disabled selected>Select Orientation</option>
+                                                <option value="1">Parallel to B</option>
+                                                <option value="2">Parallel to L</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Footing Dimension (L) input -->
+                                    <div class="mb-2 row">
+                                        <label for="rfw_l" class="col-sm-5 col-form-label fw-bold">Footing Dimension (L)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfw_l" placeholder="Enter dimension (L) value" required>
+                                        </div>
+                                        <label class="col-sm-1">m</label>
+                                    </div>
+
+                                    <!-- Footing Dimension (B) input -->
+                                    <div class="mb-2 row">
+                                        <label for="rfw_b" class="col-sm-5 col-form-label fw-bold">Footing Dimension (B)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfw_b" placeholder="Enter dimension (B) value" required>
+                                        </div>
+                                        <label class="col-sm-1">m</label>
+                                    </div>
+
+                                    <!-- Column Dimension (CL) input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfw_cl" class="col-sm-5 col-form-label fw-bold">Column Dimension (C<sub>L</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfw_cl" placeholder="Enter column dimension (CL) value" required>
+                                        </div>
+                                        <label class="col-sm-1">mm</label>
+                                    </div>
+
+                                    <!-- Column Dimension (CB) input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfw_cb" class="col-sm-5 col-form-label fw-bold">Column Dimension (C<sub>B</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfw_cb" placeholder="Enter column dimension (CB) value" required>
+                                        </div>
+                                        <label class="col-sm-1">mm</label>
+                                    </div>
+
+                                    <!-- Center Distance b/w Column and Footing input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfw_cd" class="col-sm-5 col-form-label fw-bold">Load Eccentricity (e<sub>load</sub>)</label> <!-- Clarified label -->
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfw_cd" placeholder="Enter distance from footing center" required>
+                                        </div>
+                                        <label class="col-sm-2">m</label>
+                                    </div>
+
+                                    <!-- Soil Unit Weight input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfw_y" class="col-sm-5 col-form-label fw-bold">Soil Unit Weight (γ<sub>soil</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfw_y" placeholder="Enter soil unit weight" required>
+                                        </div>
+                                        <label class="col-sm-2">kN/m<sup>3</sup></label>
+                                    </div>
+
+                                    <!-- Concrete Unit Weight (yc) input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfw_yc" class="col-sm-5 col-form-label fw-bold">Concrete Unit Weight (γ<sub>c</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfw_yc" placeholder="Enter concrete unit weight" required>
+                                        </div>
+                                        <label class="col-sm-2">kN/m<sup>3</sup></label>
+                                    </div>
+
+                                    <!-- Depth of Footing (Df) input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfw_df" class="col-sm-5 col-form-label fw-bold">Depth of Footing (D<sub>f</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfw_df" placeholder="Enter depth of footing" required>
+                                        </div>
+                                        <label class="col-sm-1">m</label>
+                                    </div>
+
+                                    <!-- Thickness of Footing (t) input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfw_t" class="col-sm-5 col-form-label fw-bold">Thickness of Footing (t)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfw_t" placeholder="Enter thickness of footing" required>
+                                        </div>
+                                        <label class="col-sm-1">m</label>
+                                    </div>
+
+                                    <!-- Concrete Compressive Strength (fc') input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfw_fc" class="col-sm-5 col-form-label fw-bold">Concrete Strength (f'<sub>c</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfw_fc" placeholder="Enter f'c value" required>
+                                        </div>
+                                        <label class="col-sm-1">MPa</label>
+                                    </div>
+
+                                    <!-- Steel Yield Strength (fy) input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfw_fy" class="col-sm-5 col-form-label fw-bold">Steel Yield Strength (f<sub>y</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfw_fy" placeholder="Enter fy value" required>
+                                        </div>
+                                        <label class="col-sm-1">MPa</label>
+                                    </div>
+
+                                    <!-- Concrete Cover (cc) input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfw_cc" class="col-sm-5 col-form-label fw-bold">Concrete Cover (cc)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfw_cc" placeholder="Enter concrete cover value" required>
+                                        </div>
+                                        <label class="col-sm-1">mm</label>
+                                    </div>
+
+                                    <!-- Reinforcing Bar Diameter input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfw_rbd" class="col-sm-5 col-form-label fw-bold">Rebar Diameter (d<sub>b</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfw_rbd" placeholder="Enter rebar diameter" required>
+                                        </div>
+                                        <label class="col-sm-1">mm</label>
+                                    </div>
+
+                                    <!-- Wide Beam Shear Distance from Edge input-->
+                                    <!-- ** Keeping this input as per user request not to change logic ** -->
+                                    <div class="mb-2 row">
+                                        <label for="rfw_wbs" class="col-sm-5 col-form-label fw-bold">Wide Beam Shear Distance from Edge</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfw_wbs" placeholder="Enter distance from edge value" required>
+                                        </div>
+                                        <label class="col-sm-1">m</label>
+                                    </div>
+                                </div>
+
+
+                                <div class="d-flex justify-content-center mt-3 gap-2"> <!-- Removed fw-bold from here -->
+                                    <!-- Compute button-->
+                                    <button type="submit" class="btn btn-primary calculator-btn">Compute</button>
+                                    <!-- Clear button -->
+                                    <!-- Corrected onclick -->
+                                    <button type="button" class="btn btn-secondary calculator-btn" onclick="clearFootingWideForm()">Clear</button>
+                                </div>
+                            </form>
+
+                            <!-- Results Section -->
+                            <!-- Added ID -->
+                            <div id="footingWideShearResults" class="container mt-4 output-group-border">
+                                <h4 class="mt-1 mb-3 d-flex justify-content-center">Output Values</h4>
+
+                                <!-- Corrected class: boarder -> border -->
+                                <div class="mb-4 p-3 bg-light rounded border">
+
+                                    <!-- Demand Load (Vu)-->
+                                    <div class="mb-2 row">
+                                        <label for="rfw_vu" class="col-sm-5 col-form-label fw-bold">Demand Load (V<sub>u</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" class="form-control" id="rfw_vu" readonly>
+                                        </div>
+                                        <label class="col-sm-2">kN</label>
+                                    </div>
+
+                                    <!-- Capacity of Footing-->
+                                    <!-- ** Keeping original ID rfw_vc as per user request not to change logic/output ** -->
+                                    <div class="mb-2 row">
+                                        <label for="rfw_vc" class="col-sm-5 col-form-label fw-bold">Capacity of the Footing (φV<sub>c</sub>)</label> <!-- Label clarifies it's design capacity -->
+                                        <div class="col-sm-5">
+                                            <input type="number" class="form-control" id="rfw_vc" readonly>
+                                        </div>
+                                        <label class="col-sm-2">kN</label>
+                                    </div>
+
+                                    <!-- Remarks -->
+                                    <div class="mb-2 row">
+                                        <label for="rfw_remark" class="col-sm-5 col-form-label fw-bold">Remarks</label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control" id="rfw_remark" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rectangular Footing Design Tab-->
+                    <div class="tab-pane fade" id="rectangular-footing-design" role="tabpanel" aria-labelledby="rectangular-footing-design-tab">
+                        <div class="container mt-4">
+                            <!-- Corrected: Changed form ID -->
+                            <form onsubmit="computeFootingDesign(); return false;" id="footingDesignForm">
+                                <!-- Common Inputs -->
+                                <div class="input-group-border">
+                                    <h5 class="text-center mb-3 text-muted">Inputs for Footing Design</h5> <!-- Added heading -->
+
+                                    <!-- Force Dead Load (PDL) input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_pdl" class="col-sm-5 col-form-label fw-bold">Force Dead Load (P<sub>DL</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfd_pdl" placeholder="Enter force dead load value" required>
+                                        </div>
+                                        <label class="col-sm-2">kN</label>
+                                    </div>
+
+                                    <!-- Live Load (LL) input -->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_pll" class="col-sm-5 col-form-label fw-bold">Force Live Load (P<sub>LL</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfd_pll" placeholder="Enter force live load value" required>
+                                        </div>
+                                        <label class="col-sm-2">kN</label>
+                                    </div>
+
+                                    <!-- Moment Dead Load input -->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_mdl" class="col-sm-5 col-form-label fw-bold">Moment Dead Load (M<sub>DL</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfd_mdl" placeholder="Enter moment dead load value" required>
+                                        </div>
+                                        <label class="col-sm-2">kN-m</label>
+                                    </div>
+
+                                    <!-- Moment Live Load input -->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_mll" class="col-sm-5 col-form-label fw-bold">Moment Live Load (M<sub>LL</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfd_mll" placeholder="Enter moment live load value" required>
+                                        </div>
+                                        <label class="col-sm-2">kN-m</label>
+                                    </div>
+
+                                    <!-- Direction of Moment Selection-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_dm" class="col-sm-5 col-form-label fw-bold">Direction of Moment</label>
+                                        <div class="col-sm-5">
+                                            <select class="form-select" id="rfd_dm" required>
+                                                <option value="" disabled selected>Select direction</option>
+                                                <option value="1">Clockwise</option>
+                                                <option value="2">Counterclockwise</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Orientation of Moment Selection-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_om" class="col-sm-5 col-form-label fw-bold">Orientation of Moment Type</label>
+                                        <div class="col-sm-5">
+                                            <select class="form-select" id="rfd_om" required>
+                                                <option value="" disabled selected>Select Orientation</option>
+                                                <option value="1">Parallel to B</option>
+                                                <option value="2">Parallel to L</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Footing Dimension (L) input -->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_l" class="col-sm-5 col-form-label fw-bold">Footing Dimension (L)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfd_l" placeholder="Enter dimension (L) value" required>
+                                        </div>
+                                        <label class="col-sm-1">m</label>
+                                    </div>
+
+                                    <!-- Footing Dimension (B) input -->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_b" class="col-sm-5 col-form-label fw-bold">Footing Dimension (B)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfd_b" placeholder="Enter dimension (B) value" required>
+                                        </div>
+                                        <label class="col-sm-1">m</label>
+                                    </div>
+
+                                    <!-- Column Dimension (CL) input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_cl" class="col-sm-5 col-form-label fw-bold">Column Dimension (C<sub>L</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfd_cl" placeholder="Enter column dimension (CL) value" required>
+                                        </div>
+                                        <label class="col-sm-1">mm</label>
+                                    </div>
+
+                                    <!-- Column Dimension (CB) input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_cb" class="col-sm-5 col-form-label fw-bold">Column Dimension (C<sub>B</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfd_cb" placeholder="Enter column dimension (CB) value" required>
+                                        </div>
+                                        <label class="col-sm-1">mm</label>
+                                    </div>
+
+                                    <!-- Load Eccentricity input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_cd" class="col-sm-5 col-form-label fw-bold">Load Eccentricity (e<sub>load</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfd_cd" placeholder="Enter distance from footing center" required>
+                                        </div>
+                                        <label class="col-sm-2">m</label>
+                                    </div>
+
+                                    <!-- Soil Unit Weight input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_y" class="col-sm-5 col-form-label fw-bold">Soil Unit Weight (γ<sub>soil</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfd_y" placeholder="Enter soil unit weight" required>
+                                        </div>
+                                        <label class="col-sm-2">kN/m<sup>3</sup></label>
+                                    </div>
+
+                                    <!-- Concrete Unit Weight (yc) input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_yc" class="col-sm-5 col-form-label fw-bold">Concrete Unit Weight (γ<sub>c</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfd_yc" placeholder="Enter concrete unit weight" required>
+                                        </div>
+                                        <label class="col-sm-2">kN/m<sup>3</sup></label>
+                                    </div>
+
+                                    <!-- Depth of Footing (Df) input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_df" class="col-sm-5 col-form-label fw-bold">Depth of Footing (D<sub>f</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfd_df" placeholder="Enter depth of footing" required>
+                                        </div>
+                                        <label class="col-sm-1">m</label>
+                                    </div>
+
+                                    <!-- Thickness of Footing (t) input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_t" class="col-sm-5 col-form-label fw-bold">Thickness of Footing (t)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfd_t" placeholder="Enter thickness of footing" required>
+                                        </div>
+                                        <label class="col-sm-1">m</label>
+                                    </div>
+
+                                    <!-- Concrete Strength (fc') input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_fc" class="col-sm-5 col-form-label fw-bold">Concrete Strength (f'<sub>c</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfd_fc" placeholder="Enter f'c value" required>
+                                        </div>
+                                        <label class="col-sm-1">MPa</label>
+                                    </div>
+
+                                    <!-- Steel Yield Strength (fy) input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_fy" class="col-sm-5 col-form-label fw-bold">Steel Yield Strength (f<sub>y</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfd_fy" placeholder="Enter fy value" required>
+                                        </div>
+                                        <label class="col-sm-1">MPa</label>
+                                    </div>
+
+                                    <!-- Concrete Cover (cc) input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_cc" class="col-sm-5 col-form-label fw-bold">Concrete Cover (cc)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfd_cc" placeholder="Enter concrete cover value" required>
+                                        </div>
+                                        <label class="col-sm-1">mm</label>
+                                    </div>
+
+                                    <!-- Reinforcing Bar Diameter input-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_rbd" class="col-sm-5 col-form-label fw-bold">Reinforcing Bar Diameter (d<sub>b</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfd_rbd" placeholder="Enter rebar diameter" required>
+                                        </div>
+                                        <label class="col-sm-1">mm</label>
+                                    </div>
+
+                                    <!-- Distance (x) input-->
+                                    <!-- ** Meaning of this input is unclear from context/JS, label kept simple ** -->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_d" class="col-sm-5 col-form-label fw-bold">Distance (x)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" step="any" class="form-control" id="rfd_d" placeholder="Enter distance (x) value" required>
+                                        </div>
+                                        <label class="col-sm-1">m</label>
+                                    </div>
+                                </div>
+
+
+                                <div class="d-flex justify-content-center mt-3 gap-2">
+                                    <!-- Compute button-->
+                                    <button type="submit" class="btn btn-primary calculator-btn">Compute</button>
+                                    <!-- Clear button -->
+                                    <button type="button" class="btn btn-secondary calculator-btn" onclick="clearFootingDesignForm()">Clear</button>
+                                </div>
+                            </form>
+
+                            <!-- Results Section -->
+                            <!-- Step 1: Moment of Footing-->
+                            <div class="container mt-4 output-group-border"> <!-- Removed redundant ID -->
+                                <h5 class="mt-1 mb-2 d-flex">Step 1: Moment of Footing</h5>
+                                <div class="mb-2 p-3 bg-light rounded border">
+                                    <!-- Ultimate Load (Forces)-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_ulf" class="col-sm-5 col-form-label fw-bold">Ultimate Load (P<sub>u</sub>)</label> <!-- Added subscript -->
+                                        <div class="col-sm-5">
+                                            <input type="number" class="form-control" id="rfd_ulf" readonly>
+                                        </div>
+                                        <label class="col-sm-2">kN</label>
+                                    </div>
+                                    <!-- Ultimate Load (Moment)-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_ulm" class="col-sm-5 col-form-label fw-bold">Ultimate Moment (M<sub>u,base</sub>)</label> <!-- Clarified label -->
+                                        <div class="col-sm-5">
+                                            <input type="number" class="form-control" id="rfd_ulm" readonly>
+                                        </div>
+                                        <label class="col-sm-2">kN-m</label>
+                                    </div>
+                                    <!-- Footing Moment (Mf)-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_mf" class="col-sm-5 col-form-label fw-bold">Net Footing Moment (M<sub>f,u</sub>)</label> <!-- Clarified label -->
+                                        <div class="col-sm-5">
+                                            <input type="number" class="form-control" id="rfd_mf" readonly>
+                                        </div>
+                                        <label class="col-sm-2">kN-m</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 2: Determine If No Uplift-->
+                            <div class="container mt-2 output-group-border"> <!-- Removed redundant ID -->
+                                <h5 class="mt-1 mb-2 d-flex">Step 2: Determine If No Uplift</h5>
+                                <div class="mb-2 p-3 bg-light rounded border">
+                                    <!-- Eccentricity (e)-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_e" class="col-sm-5 col-form-label fw-bold">Eccentricity (e<sub>u</sub>)</label> <!-- Added subscript -->
+                                        <div class="col-sm-5">
+                                            <input type="number" class="form-control" id="rfd_e" readonly>
+                                        </div>
+                                        <label class="col-sm-2">m</label>
+                                    </div>
+                                    <!-- Max Eccentricity w/o Uplift-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_meu" class="col-sm-5 col-form-label fw-bold">Limit Eccentricity (L/6 or B/6)</label> <!-- Clarified label -->
+                                        <div class="col-sm-5">
+                                            <input type="number" class="form-control" id="rfd_meu" readonly>
+                                        </div>
+                                        <label class="col-sm-2">m</label>
+                                    </div>
+                                    <!-- Uplift Result-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_uplift" class="col-sm-5 col-form-label fw-bold">Result</label>
+                                        <div class="col-sm-7"> <!-- Wider column for text -->
+                                            <input type="text" class="form-control" id="rfd_uplift" readonly>
+                                        </div>
+                                        <!-- <label class="col-sm-2"></label> --> <!-- Removed empty label -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 3: Soil Net Pressure-->
+                            <div class="container mt-2 output-group-border"> <!-- Removed redundant ID -->
+                                <h5 class="mt-1 mb-2 d-flex">Step 3: Ultimate Soil Pressure</h5>
+                                <div class="mb-2 p-3 bg-light rounded border">
+                                    <!-- Max Ultimate Soil Net Pressure (qu1)-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_qu1" class="col-sm-5 col-form-label fw-bold">Max Ult. Soil Pressure (q<sub>u,max</sub>)</label> <!-- Clarified label -->
+                                        <div class="col-sm-5">
+                                            <input type="number" class="form-control" id="rfd_qu1" readonly>
+                                        </div>
+                                        <label class="col-sm-2">kPa</label>
+                                    </div>
+                                    <!-- Min Ultimate Soil Net Pressure (qu2)-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_qu2" class="col-sm-5 col-form-label fw-bold">Min Ult. Soil Pressure (q<sub>u,min</sub>)</label> <!-- Clarified label -->
+                                        <div class="col-sm-5">
+                                            <input type="number" class="form-control" id="rfd_qu2" readonly>
+                                        </div>
+                                        <label class="col-sm-2">kPa</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 4: Effective Depths-->
+                            <div class="container mt-2 output-group-border"> <!-- Removed redundant ID -->
+                                <h5 class="mt-1 mb-2 d-flex">Step 4: Effective Depths</h5>
+                                <div class="mb-2 p-3 bg-light rounded border">
+                                    <!-- Effective Depth on Long Direction (dB)-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_db" class="col-sm-5 col-form-label fw-bold">Eff. Depth (d<sub>B</sub>, long dir. bars)</label> <!-- Clarified label -->
+                                        <div class="col-sm-5">
+                                            <input type="number" class="form-control" id="rfd_db" readonly>
+                                        </div>
+                                        <label class="col-sm-2">mm</label>
+                                    </div>
+                                    <!-- Effective Depth on Short Direction (dL)-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_dl" class="col-sm-5 col-form-label fw-bold">Eff. Depth (d<sub>L</sub>, short dir. bars)</label> <!-- Clarified label -->
+                                        <div class="col-sm-5">
+                                            <input type="number" class="form-control" id="rfd_dl" readonly>
+                                        </div>
+                                        <label class="col-sm-2">mm</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 5: Solve qu4-->
+                            <div class="container mt-2 output-group-border"> <!-- Removed redundant ID -->
+                                <h5 class="mb-2 d-flex">Step 5: Solve q<sub>u4</sub> (Pressure at distance 'x')</h5> <!-- Clarified Step Title -->
+                                <div class="mb-2 p-3 bg-light rounded border">
+                                    <!-- Ultimate Soil Pressure at distance x (qu4)-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_qu4" class="col-sm-5 col-form-label fw-bold">Ult. Soil Pressure @ x (q<sub>u4</sub>)</label> <!-- Clarified label -->
+                                        <div class="col-sm-5">
+                                            <input type="number" class="form-control" id="rfd_qu4" readonly>
+                                        </div>
+                                        <label class="col-sm-2">kPa</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 6: Ultimate Moment-->
+                            <div class="container mt-2 output-group-border"> <!-- Removed redundant ID -->
+                                <h5 class="mb-2 d-flex">Step 6: Design Moment (M<sub>u,design</sub>)</h5> <!-- Clarified Step Title -->
+                                <div class="mb-2 p-3 bg-light rounded border">
+                                    <!-- Ultimate Design Moment (Mu)-->
+                                    <!-- ** Note: Label reflects design moment, but JS calculation is unusual ** -->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_mu" class="col-sm-5 col-form-label fw-bold">Design Moment (M<sub>u</sub>)</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" class="form-control" id="rfd_mu" readonly>
+                                        </div>
+                                        <label class="col-sm-2">kN-m</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 7: Minimum Steel Ratio-->
+                            <div class="container mt-2 output-group-border"> <!-- Removed redundant ID -->
+                                <h5 class="mb-2 d-flex">Step 7: Minimum Steel Ratio</h5>
+                                <div class="mb-2 p-3 bg-light rounded border">
+                                    <!-- Minimum Steel Ratio (rho_min)-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_msr" class="col-sm-5 col-form-label fw-bold">Min. Steel Ratio (ρ<sub>min</sub>)</label> <!-- Clarified label -->
+                                        <div class="col-sm-5">
+                                            <input type="number" class="form-control" id="rfd_msr" readonly>
+                                        </div>
+                                        <label class="col-sm-2"></label> <!-- Corrected: Removed incorrect unit -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 8: Number of Bars (Based on Min Steel) -->
+                            <div class="container mt-2 output-group-border"> <!-- Removed redundant ID -->
+                                <h5 class="mb-2 d-flex">Step 8: Min. Number of Bars (Based on ρ<sub>min</sub>)</h5> <!-- Clarified Step Title -->
+                                <div class="mb-2 p-3 bg-light rounded border">
+                                    <!-- Bars on Long Direction (Bottom Bars)-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_bld" class="col-sm-5 col-form-label fw-bold">Min. Bars Long Dir (Bottom)</label> <!-- Clarified label -->
+                                        <div class="col-sm-5">
+                                            <input type="number" class="form-control" id="rfd_bld" readonly>
+                                        </div>
+                                        <label class="col-sm-2">bars</label>
+                                    </div>
+                                    <!-- Bars on Short Direction (Top Bars)-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_bsd" class="col-sm-5 col-form-label fw-bold">Min. Bars Short Dir (Top)</label> <!-- Clarified label -->
+                                        <div class="col-sm-5">
+                                            <input type="number" class="form-control" id="rfd_bsd" readonly>
+                                        </div>
+                                        <label class="col-sm-2">bars</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Final Output Summary -->
+                            <div class="container mt-4 output-group-border"> <!-- Removed redundant ID -->
+                                <h4 class="mt-1 mb-3 d-flex justify-content-center">Design Summary (Minimum Steel)</h4> <!-- Clarified Title -->
+                                <div class="mb-4 p-3 bg-light rounded border">
+                                    <!-- Minimum Bars on Long Direction (Bottom Bars)-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_mlbd" class="col-sm-7 col-form-label fw-bold">Min. Bottom Bars (Long Dir)</label> <!-- Clarified label -->
+                                        <div class="col-sm-5">
+                                            <!-- Corrected ID -->
+                                            <input type="text" class="form-control" id="rfd_mlbd" readonly>
+                                        </div>
+                                    </div>
+                                    <!-- Minimum Bars on Short Direction (Top Bars)-->
+                                    <div class="mb-2 row">
+                                        <label for="rfd_mbsd" class="col-sm-7 col-form-label fw-bold">Min. Top Bars (Short Dir)</label> <!-- Clarified label -->
+                                        <div class="col-sm-5">
+                                            <!-- Corrected ID -->
+                                            <input type="text" class="form-control" id="rfd_msbd" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- End container -->
+                    </div> <!-- End tab-pane -->
+
+                </div> <!-- End of Tab Content -->
+
+            </div> <!-- End of Calculator Column (Left Side on Large Screens) -->
+
+             <!-- Optional Sidebar Column (Right Side on Large Screens) -->
+             <!-- <div class="col-lg-4"> -->
+                 <!-- Add sidebar content here if needed -->
+                 <!-- For example: Diagrams, explanations, etc. -->
+             <!-- </div> -->
+
+        </div> <!-- End of Row -->
+    </div> <!-- End of Main Content Area -->
+
+    <!-- Link to the corrected JavaScript file -->
+    <script src="../scripts/shallow_rectangle_footing.js"></script>
+</body>
+
+</html>
