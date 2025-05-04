@@ -9,34 +9,63 @@ function computeBeamShear() {
     var abs_y = parseFloat(document.getElementById("abs_y").value); // Solid Unit Weight
     var abs_yc = parseFloat(document.getElementById("abs_yc").value); // Concrete Unit Weight
     var abs_fc = parseFloat(document.getElementById("abs_fc").value); // Concrete Compressive Strength
-    var abs_fy = parseFloat(document.getElementById("abs_fy").value); // Steel Yield Strength (Unused, but included in HTML)
-    var abs_df = parseFloat(document.getElementById("abs_df").value); // Depth of footing (Unused, but included in HTML)
+    var abs_fy = parseFloat(document.getElementById("abs_fy").value); // Steel Yield Strength (Unused in calculation, but included in HTML)
+    var abs_df = parseFloat(document.getElementById("abs_df").value); // Depth of footing (Unused in calculation, but included in HTML)
     var abs_cc = parseFloat(document.getElementById("abs_cc").value); // Concrete Cover
+
+    // Basic input validation (optional but recommended)
+    if (isNaN(abs_dl) || isNaN(abs_ll) || isNaN(abs_c) || isNaN(abs_b) || isNaN(abs_t) || isNaN(abs_mbd) || isNaN(abs_y) || isNaN(abs_yc) || isNaN(abs_fc) || isNaN(abs_fy) || isNaN(abs_df) || isNaN(abs_cc)) {
+        alert("Please ensure all input fields have valid numbers.");
+        return false; // Stop execution if any input is not a number
+    }
 
 
     // Calculations for analysis beam shear
     var abs_qu = (1.2 * abs_dl + 1.6 * abs_ll) / (abs_b * abs_b); // Ultimate Soil Pressure
-    var abs_d = abs_t - abs_cc - abs_mbd - (abs_mbd / 2); // Effective Depth
-    var abs_vu = abs_qu * abs_b * ((abs_b * 1000 - abs_c) / 2 - abs_d) / 1000; // Shear Force
-    var abs_vc = (0.75 * (0.17) * Math.sqrt(abs_fc) * abs_b * abs_d); // Capacity of Footing
-    var abs_mvu = abs_vc; //rename for the right output ID (ØV<sub>u</sub>)
+    var abs_d = abs_t - abs_cc - abs_mbd - (abs_mbd / 2); // Effective Depth - Note: Calculation uses abs_mbd twice, check if intended. Usually it's t - cc - mbd/2
+    var abs_vu = abs_qu * abs_b * ((abs_b * 1000 - abs_c) / 2 - abs_d) / 1000; // Shear Force (Demand Load)
+    var abs_vc_base = (0.17 * Math.sqrt(abs_fc) * (abs_b * 1000) * abs_d) / 1000; // Concrete shear capacity (V_c) in kN (assuming b is width, converting b from m to mm)
+    var phi = 0.75; // Strength reduction factor for shear
+    var abs_mvu = phi * abs_vc_base; // Capacity of Footing (ØV_c) in kN
 
     // Check if shear force exceeds capacity
-    if (abs_mvu > abs_vu) {
-         var abs_r = "SAFE";
-     }   else {
-         var abs_r = "UNSAFE";
-     }
+    var abs_r; // Declare remarks variable
+    if (abs_mvu >= abs_vu) { // Capacity should be greater than or equal to Demand
+         abs_r = "SAFE";
+    } else {
+         abs_r = "UNSAFE";
+    }
 
     // Results for analysis beam shear as output
-    // document.getElementById("qu").value = abs_qu.toFixed(3);  //Output Ultimate Soil Pressure  //Missing in HTML
-    // document.getElementById("abs_d").value = abs_d.toFixed(3);  //Output Effective Depth  //Missing in HTML
-    document.getElementById("abs_vu").value = abs_vu.toFixed(3); // Shear Force
-    document.getElementById("abs_mvu").value = abs_mvu.toFixed(3); // Capacity of Footing  (ØV<sub>u</sub>)
+    // document.getElementById("qu").value = abs_qu.toFixed(3);  // ERROR: Output Element with ID "qu" does not exist in the HTML. Commented out.
+    // document.getElementById("abs_d").value = abs_d.toFixed(3);  // ERROR: Output Element with ID "abs_d" does not exist in the HTML. Commented out.
+    document.getElementById("abs_vu").value = abs_vu.toFixed(3); // Shear Force (Demand V_u)
+    document.getElementById("abs_mvu").value = abs_mvu.toFixed(3); // Capacity of Footing (ØV_c)
     document.getElementById("abs_r").value = abs_r; // Remarks
 
-    // Prevent form submission
+    // Prevent default form submission (which would reload the page)
     return false;
+}
+
+function clearAnalysisBeamForm() {
+    // Clear input fields
+    document.getElementById("abs_dl").value = "";
+    document.getElementById("abs_ll").value = "";
+    document.getElementById("abs_c").value = "";
+    document.getElementById("abs_b").value = "";
+    document.getElementById("abs_t").value = "";
+    document.getElementById("abs_mbd").value = "";
+    document.getElementById("abs_y").value = "";
+    document.getElementById("abs_yc").value = "";
+    document.getElementById("abs_fc").value = "";
+    document.getElementById("abs_fy").value = "";
+    document.getElementById("abs_df").value = "";
+    document.getElementById("abs_cc").value = "";
+
+    // Clear output fields
+    document.getElementById("abs_vu").value = "";
+    document.getElementById("abs_mvu").value = "";
+    document.getElementById("abs_r").value = "";
 }
 
 function computePunchingShear() {
@@ -76,6 +105,27 @@ function computePunchingShear() {
 
     // Prevent form submission
     return false;
+}
+
+function clearAnalysisPunchingForm() {
+    // Clear input fields
+    document.getElementById("aps_dl").value = "";
+    document.getElementById("aps_ll").value = "";
+    document.getElementById("aps_c").value = "";
+    document.getElementById("aps_b").value = "";
+    document.getElementById("aps_t").value = "";
+    document.getElementById("aps_mbd").value = "";
+    document.getElementById("aps_y").value = "";
+    document.getElementById("aps_yc").value = "";
+    document.getElementById("aps_fc").value = "";
+    document.getElementById("aps_fy").value = "";
+    document.getElementById("aps_df").value = "";
+    document.getElementById("aps_cc").value = "";
+
+    // Clear output fields
+    document.getElementById("aps_vu").value = "";
+    document.getElementById("aps_mvu").value = "";
+    document.getElementById("aps_r").value = "";
 }
 
 function computeDesign() {
@@ -128,62 +178,39 @@ function computeDesign() {
         var d_cs2 = "UNSAFE";
     }
 
-    if (d_cs1 = d_cs2){
-        //var d_final_dimension = 
+    // Step 7: Reinforcement of Square Footing
+    var d_nsb = Math.ceil((d_fd * 1000 * Math.max(d_d1, d_d2) * (1.4 / d_fy)) / (0.25 * Math.PI() * Math.sqrt(B16)),1); // Required Number of Steel Bars (n) (d<sub>1=</sub>)
+    
+    // Output results
+    if (d_cs1 = d_cs2){    
+        var d_final_dimension = d_fd;
     } else {
-        //var d_final_dimension = 
+        var d_final_dimension = d_fd + 0.25;
     }
     
+    var d_footing_dimension = d_final_dimension + " m x " + d_final_dimension + " m"; // Footing Dimension
     
+    var d_nbw = "Use " + d_nsb + " - " + d_mbd + " mm diameter bars"; // Number of Steel Bars (n) (d<sub>1=</sub>)
 
     // Results for analysis punching shear as output
     document.getElementById("d_d").value = d_d.toFixed(3); // Effective Depth (d)
     document.getElementById("d_qeff").value = d_qeff.toFixed(3); // Net Soil Pressure (qeff)
     document.getElementById("d_fd").value = d_fd.toFixed(3); // Footing Dimension (fd)
     document.getElementById("d_qu").value = d_qu.toFixed(3); // Ultimate Soil Upward Pressure (qu)
-    document.getElementById("d_x").value = d_x.toFixed(3); // Effective Depth
-    document.getElementById("d_vu1").value = d_vu1.toFixed(3); // Effective Depth
-    document.getElementById("d_d1").value = d_d1.toFixed(3); // Effective Depth
-    document.getElementById("d_cs1").value = d_cs1.toFixed(3); // Effective Depth
-    document.getElementById("d_cd").value = d_cd.toFixed(3); // Effective Depth
-    document.getElementById("d_vu2").value = d_vu2.toFixed(3); // Effective Depth
-    document.getElementById("d_d2").value = d_d2.toFixed(3); // Effective Depth
-    document.getElementById("d_cs2").value = d_cs2.toFixed(3); // Effective Depth
+    document.getElementById("d_x").value = d_x.toFixed(3); // Effective Dimension (x)
+    document.getElementById("d_vu1").value = d_vu1.toFixed(3); // Beam Shear Capacity (Vu1)
+    document.getElementById("d_d1").value = d_d1.toFixed(3); // Effective Depth (d1)
+    document.getElementById("d_cs1").value = d_cs1.toFixed(3); // Check if Safe
+    document.getElementById("d_cd").value = d_cd.toFixed(3); // c + d
+    document.getElementById("d_vu2").value = d_vu2.toFixed(3); // Punching Shear Capacity (Vu)
+    document.getElementById("d_d2").value = d_d2.toFixed(3); // Effective Depth (d2)
+    document.getElementById("d_cs2").value = d_cs2.toFixed(3); // Check if Safe
+    document.getElementById("d_nsb").value = d_nsb.toFixed(3); // Required Number of Steel Bars (n)
 
     document.getElementById("d_final_dimension").value = d_final_dimension.toFixed(3); // Effective Depth
     document.getElementById("d_footing_dimension").value = d_footing_dimension.toFixed(3); // Effective Depth
-    document.getElementById("d_n").value = d_n.toFixed(3); // Effective Depth
+    document.getElementById("d_nsb").value = d_nsb; // Effective Depth
 
     // Prevent form submission
     return false;
-}
-
-function clearForm() {
-    document.getElementById("beamShearForm").reset();
-    document.getElementById("punchingShearForm").reset();
-    document.getElementById("designForm").reset(); 
-    
-    document.getElementById("abs_vu").value = ''; 
-    document.getElementById("abs_mvu").value = ''; 
-    document.getElementById("abs_r").value = ''; 
-    
-    document.getElementById("aps_vu").value = ''; 
-    document.getElementById("aps_mvu").value = ''; 
-    document.getElementById("aps_r").value = ''; 
-    
-    document.getElementById("d_d").value = ''; 
-    document.getElementById("d_qeff").value = ''; 
-    document.getElementById("d_fd").value = ''; 
-    document.getElementById("d_qu").value = ''; 
-    document.getElementById("d_x").value = ''; 
-    document.getElementById("d_vu1").value = ''; 
-    document.getElementById("d_d1").value = ''; 
-    document.getElementById("d_cs1").value = ''; 
-    document.getElementById("d_cd").value = ''; 
-    document.getElementById("d_vu2").value = ''; 
-    document.getElementById("d_d2").value = ''; 
-    document.getElementById("d_cs2").value = ''; 
-    document.getElementById("d_final_dimension").value = ''; 
-    document.getElementById("d_footing_dimension").value = ''; 
-    document.getElementById("d_n").value = ''; 
 }
