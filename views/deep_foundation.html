@@ -666,92 +666,105 @@
 
                 <!-- Piles on Clay (y) Tab-->
                 <div class="tab-pane fade" id="piles-on-clay-y" role="tabpanel" aria-labelledby="piles-on-clay-y-tab">
-                    <div class="container mt-4">
-                        <form onsubmit="computePilesOnClayY(); return false;" id="pilesOnClayYForm">
-                            <!-- Common Inputs -->
-                            <div class="input-group-border">
-
-                                <!-- Shape of Pile input-->
-                                <div class="mb-2 row">
-                                    <label for="posy_shape" class="col-sm-5 col-form-label fw-bold">Shape of Pile</label>
-                                    <div class="col-sm-5">
-                                        <select class="form-select" id="posy_shape" required>
-                                            <option value="" disabled selected>Select shape</option>
-                                            <option value="1">Square</option>
-                                            <option value="2">Circle</option>
-                                        </select>
+                    <div class="row">
+                        <div class="col-lg-8"> <!-- Calculator Column (Left Side on Large Screens) -->
+                            <div class="container mt-4">
+                                <form onsubmit="computePilesOnClayY(); return false;" id="pilesOnClayYForm">
+                                    <!-- Common Inputs -->
+                                    <div class="input-group-border">
+        
+                                        <!-- Shape of Pile input-->
+                                        <div class="mb-2 row">
+                                            <label for="posy_shape" class="col-sm-5 col-form-label fw-bold">Shape of Pile</label>
+                                            <div class="col-sm-5">
+                                                <select class="form-select" id="posy_shape" required>
+                                                    <option value="" disabled selected>Select shape</option>
+                                                    <option value="1">Square</option>
+                                                    <option value="2">Circle</option>
+                                                </select>
+                                            </div>
+                                        </div>
+        
+                                        <!-- Side Length (s) / Diameter (d) input-->
+                                        <div class="mb-2 row">
+                                            <label for="posy_s" class="col-sm-5 col-form-label fw-bold">Side Length (s)/Diameter (d)</label> <!-- Updated Label -->
+                                            <div class="col-sm-5">
+                                                <input type="number" step="any" class="form-control" id="posy_s" placeholder="Enter side/diameter value" required> <!-- Updated Placeholder -->
+                                            </div>
+                                            <label class="col-sm-2 col-form-label">m</label> <!-- Added col-form-label -->
+                                        </div>
+        
+                                        <!-- Unit Weight (y) input -->
+                                        <div class="mb-2 row">
+                                            <label for="posy_y" class="col-sm-5 col-form-label fw-bold">Unit Weight (γ)</label> <!-- Greek letter gamma often used -->
+                                            <div class="col-sm-5">
+                                                <input type="number" step="any" class="form-control" id="posy_y" placeholder="Enter unit weight value" required>
+                                            </div>
+                                            <label class="col-sm-2 col-form-label">kN/m<sup>3</sup></label> <!-- Added col-form-label -->
+                                        </div>
+        
+                                        <!-- Length of Pile (L) input -->
+                                        <div class="mb-2 row">
+                                            <label for="posy_l" class="col-sm-5 col-form-label fw-bold">Length of Pile (L)</label>
+                                            <div class="col-sm-5">
+                                                <input type="number" step="any" class="form-control" id="posy_l" placeholder="Enter length of pile value" required>
+                                            </div>
+                                            <label class="col-sm-2 col-form-label">m</label> <!-- Added col-form-label -->
+                                        </div>
+        
+                                        <!-- Frictional Coefficient (y) input -->
+                                        <div class="mb-2 row">
+                                            <label for="posy_fcy" class="col-sm-5 col-form-label fw-bold">Frictional Coefficient (γ)</label> <!-- Improved Label -->
+                                            <div class="col-sm-5">
+                                                <input type="number" step="any" class="form-control" id="posy_fcy" placeholder="Enter frictional coefficient value" required>
+                                            </div>
+                                            <label class="col-sm-2 col-form-label"></label> <!-- Added col-form-label -->
+                                        </div>
+        
+                                        <!-- Unconfined Compressive Strength (qu) input-->
+                                        <div class="mb-2 row">
+                                            <label for="posy_qu" class="col-sm-5 col-form-label fw-bold">Unconfined Compressive Strength (q<sub>u</sub>)</label>
+                                            <div class="col-sm-5">
+                                                <input type="number" step="any" class="form-control" id="posy_qu" placeholder="Enter unconfined compressive strength value" required>
+                                            </div>
+                                            <label class="col-sm-2 col-form-label">kPa</label> <!-- Added col-form-label -->
+                                        </div>
+        
+                                    </div>
+        
+                                    <div class="d-flex justify-content-center mt-3  gap-2 fw-bold">
+                                        <!-- Compute button-->
+                                        <button type="submit" class="btn btn-primary calculator-btn">Compute</button>
+                                        <!-- Clear button -->
+                                        <button type="button" class="btn btn-secondary calculator-btn" onclick="clearPilesOnClayYForm()">Clear</button>
+                                    </div>
+                                </form>
+        
+                                <!-- OUTPUT VALUES SECTION -->
+                                <div class="container mt-4 output-group-border">
+                                    <h4 class="mt-1 mb-3 d-flex justify-content-center">Output Values</h4>
+                                    <!-- Light Border-->
+                                    <div class="mb-4 p-3 bg-light rounded border"> <!-- Corrected boarder to border -->
+                                        <!-- Skin Friction (Qf) Output-->
+                                        <div class="mb-2 row">
+                                            <label for="posy_qf" class="col-sm-5 col-form-label fw-bold">Skin Friction (Q<sub>f</sub>)</label> <!-- Corrected subscript -->
+                                            <div class="col-sm-5">
+                                                <input type="number" class="form-control" id="posy_qf" readonly>
+                                            </div>
+                                            <label class="col-sm-2 col-form-label">kN</label> <!-- Added col-form-label -->
+                                        </div>
+        
                                     </div>
                                 </div>
-
-                                <!-- Side Length (s) / Diameter (d) input-->
-                                <div class="mb-2 row">
-                                    <label for="posy_s" class="col-sm-5 col-form-label fw-bold">Side Length (s)/Diameter (d)</label> <!-- Updated Label -->
-                                    <div class="col-sm-5">
-                                        <input type="number" step="any" class="form-control" id="posy_s" placeholder="Enter side/diameter value" required> <!-- Updated Placeholder -->
-                                    </div>
-                                    <label class="col-sm-2 col-form-label">m</label> <!-- Added col-form-label -->
-                                </div>
-
-                                <!-- Unit Weight (y) input -->
-                                <div class="mb-2 row">
-                                    <label for="posy_y" class="col-sm-5 col-form-label fw-bold">Unit Weight (γ)</label> <!-- Greek letter gamma often used -->
-                                    <div class="col-sm-5">
-                                        <input type="number" step="any" class="form-control" id="posy_y" placeholder="Enter unit weight value" required>
-                                    </div>
-                                    <label class="col-sm-2 col-form-label">kN/m<sup>3</sup></label> <!-- Added col-form-label -->
-                                </div>
-
-                                <!-- Length of Pile (L) input -->
-                                <div class="mb-2 row">
-                                    <label for="posy_l" class="col-sm-5 col-form-label fw-bold">Length of Pile (L)</label>
-                                    <div class="col-sm-5">
-                                        <input type="number" step="any" class="form-control" id="posy_l" placeholder="Enter length of pile value" required>
-                                    </div>
-                                    <label class="col-sm-2 col-form-label">m</label> <!-- Added col-form-label -->
-                                </div>
-
-                                <!-- Frictional Coefficient (y) input -->
-                                <div class="mb-2 row">
-                                    <label for="posy_fcy" class="col-sm-5 col-form-label fw-bold">Frictional Coefficient (γ)</label> <!-- Improved Label -->
-                                    <div class="col-sm-5">
-                                        <input type="number" step="any" class="form-control" id="posy_fcy" placeholder="Enter frictional coefficient value" required>
-                                    </div>
-                                    <label class="col-sm-2 col-form-label"></label> <!-- Added col-form-label -->
-                                </div>
-
-                                <!-- Unconfined Compressive Strength (qu) input-->
-                                <div class="mb-2 row">
-                                    <label for="posy_qu" class="col-sm-5 col-form-label fw-bold">Unconfined Compressive Strength (q<sub>u</sub>)</label>
-                                    <div class="col-sm-5">
-                                        <input type="number" step="any" class="form-control" id="posy_qu" placeholder="Enter unconfined compressive strength value" required>
-                                    </div>
-                                    <label class="col-sm-2 col-form-label">kPa</label> <!-- Added col-form-label -->
-                                </div>
-
                             </div>
-
-                            <div class="d-flex justify-content-center mt-3  gap-2 fw-bold">
-                                <!-- Compute button-->
-                                <button type="submit" class="btn btn-primary calculator-btn">Compute</button>
-                                <!-- Clear button -->
-                                <button type="button" class="btn btn-secondary calculator-btn" onclick="clearPilesOnClayYForm()">Clear</button>
-                            </div>
-                        </form>
-
-                        <!-- OUTPUT VALUES SECTION -->
-                        <div class="container mt-4 output-group-border">
-                            <h4 class="mt-1 mb-3 d-flex justify-content-center">Output Values</h4>
-                            <!-- Light Border-->
-                            <div class="mb-4 p-3 bg-light rounded border"> <!-- Corrected boarder to border -->
-                                <!-- Skin Friction (Qf) Output-->
-                                <div class="mb-2 row">
-                                    <label for="posy_qf" class="col-sm-5 col-form-label fw-bold">Skin Friction (Q<sub>f</sub>)</label> <!-- Corrected subscript -->
-                                    <div class="col-sm-5">
-                                        <input type="number" class="form-control" id="posy_qf" readonly>
-                                    </div>
-                                    <label class="col-sm-2 col-form-label">kN</label> <!-- Added col-form-label -->
+                        </div> <!-- End of Calculator Column (Left Side on Large Screens) -->
+                        <div class="col-lg-4">
+                            <!-- Added padding-top to align better when stacked or side-by-side -->
+                            <div class="sidebar-images d-flex flex-column pt-lg-5 mt-4 mt-lg-0">
+                                <!-- Image 1 -->
+                                <div class="sidebar-image">
+                                    <img src="../assets/piles_on_clay_1_layer.jpg" alt="Geotechnical engineering illustration" class="img-fluid">
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -759,129 +772,142 @@
 
                 <!-- Piles on Clay (y2) Tab-->
                 <div class="tab-pane fade" id="piles-on-clay-y2" role="tabpanel" aria-labelledby="piles-on-clay-y2-tab">
-                    <div class="container mt-4"> 
-                        <form onsubmit="computePilesOnClayY2(); return false;" id="pilesOnClayY2Form">
-                            <!-- Common Inputs (shared across tabs) -->
-                            <div class="input-group-border">
+                    <div class="row">
+                        <div class="col-lg-8"> <!-- Calculator Column (Left Side on Large Screens) -->
+                            <div class="container mt-4"> 
+                                <form onsubmit="computePilesOnClayY2(); return false;" id="pilesOnClayY2Form">
+                                    <!-- Common Inputs (shared across tabs) -->
+                                    <div class="input-group-border">
 
-                                <!-- Shape of Pile input-->
-                                <div class="mb-2 row">
-                                    <label for="posy2_shape" class="col-sm-5 col-form-label fw-bold">Shape of Pile</label>
-                                    <div class="col-sm-5">
-                                        <select class="form-select" id="posy2_shape" required>
-                                            <option value="" disabled selected>Select shape</option>
-                                            <option value="1">Square</option>
-                                            <option value="2">Circle</option>
-                                        </select>
+                                        <!-- Shape of Pile input-->
+                                        <div class="mb-2 row">
+                                            <label for="posy2_shape" class="col-sm-5 col-form-label fw-bold">Shape of Pile</label>
+                                            <div class="col-sm-5">
+                                                <select class="form-select" id="posy2_shape" required>
+                                                    <option value="" disabled selected>Select shape</option>
+                                                    <option value="1">Square</option>
+                                                    <option value="2">Circle</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Side Length (s) input-->
+                                        <div class="mb-2 row">
+                                            <label for="posy2_s" class="col-sm-5 col-form-label fw-bold">Side Length (s)</label>
+                                            <div class="col-sm-5">
+                                                <input type="number" step="any" class="form-control" id="posy2_s" placeholder="Enter side length value" required>
+                                            </div>
+                                            <label class="col-sm-2">m</label>
+                                        </div>
+
+                                        <!-- Unit Weight (y) input -->
+                                        <div class="mb-2 row">
+                                            <label for="posy2_y" class="col-sm-5 col-form-label fw-bold">Unit Weight (y)</label>
+                                            <div class="col-sm-5">
+                                                <input type="number" step="any" class="form-control" id="posy2_y" placeholder="Enter unit weight value" required>
+                                            </div>
+                                            <label class="col-sm-2">kN/m<sup>3</sup></label>
+                                        </div>
+
+                                        <!-- Saturated Unit Weight (ys) input -->
+                                        <div class="mb-2 row">
+                                            <label for="posy2_ys" class="col-sm-5 col-form-label fw-bold">Saturated Unit Weight (y<sub>s</sub>)</label>
+                                            <div class="col-sm-5">
+                                                <input type="number" step="any" class="form-control" id="posy2_ys" placeholder="Enter moment saturated unit weight value" required>
+                                            </div>
+                                            <label class="col-sm-2">kN/m<sup>3</sup></label>
+                                        </div>
+
+                                        <!-- Length of Pile (L) input -->
+                                        <div class="mb-2 row">
+                                            <label for="posy2_l" class="col-sm-5 col-form-label fw-bold">Length of Pile (L)</label>
+                                            <div class="col-sm-5">
+                                                <input type="number" step="any" class="form-control" id="posy2_l" placeholder="Enter length of pile value" required>
+                                            </div>
+                                            <label class="col-sm-1">m</label>
+                                        </div>
+
+                                        <!-- Depth of Water Table (Dw) input -->
+                                        <div class="mb-2 row">
+                                            <label for="posy2_dw" class="col-sm-5 col-form-label fw-bold">Depth of Water Table (Dw)</label> 
+                                            <div class="col-sm-5">
+                                                <input type="number" step="any" class="form-control" id="posy2_dw" placeholder="Enter depth of water table value" required>
+                                            </div>
+                                            <label class="col-sm-1">m</label>
+                                        </div>
+
+                                        <!-- Cohesion (C1) input-->
+                                        <div class="mb-2 row">
+                                            <label for="posy2_c1" class="col-sm-5 col-form-label fw-bold">Cohesion (C<sub>1</sub>)</label>
+                                            <div class="col-sm-5">
+                                                <input type="number" step="any" class="form-control" id="posy2_c1" placeholder="Enter cohesion value" required>
+                                            </div>
+                                            <label class="col-sm-1">kPa</label>
+                                        </div>
+
+                                        <!-- Cohesion (C2) input-->
+                                        <div class="mb-2 row">
+                                            <label for="posy2_c2" class="col-sm-5 col-form-label fw-bold">Cohesion (C<sub>2</sub>)</label>
+                                            <div class="col-sm-5">
+                                                <input type="number" step="any" class="form-control" id="posy2_c2" placeholder="Enter unconfined compressive strength value" required>
+                                            </div>
+                                            <label class="col-sm-1">kPa</label>
+                                        </div>
+                                        
+                                        <!-- Frictional Coefficient (y1) input -->
+                                        <div class="mb-2 row">
+                                            <label for="posy2_fcy1" class="col-sm-5 col-form-label fw-bold">Frictional Coefficient (y<sub>1</sub>)</label> 
+                                            <div class="col-sm-5">
+                                                <input type="number" step="any" class="form-control" id="posy2_fcy1" placeholder="Enter Frictional Coefficient value" required>
+                                            </div>
+                                            <label class="col-sm-1"></label>
+                                        </div>
+
+                                        <!-- Frictional Coefficient (y1) input -->
+                                        <div class="mb-2 row">
+                                            <label for="posy2_fcy2" class="col-sm-5 col-form-label fw-bold">Frictional Coefficient (y<sub>2</sub>)</label> 
+                                            <div class="col-sm-5">
+                                                <input type="number" step="any" class="form-control" id="posy2_fcy2" placeholder="Enter Frictional Coefficient value" required>
+                                            </div>
+                                            <label class="col-sm-1"></label>
+                                        </div>
+
+                                    </div>
+                                    
+                                    <div class="d-flex justify-content-center mt-3  gap-2 fw-bold">
+                                        <!-- Compute button-->
+                                        <button type="submit" class="btn btn-primary calculator-btn">Compute</button>
+                                        <!-- Clear button -->
+                                        <button type="button" class="btn btn-secondary calculator-btn" onclick="clearPilesOnClayY2Form()">Clear</button>
+                                    </div>
+                                </form>
+
+                                <!-- OUTPUT VALUES SECTION -->
+                                <div class="container mt-4 output-group-border">
+                                    <h4 class="mt-1 mb-3 d-flex justify-content-center">Output Values</h4>
+                                    <!-- Light Border-->
+                                    <div class="mb-4 p-3 bg-light rounded boarder">
+                                        <!-- Skin Friction (Qf) Output-->
+                                        <div class="mb-2 row">
+                                            <label for="posy2_qf" class="col-sm-5 col-form-label fw-bold">Skin Friction (Qf)</label>
+                                            <div class="col-sm-5">
+                                                <!-- Removed bg-white text-dark -->
+                                                <input type="number" class="form-control" id="posy2_qf" readonly>
+                                            </div>
+                                            <label class="col-sm-2">kN</label>
+                                        </div>
+
                                     </div>
                                 </div>
-
-                                <!-- Side Length (s) input-->
-                                <div class="mb-2 row">
-                                    <label for="posy2_s" class="col-sm-5 col-form-label fw-bold">Side Length (s)</label>
-                                    <div class="col-sm-5">
-                                        <input type="number" step="any" class="form-control" id="posy2_s" placeholder="Enter side length value" required>
-                                    </div>
-                                    <label class="col-sm-2">m</label>
-                                </div>
-
-                                <!-- Unit Weight (y) input -->
-                                <div class="mb-2 row">
-                                    <label for="posy2_y" class="col-sm-5 col-form-label fw-bold">Unit Weight (y)</label>
-                                    <div class="col-sm-5">
-                                        <input type="number" step="any" class="form-control" id="posy2_y" placeholder="Enter unit weight value" required>
-                                    </div>
-                                    <label class="col-sm-2">kN/m<sup>3</sup></label>
-                                </div>
-
-                                <!-- Saturated Unit Weight (ys) input -->
-                                <div class="mb-2 row">
-                                    <label for="posy2_ys" class="col-sm-5 col-form-label fw-bold">Saturated Unit Weight (y<sub>s</sub>)</label>
-                                    <div class="col-sm-5">
-                                        <input type="number" step="any" class="form-control" id="posy2_ys" placeholder="Enter moment saturated unit weight value" required>
-                                    </div>
-                                    <label class="col-sm-2">kN/m<sup>3</sup></label>
-                                </div>
-
-                                <!-- Length of Pile (L) input -->
-                                <div class="mb-2 row">
-                                    <label for="posy2_l" class="col-sm-5 col-form-label fw-bold">Length of Pile (L)</label>
-                                    <div class="col-sm-5">
-                                        <input type="number" step="any" class="form-control" id="posy2_l" placeholder="Enter length of pile value" required>
-                                    </div>
-                                    <label class="col-sm-1">m</label>
-                                </div>
-
-                                <!-- Depth of Water Table (Dw) input -->
-                                <div class="mb-2 row">
-                                    <label for="posy2_dw" class="col-sm-5 col-form-label fw-bold">Depth of Water Table (Dw)</label> 
-                                    <div class="col-sm-5">
-                                        <input type="number" step="any" class="form-control" id="posy2_dw" placeholder="Enter depth of water table value" required>
-                                    </div>
-                                    <label class="col-sm-1">m</label>
-                                </div>
-
-                                <!-- Cohesion (C1) input-->
-                                <div class="mb-2 row">
-                                    <label for="posy2_c1" class="col-sm-5 col-form-label fw-bold">Cohesion (C<sub>1</sub>)</label>
-                                    <div class="col-sm-5">
-                                        <input type="number" step="any" class="form-control" id="posy2_c1" placeholder="Enter cohesion value" required>
-                                    </div>
-                                    <label class="col-sm-1">kPa</label>
-                                </div>
-
-                                <!-- Cohesion (C2) input-->
-                                <div class="mb-2 row">
-                                    <label for="posy2_c2" class="col-sm-5 col-form-label fw-bold">Cohesion (C<sub>2</sub>)</label>
-                                    <div class="col-sm-5">
-                                        <input type="number" step="any" class="form-control" id="posy2_c2" placeholder="Enter unconfined compressive strength value" required>
-                                    </div>
-                                    <label class="col-sm-1">kPa</label>
-                                </div>
-                                
-                                <!-- Adhesion Factor (α) input -->
-                                <div class="mb-2 row">
-                                    <label for="posy2_a1" class="col-sm-5 col-form-label fw-bold">Adhesion Factor (α<sub>1</sub>)</label> 
-                                    <div class="col-sm-5">
-                                        <input type="number" step="any" class="form-control" id="posy2_a1" placeholder="Enter Adhesion Factor value" required>
-                                    </div>
-                                    <label class="col-sm-1"></label>
-                                </div>
-
-                                <!-- Adhesion Factor (α) input -->
-                                <div class="mb-2 row">
-                                    <label for="posy2_a1" class="col-sm-5 col-form-label fw-bold">Adhesion Factor (α<sub>2</sub>)</label> 
-                                    <div class="col-sm-5">
-                                        <input type="number" step="any" class="form-control" id="posy2_a1" placeholder="Enter Adhesion Factor value" required>
-                                    </div>
-                                    <label class="col-sm-1"></label>
-                                </div>
-
                             </div>
-                            
-                            <div class="d-flex justify-content-center mt-3  gap-2 fw-bold">
-                                <!-- Compute button-->
-                                <button type="submit" class="btn btn-primary calculator-btn">Compute</button>
-                                <!-- Clear button -->
-                                <button type="button" class="btn btn-secondary calculator-btn" onclick="clearPilesOnClayY2Form()">Clear</button>
-                            </div>
-                        </form>
-
-                        <!-- OUTPUT VALUES SECTION -->
-                        <div class="container mt-4 output-group-border">
-                            <h4 class="mt-1 mb-3 d-flex justify-content-center">Output Values</h4>
-                            <!-- Light Border-->
-                            <div class="mb-4 p-3 bg-light rounded boarder">
-                                <!-- Skin Friction (Qf) Output-->
-                                <div class="mb-2 row">
-                                    <label for="posy2_qf" class="col-sm-5 col-form-label fw-bold">Skin Friction (Qf)</label>
-                                    <div class="col-sm-5">
-                                        <!-- Removed bg-white text-dark -->
-                                        <input type="number" class="form-control" id="posy2_qf" readonly>
-                                    </div>
-                                    <label class="col-sm-2">kN</label>
+                        </div> <!-- End of Calculator Column (Left Side on Large Screens) -->
+                        <div class="col-lg-4">
+                            <!-- Added padding-top to align better when stacked or side-by-side -->
+                            <div class="sidebar-images d-flex flex-column pt-lg-5 mt-4 mt-lg-0">
+                                <!-- Image 1 -->
+                                <div class="sidebar-image">
+                                    <img src="../assets/piles_on_clay_2_layers.jpg" alt="Geotechnical engineering illustration" class="img-fluid">
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -889,95 +915,108 @@
 
                 <!-- Piles on Clay (b) Tab-->
                 <div class="tab-pane fade" id="piles-on-clay-b" role="tabpanel" aria-labelledby="piles-on-clay-b-tab">
-                    <div class="container mt-4">
-                        <form onsubmit="computePilesOnClayB(); return false;" id="pilesOnClayBForm">
-                            <!-- Common Inputs (shared across tabs) -->
-                            <div class="input-group-border">
+                    <div class="row">
+                        <div class="col-lg-8"> <!-- Calculator Column (Left Side on Large Screens) -->
+                            <div class="container mt-4">
+                                <form onsubmit="computePilesOnClayB(); return false;" id="pilesOnClayBForm">
+                                    <!-- Common Inputs (shared across tabs) -->
+                                    <div class="input-group-border">
 
-                                <!-- Shape of Pile input-->
-                                <div class="mb-2 row">
-                                    <label for="posb_shape" class="col-sm-5 col-form-label fw-bold">Shape of Pile</label>
-                                    <div class="col-sm-5">
-                                        <select class="form-select" id="posb_shape" required>
-                                            <option value="" disabled selected>Select shape</option>
-                                            <option value="1">Square</option>
-                                            <option value="2">Circle</option>
-                                        </select>
+                                        <!-- Shape of Pile input-->
+                                        <div class="mb-2 row">
+                                            <label for="posb_shape" class="col-sm-5 col-form-label fw-bold">Shape of Pile</label>
+                                            <div class="col-sm-5">
+                                                <select class="form-select" id="posb_shape" required>
+                                                    <option value="" disabled selected>Select shape</option>
+                                                    <option value="1">Square</option>
+                                                    <option value="2">Circle</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Side Length (s) input-->
+                                        <div class="mb-2 row">
+                                            <label for="posb_s" class="col-sm-5 col-form-label fw-bold">Side Length (s)</label>
+                                            <div class="col-sm-5">
+                                                <!-- CORRECTED: id changed from posv_s to posb_s -->
+                                                <input type="number" step="any" class="form-control" id="posb_s" placeholder="Enter side length value" required>
+                                            </div>
+                                            <label class="col-sm-2">m</label>
+                                        </div>
+
+                                        <!-- Unit Weight (y) input -->
+                                        <div class="mb-2 row">
+                                            <label for="posb_y" class="col-sm-5 col-form-label fw-bold">Unit Weight (y)</label>
+                                            <div class="col-sm-5">
+                                                <input type="number" step="any" class="form-control" id="posb_y" placeholder="Enter unit weight value" required>
+                                            </div>
+                                            <label class="col-sm-2">kN/m<sup>3</sup></label>
+                                        </div>
+
+                                        <!-- Length of Pile (L) input -->
+                                        <div class="mb-2 row">
+                                            <label for="posb_l" class="col-sm-5 col-form-label fw-bold">Length of Pile (L)</label>
+                                            <div class="col-sm-5">
+                                                <input type="number" step="any" class="form-control" id="posb_l" placeholder="Enter length of pile value" required>
+                                            </div>
+                                            <label class="col-sm-1">m</label>
+                                        </div>
+
+                                        <!-- Drained Friction Angle (ϑR) input -->
+                                        <div class="mb-2 row">
+                                            <label for="posb_dfa" class="col-sm-5 col-form-label fw-bold">Drained Friction Angle (ϑR)</label>
+                                            <div class="col-sm-5">
+                                                <input type="number" step="any" class="form-control" id="posb_dfa" placeholder="Enter drained friction angle value" required>
+                                            </div>
+                                            <label class="col-sm-1">deg</label> <!-- Added unit label assuming degrees -->
+                                        </div>
+
+                                        <!-- Over Consolidated Ratio input-->
+                                        <div class="mb-2 row">
+                                            <label for="posb_ocr" class="col-sm-5 col-form-label fw-bold">Over Consolidated Ratio</label>
+                                            <div class="col-sm-5">
+                                                <input type="number" step="any" class="form-control" id="posb_ocr" placeholder="Enter over consolidated ratio value" required>
+                                            </div>
+                                            <label class="col-sm-1"></label> <!-- Removed kPa unit as OCR is typically dimensionless -->
+                                        </div>
+
+                                    </div>
+
+                                    <div class="d-flex justify-content-center mt-3  gap-2 fw-bold">
+                                        <!-- Compute button-->
+                                        <button type="submit" class="btn btn-primary calculator-btn">Compute</button>
+                                        <!-- Clear button -->
+                                        <button type="button" class="btn btn-secondary calculator-btn" onclick="clearPilesOnClayBForm()">Clear</button>
+                                    </div>
+                                </form>
+
+                                <!-- OUTPUT VALUES SECTION -->
+                                <div class="container mt-4 output-group-border">
+                                    <h4 class="mt-1 mb-3 d-flex justify-content-center">Output Values</h4>
+                                    <!-- Light Border-->
+                                    <div class="mb-4 p-3 bg-light rounded boarder">
+                                        <!-- Skin Friction (Qf) Output-->
+                                        <div class="mb-2 row">
+                                            <!-- CORRECTED: 'for' attribute changed from posy_qf to posb_qf -->
+                                            <label for="posb_qf" class="col-sm-5 col-form-label fw-bold">Skin Friction (Qf)</label>
+                                            <div class="col-sm-5">
+                                                <!-- CORRECTED: id changed from posy_qf to posb_qf -->
+                                                <input type="number" class="form-control" id="posb_qf" readonly>
+                                            </div>
+                                            <label class="col-sm-2">kN</label>
+                                        </div>
+
                                     </div>
                                 </div>
-
-                                <!-- Side Length (s) input-->
-                                <div class="mb-2 row">
-                                    <label for="posb_s" class="col-sm-5 col-form-label fw-bold">Side Length (s)</label>
-                                    <div class="col-sm-5">
-                                        <!-- CORRECTED: id changed from posv_s to posb_s -->
-                                        <input type="number" step="any" class="form-control" id="posb_s" placeholder="Enter side length value" required>
-                                    </div>
-                                    <label class="col-sm-2">m</label>
-                                </div>
-
-                                <!-- Unit Weight (y) input -->
-                                <div class="mb-2 row">
-                                    <label for="posb_y" class="col-sm-5 col-form-label fw-bold">Unit Weight (y)</label>
-                                    <div class="col-sm-5">
-                                        <input type="number" step="any" class="form-control" id="posb_y" placeholder="Enter unit weight value" required>
-                                    </div>
-                                    <label class="col-sm-2">kN/m<sup>3</sup></label>
-                                </div>
-
-                                <!-- Length of Pile (L) input -->
-                                <div class="mb-2 row">
-                                    <label for="posb_l" class="col-sm-5 col-form-label fw-bold">Length of Pile (L)</label>
-                                    <div class="col-sm-5">
-                                        <input type="number" step="any" class="form-control" id="posb_l" placeholder="Enter length of pile value" required>
-                                    </div>
-                                    <label class="col-sm-1">m</label>
-                                </div>
-
-                                <!-- Drained Friction Angle (ϑR) input -->
-                                <div class="mb-2 row">
-                                    <label for="posb_dfa" class="col-sm-5 col-form-label fw-bold">Drained Friction Angle (ϑR)</label>
-                                    <div class="col-sm-5">
-                                        <input type="number" step="any" class="form-control" id="posb_dfa" placeholder="Enter drained friction angle value" required>
-                                    </div>
-                                    <label class="col-sm-1">deg</label> <!-- Added unit label assuming degrees -->
-                                </div>
-
-                                <!-- Over Consolidated Ratio input-->
-                                <div class="mb-2 row">
-                                    <label for="posb_ocr" class="col-sm-5 col-form-label fw-bold">Over Consolidated Ratio</label>
-                                    <div class="col-sm-5">
-                                        <input type="number" step="any" class="form-control" id="posb_ocr" placeholder="Enter over consolidated ratio value" required>
-                                    </div>
-                                    <label class="col-sm-1"></label> <!-- Removed kPa unit as OCR is typically dimensionless -->
-                                </div>
-
                             </div>
-
-                            <div class="d-flex justify-content-center mt-3  gap-2 fw-bold">
-                                <!-- Compute button-->
-                                <button type="submit" class="btn btn-primary calculator-btn">Compute</button>
-                                <!-- Clear button -->
-                                <button type="button" class="btn btn-secondary calculator-btn" onclick="clearPilesOnClayBForm()">Clear</button>
-                            </div>
-                        </form>
-
-                        <!-- OUTPUT VALUES SECTION -->
-                        <div class="container mt-4 output-group-border">
-                            <h4 class="mt-1 mb-3 d-flex justify-content-center">Output Values</h4>
-                            <!-- Light Border-->
-                            <div class="mb-4 p-3 bg-light rounded boarder">
-                                <!-- Skin Friction (Qf) Output-->
-                                <div class="mb-2 row">
-                                    <!-- CORRECTED: 'for' attribute changed from posy_qf to posb_qf -->
-                                    <label for="posb_qf" class="col-sm-5 col-form-label fw-bold">Skin Friction (Qf)</label>
-                                    <div class="col-sm-5">
-                                        <!-- CORRECTED: id changed from posy_qf to posb_qf -->
-                                        <input type="number" class="form-control" id="posb_qf" readonly>
-                                    </div>
-                                    <label class="col-sm-2">kN</label>
+                        </div>
+                        <div class="col-lg-4">
+                            <!-- Added padding-top to align better when stacked or side-by-side -->
+                            <div class="sidebar-images d-flex flex-column pt-lg-5 mt-4 mt-lg-0">
+                                <!-- Image 1 -->
+                                <div class="sidebar-image">
+                                    <img src="../assets/piles_on_clay_1_layer.jpg" alt="Geotechnical engineering illustration" class="img-fluid">
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -985,123 +1024,135 @@
 
                 <!-- Piles on Clay (b2) Tab-->
                 <div class="tab-pane fade" id="piles-on-clay-b2" role="tabpanel" aria-labelledby="piles-on-clay-b2-tab">
-                    <!-- Piles on Clay (b2) Tab-->
-                    <div class="container mt-4">
-                        <form onsubmit="computePilesOnClayB2(); return false;" id="pilesOnClayB2Form">
-                            <!-- Common Inputs (shared across tabs) -->
-                            <div class="input-group-border">
+                    <div class="row">
+                        <div class="col-lg-8"> <!-- Calculator Column (Left Side on Large Screens) -->
+                            <div class="container mt-4">
+                                <form onsubmit="computePilesOnClayB2(); return false;" id="pilesOnClayB2Form">
+                                    <!-- Common Inputs (shared across tabs) -->
+                                    <div class="input-group-border">
 
-                                <!-- Shape of Pile input-->
-                                <div class="mb-2 row">
-                                    <label for="posb2_shape" class="col-sm-5 col-form-label fw-bold">Shape of Pile</label>
-                                    <div class="col-sm-5">
-                                        <select class="form-select" id="posb2_shape" required>
-                                            <option value="" disabled selected>Select shape</option>
-                                            <option value="1">Square</option>
-                                            <option value="2">Circle</option>
-                                        </select>
+                                        <!-- Shape of Pile input-->
+                                        <div class="mb-2 row">
+                                            <label for="posb2_shape" class="col-sm-5 col-form-label fw-bold">Shape of Pile</label>
+                                            <div class="col-sm-5">
+                                                <select class="form-select" id="posb2_shape" required>
+                                                    <option value="" disabled selected>Select shape</option>
+                                                    <option value="1">Square</option>
+                                                    <option value="2">Circle</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Diameter (d) input-->
+                                        <div class="mb-2 row">
+                                            <label for="posb2_d" class="col-sm-5 col-form-label fw-bold">Diameter / Side (d)</label> <!-- Label adjusted slightly for clarity with square shape -->
+                                            <div class="col-sm-5">
+                                                <input type="number" step="any" class="form-control" id="posb2_d" placeholder="Enter diameter or side length" required> <!-- Placeholder adjusted -->
+                                            </div>
+                                            <label class="col-sm-2">m</label>
+                                        </div>
+
+                                        <!-- Unit Weight (y) input -->
+                                        <div class="mb-2 row">
+                                            <label for="posb2_y" class="col-sm-5 col-form-label fw-bold">Unit Weight (γ)</label> <!-- Using gamma symbol for consistency -->
+                                            <div class="col-sm-5">
+                                                <input type="number" step="any" class="form-control" id="posb2_y" placeholder="Enter unit weight value" required>
+                                            </div>
+                                            <label class="col-sm-2">kN/m<sup>3</sup></label>
+                                        </div>
+
+                                        <!-- Saturated Unit Weight (ys) input -->
+                                        <div class="mb-2 row">
+                                            <label for="posb2_ys" class="col-sm-5 col-form-label fw-bold">Saturated Unit Weight (γ<sub>sat</sub>)</label> <!-- Using gamma_sat symbol -->
+                                            <div class="col-sm-5">
+                                                <input type="number" step="any" class="form-control" id="posb2_ys" placeholder="Enter saturated unit weight value" required> <!-- Placeholder text improved -->
+                                            </div>
+                                            <label class="col-sm-2">kN/m<sup>3</sup></label>
+                                        </div>
+
+                                        <!-- Length of Pile (L) input -->
+                                        <div class="mb-2 row">
+                                            <label for="posb2_l" class="col-sm-5 col-form-label fw-bold">Length of Pile (L)</label>
+                                            <div class="col-sm-5">
+                                                <input type="number" step="any" class="form-control" id="posb2_l" placeholder="Enter length of pile value" required>
+                                            </div>
+                                            <label class="col-sm-1">m</label>
+                                        </div>
+
+                                        <!-- Depth of Water Table (Dw) input -->
+                                        <div class="mb-2 row">
+                                            <label for="posb2_dw" class="col-sm-5 col-form-label fw-bold">Depth of Water Table (D<sub>w</sub>)</label> <!-- Subscript added -->
+                                            <div class="col-sm-5">
+                                                <input type="number" step="any" class="form-control" id="posb2_dw" placeholder="Enter depth of water table value" required>
+                                            </div>
+                                            <label class="col-sm-1">m</label>
+                                        </div>
+
+                                        <!-- Drained Friction Angle Layer 1 input-->
+                                        <div class="mb-2 row">
+                                            <!-- Optional: Corrected label text -->
+                                            <label for="posb2_dfa1" class="col-sm-5 col-form-label fw-bold">Drained Friction Angle Layer 1 (φ'<sub>1</sub>)</label>
+                                            <div class="col-sm-5">
+                                                <input type="number" step="any" class="form-control" id="posb2_dfa1" placeholder="Enter drained friction angle layer 1 value" required>
+                                            </div>
+                                            <label class="col-sm-1">deg</label> <!-- Changed unit to deg -->
+                                        </div>
+
+                                        <!-- Drained Friction Angle Layer 2 input-->
+                                        <div class="mb-2 row">
+                                            <!-- Optional: Corrected label text -->
+                                            <label for="posb2_dfa2" class="col-sm-5 col-form-label fw-bold">Drained Friction Angle Layer 2 (φ'<sub>2</sub>)</label>
+                                            <div class="col-sm-5">
+                                                <input type="number" step="any" class="form-control" id="posb2_dfa2" placeholder="Enter drained friction angle layer 2 value" required>
+                                            </div>
+                                            <label class="col-sm-1">deg</label> <!-- Changed unit to deg -->
+                                        </div>
+
+                                        <!-- Over Consolidated Ratio input -->
+                                        <div class="mb-2 row">
+                                            <!-- Optional: Corrected label text -->
+                                            <label for="posb2_ocr" class="col-sm-5 col-form-label fw-bold">Over Consolidation Ratio (OCR)</label>
+                                            <div class="col-sm-5">
+                                                <input type="number" step="any" class="form-control" id="posb2_ocr" placeholder="Enter over consolidation ratio value" required>
+                                            </div>
+                                            <label class="col-sm-1"></label> <!-- OCR is dimensionless -->
+                                        </div>
+
+                                    </div>
+
+                                    <div class="d-flex justify-content-center mt-3  gap-2 fw-bold">
+                                        <!-- Compute button-->
+                                        <button type="submit" class="btn btn-primary calculator-btn">Compute</button>
+                                        <!-- Clear button -->
+                                        <button type="button" class="btn btn-secondary calculator-btn" onclick="clearPilesOnClayB2Form()">Clear</button>
+                                    </div>
+                                </form>
+
+                                <!-- OUTPUT VALUES SECTION -->
+                                <div class="container mt-4 output-group-border">
+                                    <h4 class="mt-1 mb-3 d-flex justify-content-center">Output Values</h4>
+                                    <!-- Light Border-->
+                                    <div class="mb-4 p-3 bg-light rounded boarder">
+                                        <!-- Skin Friction (Qf) Output-->
+                                        <div class="mb-2 row">
+                                            <label for="posb2_qf" class="col-sm-5 col-form-label fw-bold">Skin Friction (Q<sub>f</sub>)</label> <!-- Subscript added -->
+                                            <div class="col-sm-5">
+                                                <input type="number" class="form-control" id="posb2_qf" readonly>
+                                            </div>
+                                            <label class="col-sm-2">kN</label>
+                                        </div>
+
                                     </div>
                                 </div>
-
-                                <!-- Diameter (d) input-->
-                                <div class="mb-2 row">
-                                    <label for="posb2_d" class="col-sm-5 col-form-label fw-bold">Diameter / Side (d)</label> <!-- Label adjusted slightly for clarity with square shape -->
-                                    <div class="col-sm-5">
-                                        <input type="number" step="any" class="form-control" id="posb2_d" placeholder="Enter diameter or side length" required> <!-- Placeholder adjusted -->
-                                    </div>
-                                    <label class="col-sm-2">m</label>
-                                </div>
-
-                                <!-- Unit Weight (y) input -->
-                                <div class="mb-2 row">
-                                    <label for="posb2_y" class="col-sm-5 col-form-label fw-bold">Unit Weight (γ)</label> <!-- Using gamma symbol for consistency -->
-                                    <div class="col-sm-5">
-                                        <input type="number" step="any" class="form-control" id="posb2_y" placeholder="Enter unit weight value" required>
-                                    </div>
-                                    <label class="col-sm-2">kN/m<sup>3</sup></label>
-                                </div>
-
-                                <!-- Saturated Unit Weight (ys) input -->
-                                <div class="mb-2 row">
-                                    <label for="posb2_ys" class="col-sm-5 col-form-label fw-bold">Saturated Unit Weight (γ<sub>sat</sub>)</label> <!-- Using gamma_sat symbol -->
-                                    <div class="col-sm-5">
-                                        <input type="number" step="any" class="form-control" id="posb2_ys" placeholder="Enter saturated unit weight value" required> <!-- Placeholder text improved -->
-                                    </div>
-                                    <label class="col-sm-2">kN/m<sup>3</sup></label>
-                                </div>
-
-                                <!-- Length of Pile (L) input -->
-                                <div class="mb-2 row">
-                                    <label for="posb2_l" class="col-sm-5 col-form-label fw-bold">Length of Pile (L)</label>
-                                    <div class="col-sm-5">
-                                        <input type="number" step="any" class="form-control" id="posb2_l" placeholder="Enter length of pile value" required>
-                                    </div>
-                                    <label class="col-sm-1">m</label>
-                                </div>
-
-                                <!-- Depth of Water Table (Dw) input -->
-                                <div class="mb-2 row">
-                                    <label for="posb2_dw" class="col-sm-5 col-form-label fw-bold">Depth of Water Table (D<sub>w</sub>)</label> <!-- Subscript added -->
-                                    <div class="col-sm-5">
-                                        <input type="number" step="any" class="form-control" id="posb2_dw" placeholder="Enter depth of water table value" required>
-                                    </div>
-                                    <label class="col-sm-1">m</label>
-                                </div>
-
-                                <!-- Drained Friction Angle Layer 1 input-->
-                                <div class="mb-2 row">
-                                    <!-- Optional: Corrected label text -->
-                                    <label for="posb2_dfa1" class="col-sm-5 col-form-label fw-bold">Drained Friction Angle Layer 1 (φ'<sub>1</sub>)</label>
-                                    <div class="col-sm-5">
-                                        <input type="number" step="any" class="form-control" id="posb2_dfa1" placeholder="Enter drained friction angle layer 1 value" required>
-                                    </div>
-                                    <label class="col-sm-1">deg</label> <!-- Changed unit to deg -->
-                                </div>
-
-                                <!-- Drained Friction Angle Layer 2 input-->
-                                <div class="mb-2 row">
-                                    <!-- Optional: Corrected label text -->
-                                    <label for="posb2_dfa2" class="col-sm-5 col-form-label fw-bold">Drained Friction Angle Layer 2 (φ'<sub>2</sub>)</label>
-                                    <div class="col-sm-5">
-                                        <input type="number" step="any" class="form-control" id="posb2_dfa2" placeholder="Enter drained friction angle layer 2 value" required>
-                                    </div>
-                                    <label class="col-sm-1">deg</label> <!-- Changed unit to deg -->
-                                </div>
-
-                                <!-- Over Consolidated Ratio input -->
-                                <div class="mb-2 row">
-                                    <!-- Optional: Corrected label text -->
-                                    <label for="posb2_ocr" class="col-sm-5 col-form-label fw-bold">Over Consolidation Ratio (OCR)</label>
-                                    <div class="col-sm-5">
-                                        <input type="number" step="any" class="form-control" id="posb2_ocr" placeholder="Enter over consolidation ratio value" required>
-                                    </div>
-                                    <label class="col-sm-1"></label> <!-- OCR is dimensionless -->
-                                </div>
-
                             </div>
-
-                            <div class="d-flex justify-content-center mt-3  gap-2 fw-bold">
-                                <!-- Compute button-->
-                                <button type="submit" class="btn btn-primary calculator-btn">Compute</button>
-                                <!-- Clear button -->
-                                <button type="button" class="btn btn-secondary calculator-btn" onclick="clearPilesOnClayB2Form()">Clear</button>
-                            </div>
-                        </form>
-
-                        <!-- OUTPUT VALUES SECTION -->
-                        <div class="container mt-4 output-group-border">
-                            <h4 class="mt-1 mb-3 d-flex justify-content-center">Output Values</h4>
-                            <!-- Light Border-->
-                            <div class="mb-4 p-3 bg-light rounded boarder">
-                                <!-- Skin Friction (Qf) Output-->
-                                <div class="mb-2 row">
-                                    <label for="posb2_qf" class="col-sm-5 col-form-label fw-bold">Skin Friction (Q<sub>f</sub>)</label> <!-- Subscript added -->
-                                    <div class="col-sm-5">
-                                        <input type="number" class="form-control" id="posb2_qf" readonly>
-                                    </div>
-                                    <label class="col-sm-2">kN</label>
+                        </div> <!-- End of Calculator Column (Left Side on Large Screens) -->
+                        <div class="col-lg-4">
+                            <!-- Added padding-top to align better when stacked or side-by-side -->
+                            <div class="sidebar-images d-flex flex-column pt-lg-5 mt-4 mt-lg-0">
+                                <!-- Image 1 -->
+                                <div class="sidebar-image">
+                                    <img src="../assets/piles_on_clay_2_layers.jpg" alt="Geotechnical engineering illustration" class="img-fluid">
                                 </div>
-
                             </div>
                         </div>
                     </div>

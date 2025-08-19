@@ -91,19 +91,19 @@ function compute() {
         var P03 = qall03 * (b * b);
 
         //! Strip foundation display results
-        document.getElementById("qu01").value = qu01;
-        document.getElementById("qall01").value = qall01;
-        document.getElementById("p01").value = P01;
+        document.getElementById("qu01").value = qu01.toFixed(5);
+        document.getElementById("qall01").value = qall01.toFixed(5);
+        document.getElementById("p01").value = P01.toFixed(5);
 
         //! Square foundation display results
-        document.getElementById("qu02").value = qu02;
-        document.getElementById("qall02").value = qall02;
-        document.getElementById("p02").value = P02;
+        document.getElementById("qu02").value = qu02.toFixed(5);
+        document.getElementById("qall02").value = qall02.toFixed(5);
+        document.getElementById("p02").value = P02.toFixed(5);
 
         //! Circular foundation display results
-        document.getElementById("qu03").value = qu03;
-        document.getElementById("qall03").value = qall03;
-        document.getElementById("p03").value = P03;
+        document.getElementById("qu03").value = qu03.toFixed(5);
+        document.getElementById("qall03").value = qall03.toFixed(5);
+        document.getElementById("p03").value = P03.toFixed(5);
     } else if (shearType === "2") {
         //! Strip foundation computation
         //var qu11 = ((2 / 3) * c * nc) + (q * nq) + (0.5 * y * b * ny); // v1
@@ -122,19 +122,19 @@ function compute() {
         var P13 = qall13 * (b * b);
 
         //! Strip foundation display results
-        document.getElementById("qu01").value = qu11;
-        document.getElementById("qall01").value = qall11;
-        document.getElementById("p01").value = P11;
+        document.getElementById("qu01").value = qu11.toFixed(5);
+        document.getElementById("qall01").value = qall11.toFixed(5);
+        document.getElementById("p01").value = P11.toFixed(5);
 
         //! Square foundation display results
-        document.getElementById("qu02").value = qu12;
-        document.getElementById("qall02").value = qall12;
-        document.getElementById("p02").value = P12;
+        document.getElementById("qu02").value = qu12.toFixed(5);
+        document.getElementById("qall02").value = qall12.toFixed(5);
+        document.getElementById("p02").value = P12.toFixed(5);
 
         //! Circular foundation display results
-        document.getElementById("qu03").value = qu13;
-        document.getElementById("qall03").value = qall13;
-        document.getElementById("p03").value = P13;
+        document.getElementById("qu03").value = qu13.toFixed(5);
+        document.getElementById("qall03").value = qall13.toFixed(5);
+        document.getElementById("p03").value = P13.toFixed(5);
     } else {
         alert("Please select a shear failure type");
     }

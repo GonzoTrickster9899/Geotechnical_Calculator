@@ -37,20 +37,20 @@ function computePilesOnSand() {
     // Step 2: Solve Effective Vertical Pressure at Pile Tip (considering critical depth)
 
     // Calculate effective stress at critical depth (Dc)
-    var pos_pv1 = pos_dw * pos_dc;
+    var pos_pv1 = pos_dw * pos_y;
 
     // Calculate effective stress at depth L (L > Dc)
     var pos_pv2 = pos_pv1 + (pos_ys - 9.81) * (pos_dc - pos_dw);
 
+    var pos_pvt;
     if(pos_dw == 0 && pos_ys == 0){
-        var pos_pvt = pos_dc * pos_y; // Effective vertical stress at depth L (L > Dc)
+        pos_pvt = pos_dc * pos_y; // Effective vertical stress at depth L (L > Dc)
     } else {
-        var pos_pvt = pos_pv2;
+        pos_pvt = pos_pv2;
     }
 
     // Step 3: Point Bearing Capacity (Qb)
     var pos_qb;
-
     if (pos_shape == 2) {
         pos_qb = pos_pvt * pos_nq * 0.25 * Math.PI * Math.pow(pos_d, 2); // Using original calculation structure
     } else if (pos_shape == 1) {
@@ -76,9 +76,9 @@ function computePilesOnSand() {
     // Step 5: Area of Vertical Effective Stress Diagram along Pile Shaft (Apv)
     var pos_apv; // This represents the integral q'(z) dz from 0 to L
     if (pos_ys == 0 && pos_dw == 0) { 
-        pos_apv = (pos_pvt * pos_dc / 2) + pos_pvt * (pos_l - pos_dc);
+        pos_apv = ((pos_pvt * pos_dc / 2) + pos_pvt * (pos_l - pos_dc));
     } else { 
-        pos_apv = (pos_pv1 * (pos_dw) / 2) + ((pos_pv1 + pos_pv2) / 2) * (pos_pv2) * (pos_l - pos_dc);
+        pos_apv = ((pos_pv1 * (pos_dw) / 2) + ((pos_pv1 + pos_pv2) / 2) * (pos_dc - pos_dw) + (pos_pv2) * (pos_l - pos_dc));
     }
      // Ensure area isn't negative
     pos_apv = Math.max(0, pos_apv);
@@ -139,10 +139,10 @@ function computePilesOnClayA() {
     var posa_qf; // Variable for Frictional Capacity (Qf)
 
     // Step 1: End Bearing Capacity (Qb)
-    if (posa_shape == 1) { // Circle
+    if (posa_shape == 2) { // Circle
         var posa_qb = (posa_qu_input_val / 2) * posa_nc * Math.PI * Math.pow(posa_s, 2) * 0.25;
-    } else if (posa_shape == 2) { // Square
-        var posa_qb = (posa_qu_input_val / 2) * Math.pow(posa_s, 2); 
+    } else if (posa_shape == 1) { // Square
+        var posa_qb = (posa_qu_input_val / 2) * posa_nc * Math.pow(posa_s, 2); 
     } else {
         alert("Invalid shape selected.");
     }
@@ -204,13 +204,14 @@ function computePilesOnClayA2() {
     var posa2_c1 = parseFloat(document.getElementById("posa2_c1").value); // Cohesion (C1)
     var posa2_c2 = parseFloat(document.getElementById("posa2_c2").value); // Cohesion (C2)
     var posa2_a1 = parseFloat(document.getElementById("posa2_a1").value); // Adhesion Factor (a1)
-    var posa2_a2 = parseFloat(document.getElementById("posa2_a1").value); // Adhesion Factor (a2)
+    var posa2_a2 = parseFloat(document.getElementById("posa2_a2").value); // Adhesion Factor (a2)
 
     // Step 1: Skin Resistance
+    var posa2_qf
     if (posa2_shape == 2){
-        var posa2_qf = (posa2_a1 * posa2_c1) * (Math.PI * posa2_s * posa2_dw) + (posa2_a2 * posa2_c2) * (Math.PI * posa2_s) * (posa2_l - posa2_dw);
+        posa2_qf = (posa2_a1 * posa2_c1) * ((Math.PI * posa2_s) * posa2_dw) + (posa2_a2 * posa2_c2) * (Math.PI * posa2_s) * (posa2_l - posa2_dw);
     } else if (posa2_shape == 1){
-        var posa2_qf = (posa2_a1 * posa2_c1) * (4 * posa2_s * posa2_dw) + (posa2_a2 * posa2_c2) * (4 * posa2_s) * (posa2_l - posa2_dw);
+        var posa2_qf = (posa2_a1 * posa2_c1) * (4 * posa2_s) + (posa2_a2 * posa2_c2) * (4 * posa2_s) * (posa2_l - posa2_dw);
     }
 
     document.getElementById("posa2_qf").value = posa2_qf.toFixed(3);
@@ -298,8 +299,8 @@ function computePilesOnClayY2() {
     var posy2_dw = parseFloat(document.getElementById("posy2_dw").value); // Depth of Water Table (Dw)
     var posy2_c1 = parseFloat(document.getElementById("posy2_c1").value); // Cohesion (C1)
     var posy2_c2 = parseFloat(document.getElementById("posy2_c2").value); // Cohesion (C2)
-    var posy2_fcy1 = parseFloat(document.getElementById("posy2_a1").value); // Frictional Coefficient (y1)
-    var posy2_fcy2 = parseFloat(document.getElementById("posy2_a1").value); // Fricitional Coeffiicient (y2)
+    var posy2_fcy1 = parseFloat(document.getElementById("posy2_fcy1").value); // Frictional Coefficient (y1)
+    var posy2_fcy2 = parseFloat(document.getElementById("posy2_fcy2").value); // Fricitional Coeffiicient (y2)
 
     // Step 1: Perimeter of Pile
     if (posy2_shape == 2){
@@ -498,16 +499,17 @@ function computePilesOnClayB2() {
 
     // Step 3: Skin Friction Below Water Table (Qf2)
     // Length below water table
-    const length_below_wt = posb2_l - posb2_dw;
+    //const length_below_wt = posb2_l - posb2_dw;
     // Average vertical effective stress below WT
     // Stress at WT + average buoyant stress increase below WT
     // = (gamma * Dw) + (gamma_buoyant * length_below / 2)
     // = (gamma * Dw) + ( (gamma_sat - gamma_w) * length_below / 2 )
-    const avg_eff_stress_below = (posb2_y * posb2_dw) + ((posb2_ys - UNIT_WEIGHT_WATER) * (length_below_wt / 2));
+    //const avg_eff_stress_below = (posb2_y * posb2_dw) + ((posb2_ys - UNIT_WEIGHT_WATER) * (length_below_wt / 2));
+    ///const avg_eff_stress_below = Math.sqrt(posb2_ocr) * (posb2_y * posb2_dw) + ((posb2_ys - UNIT_WEIGHT_WATER) * (length_below_wt / 2));
     // Beta method coefficient for layer 2
-    const beta2 = (1 - Math.sin(rad_dfa2)) * Math.tan(rad_dfa2);
-    const posb2_qf2 = posb2_p * length_below_wt * beta2 * avg_eff_stress_below;
-
+    //const beta2 = (1 - Math.sin(rad_dfa2)) * Math.tan(rad_dfa2);
+    const posb2_qf2 = posb2_p * (posb2_l - posb2_dw) * (1 - Math.sin(rad_dfa2)) * Math.tan(rad_dfa2) * Math.sqrt(posb2_ocr) * (posb2_y * posb2_dw + (posb2_ys - UNIT_WEIGHT_WATER) * (posb2_l - posb2_dw) / 2);
+    //document.getElementById("posb2_qf2").value = posb2_qf2.toFixed(3);
     // Step 4: Total Skin Friction (Qf)
     // Check if qf1 or qf2 resulted in NaN (can happen with tan(90 degrees))
      let posb2_qf;
@@ -557,25 +559,23 @@ function computePilesActIndivdually() {
     var pai_c = parseFloat(document.getElementById("pai_c").value); // Cohesion (C)
     var pai_a = parseFloat(document.getElementById("pai_a").value); // Adhesion Factor (α)
     var pai_nc = parseFloat(document.getElementById("pai_nc").value); // Bearing Capacity Factor (Nc)
-    var pai_n = parseFloat(document.getElementById("pai_n").value); // Bearing Capacity Factor (Nq)
-    var pai_m = parseFloat(document.getElementById("pai_m").value); // Lateral Pressure Factor (K)
+    var pai_n = parseFloat(document.getElementById("pai_n").value); // Number of Piles (n)
     var pai_fs = parseFloat(document.getElementById("pai_fs").value); // Factor of Safety (F.S.)
+    var pai_m = parseFloat(document.getElementById("pai_m").value); // Number of Column (m)
+    var pai_r = parseFloat(document.getElementById("pai_r").value); // Number of Rows (n)
 
-    // Step 1: Solve Critical Depth (Dc)
-    // Use loose equality (==) for comparison as select values are strings
+    // Step 1: Perimeter
+
     var pai_p;
-    if (pai_shape == 2) { // Dense Sand (Value "2")
-        // Corrected variable name from pos_s to pos_d
-        pai_p = pai_s * 20;
-    } else if (pai_shape == 1) { // Loose Sand (Value "1")
-        // Corrected variable name from pos_s to pos_d
-        pai_p = pai_s * 10;
+    if (pai_shape == 2) { 
+        pai_p = pai_s * Math.PI;
+    } else if (pai_shape == 1) {
+        pai_p = pai_s * 4;
     } else {
-        // Handle case where sand type is not selected or invalid
-        alert("Invalid sand type selected.");
+        alert("Invalid shape selected.");
         return;
     }
-
+    
     // Step 2: Point Bearing Capacity
 
     if (pai_shape == 2) { // Circle
@@ -592,12 +592,14 @@ function computePilesActIndivdually() {
 
     // Step 4: Ultimate Load Bearing Capacity
     var pai_qu = (pai_qb + pai_qf) * pai_n; // Ultimate Load Bearing Capacity (Qu)
-
+    
     // Step 5: Allowable Load Bearing Capacity
     var pai_qall = pai_qu / pai_fs;
 
     // Step 6: Allowable Load Bearing Capacity for Group Effect
-    var pai_qgall = pai_qall * (2 * (pai_m * pai_n - 2) * pai_sc + 4 * pai_s)/(pai_p * pai_m * pai_n); // Allowable Load Bearing Capacity for Group Effect (Qgall)
+    var pai_qgall;
+
+    pai_qgall = pai_qall * (2 * (pai_m + pai_r - 2) * pai_sc + 4 * pai_s) / (pai_p * pai_m * pai_r); // Allowable Load Bearing Capacity for Group Effect (Qgall)
 
     // Output the results, rounded to 3 decimal places
     document.getElementById("pai_qu").value = pai_qu.toFixed(3);

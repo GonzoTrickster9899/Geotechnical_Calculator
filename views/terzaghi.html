@@ -174,7 +174,7 @@
                         </div>
 
                         <!-- Saturated Unit Weight (ys) input -->
-                        <div class="mb-3 row align-items-center">
+                        <div class="mb-2 row align-items-center">
                             <label for="ys" class="col-sm-4 col-form-label fw-bold">Saturated Unit Wt (γ<sub>s</sub>)</label>
                             <div class="col-sm-6">
                                 <input type="number" step="any" class="form-control" id="ys" placeholder="Enter saturated unit weight" required>
@@ -182,58 +182,58 @@
                             <label class="col-sm-2 col-form-label">kN/m³</label>
                         </div>
 
-                        <div class="mb-3 row align-items-center">
+                        <div class="mb-2 row align-items-center">
                            <!-- Depth of Water Table (Dw) input -->
-                           <label for="dw" class="col-sm-3 col-form-label fw-bold">Depth of Water Table (Dw)</label>
-                            <div class="col-sm-7">
+                           <label for="dw" class="col-sm-4 col-form-label fw-bold">Depth of Water Table (Dw)</label>
+                            <div class="col-sm-6">
                                 <input type="number" step="any" class="form-control" id="dw" placeholder="Enter depth of water table" required>
                             </div>
                             <label class="col-sm-2 col-form-label">m</label>
                         </div>
-                        <div class="mb-3 row align-items-center">
+                        <div class="mb-2 row align-items-center">
                             <!-- Depth of Footing (Df) input -->
-                            <label for="df" class="col-sm-3 col-form-label fw-bold">Depth of Footing (Df)</label>
-                            <div class="col-sm-7">
+                            <label for="df" class="col-sm-4 col-form-label fw-bold">Depth of Footing (Df)</label>
+                            <div class="col-sm-6">
                                 <input type="number" step="any" class="form-control" id="df" placeholder="Enter depth of footing" required>
                             </div>
                             <label class="col-sm-2 col-form-label">m</label>
                         </div>
-                        <div class="mb-3 row align-items-center">
+                        <div class="mb-2 row align-items-center">
                             <!-- Factor of Safety (FS) input -->
-                            <label for="fs" class="col-sm-3 col-form-label fw-bold">Factor of Safety (FS)</label>
-                            <div class="col-sm-7">
+                            <label for="fs" class="col-sm-4 col-form-label fw-bold">Factor of Safety (FS)</label>
+                            <div class="col-sm-6">
                                 <input type="number" step="any" class="form-control" id="fs" placeholder="Enter factor of safety" required>
                             </div>
                             <div class="col-sm-2"></div>
                         </div>
-                         <div class="mb-3 row align-items-center">
+                         <div class="mb-2 row align-items-center">
                             <!-- Nc input-->
-                            <label for="nc" class="col-sm-3 col-form-label fw-bold">N<sub>c</sub></label>
-                            <div class="col-sm-7">
+                            <label for="nc" class="col-sm-4 col-form-label fw-bold">N<sub>c</sub></label>
+                            <div class="col-sm-6">
                                 <input type="number" step="any" class="form-control" id="nc" placeholder="Enter Nc value" required>
                             </div>
                              <div class="col-sm-2"></div>
                         </div>
-                        <div class="mb-3 row align-items-center">
+                        <div class="mb-2 row align-items-center">
                            <!-- Nq input-->
-                           <label for="nq" class="col-sm-3 col-form-label fw-bold">N<sub>q</sub></label>
-                            <div class="col-sm-7">
+                           <label for="nq" class="col-sm-4 col-form-label fw-bold">N<sub>q</sub></label>
+                            <div class="col-sm-6">
                                 <input type="number" step="any" class="form-control" id="nq" placeholder="Enter Nq value" required>
                             </div>
                              <div class="col-sm-2"></div>
                         </div>
-                         <div class="mb-3 row align-items-center">
+                         <div class="mb-2 row align-items-center">
                            <!-- Ny input-->
-                           <label for="ny" class="col-sm-3 col-form-label fw-bold">N<sub>γ</sub></label>
-                            <div class="col-sm-7">
+                           <label for="ny" class="col-sm-4 col-form-label fw-bold">N<sub>γ</sub></label>
+                            <div class="col-sm-6">
                                 <input type="number" step="any" class="form-control" id="ny" placeholder="Enter Ny value" required>
                             </div>
                              <div class="col-sm-2"></div>
                         </div>
-                        <div class="mb-3 row align-items-center">
+                        <div class="mb-2 row align-items-center">
                             <!-- Shear Failure Type Selection-->
-                            <label for="shearType" class="col-sm-3 col-form-label fw-bold">Shear Failure Type</label>
-                            <div class="col-sm-7">
+                            <label for="shearType" class="col-sm-4 col-form-label fw-bold">Shear Failure Type</label>
+                            <div class="col-sm-6">
                                 <select class="form-select" id="shearType" required>
                                     <option value="" disabled selected>Select shear type</option>
                                     <option value="1">General Shear Failure</option>
@@ -257,49 +257,49 @@
                     <div class="mb-4 p-3 bg-light rounded border">
                         <div class="fw-bold mb-2">Step 1: Solving for Effective Stress (q')</div>
                         <div class="mb-2 row align-items-center">
-                            <label for="first_term" class="col-sm-3 col-form-label">Term 1 (γ * Dw)</label>
-                            <div class="col-sm-7">
+                            <label for="first_term" class="col-sm-4 col-form-label fw-bold"">First Term</label>
+                            <div class="col-sm-6">
                                 <input type="text" class="form-control" id="first_term" readonly>
                             </div>
                             <div class="col-sm-2 col-form-label">kPa</div>
                         </div>
                         <div class="mb-2 row align-items-center">
-                            <label for="second_term" class="col-sm-3 col-form-label">Term 2 [(γ<sub>s</sub>-γ<sub>w</sub>)*(Df-Dw)]</label>
-                            <div class="col-sm-7">
+                            <label for="second_term" class="col-sm-4 col-form-label fw-bold"">Second Term</label>
+                            <div class="col-sm-6">
                                 <input type="text" class="form-control" id="second_term" readonly>
                             </div>
                              <div class="col-sm-2 col-form-label">kPa</div>
                         </div>
                         <div class="mb-2 row align-items-center">
-                            <label for="q" class="col-sm-3 col-form-label fw-bold">Effective Stress (q')</label>
-                            <div class="col-sm-7">
-                                <input type="text" class="form-control fw-bold" id="q" readonly>
+                            <label for="q" class="col-sm-4 col-form-label fw-bold">Effective Stress (q')</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="q" readonly>
                             </div>
-                             <div class="col-sm-2 col-form-label fw-bold">kPa</div>
+                             <div class="col-sm-2 col-form-label">kPa</div>
                         </div>
                     </div>
 
                     <!-- Step 2 -->
                     <div class="mb-4 p-3 bg-light rounded border">
-                        <div class="fw-bold mb-2">Step 2: Solving for Effective Unit Weight (γ') for Term 3</div>
+                        <div class="fw-bold mb-2">Step 2: Solving for y'</div>
                          <div class="mb-2 row align-items-center">
-                            <label for="case" class="col-sm-3 col-form-label">Case Type</label>
-                            <div class="col-sm-9">
+                            <label for="case" class="col-sm-4 col-form-label fw-bold">Case Type</label>
+                            <div class="col-sm-6">
                                 <input type="text" class="form-control" id="case" readonly>
                             </div>
                         </div>
                         <div class="mb-2 row align-items-center">
-                            <label for="y_prime" class="col-sm-3 col-form-label fw-bold">Effective Unit Wt. (γ')</label>
-                            <div class="col-sm-7">
-                                <input type="text" class="form-control fw-bold" id="y_prime" readonly>
+                            <label for="y_prime" class="col-sm-4 col-form-label fw-bold">y'</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="y_prime" readonly>
                             </div>
-                            <div class="col-sm-2 col-form-label fw-bold">kN/m³</div>
+                            <div class="col-sm-2 col-form-label">kN/m³</div>
                         </div>
                     </div>
 
                     <!-- Step 3: Foundation Type Calculations -->
                      <div class="mb-4 p-3 bg-light rounded border">
-                         <div class="fw-bold mb-3">Step 3: Bearing Capacity Calculations</div>
+                         <div class="fw-bold mb-3">Step 3: Solving for qu and qa</div>
                         <!-- Tabs -->
                         <ul class="nav nav-tabs nav-tabs-centered mb-3" id="foundationTabs" role="tablist">
                             <li class="nav-item" role="presentation">
@@ -317,24 +317,24 @@
                         <div class="tab-content" id="foundationTabsContent">
                             <!-- Continuous Strip Foundation -->
                             <div class="tab-pane fade show active" id="continuous-strip" role="tabpanel" aria-labelledby="continuous-strip-tab">
-                                <h6 class="mb-3 text-center text-primary">Continuous Strip Foundation</h6>
+                                <h6 class="mb-3 text-center text-primary fw-bold">Continuous Strip Foundation</h6>
                                 <div class="mb-2 row align-items-center">
-                                    <label for="qu01" class="col-sm-3 col-form-label">Ultimate q<sub>u</sub></label>
-                                    <div class="col-sm-7">
+                                    <label for="qu01" class="col-sm-4 col-form-label fw-bold">Ultimate q<sub>u</sub></label>
+                                    <div class="col-sm-6">
                                         <input type="text" class="form-control" id="qu01" readonly>
                                     </div>
                                     <div class="col-sm-2 col-form-label">kPa</div>
                                 </div>
                                 <div class="mb-2 row align-items-center">
-                                    <label for="qall01" class="col-sm-3 col-form-label">Allowable q<sub>all</sub></label>
-                                    <div class="col-sm-7">
+                                    <label for="qall01" class="col-sm-4 col-form-label fw-bold">Allowable q<sub>all</sub></label>
+                                    <div class="col-sm-6">
                                         <input type="text" class="form-control" id="qall01" readonly>
                                     </div>
                                     <div class="col-sm-2 col-form-label">kPa</div>
                                 </div>
                                 <div class="mb-2 row align-items-center" style="display:none">
-                                    <label for="p01" class="col-sm-3 col-form-label">Load per unit length (P)</label>
-                                    <div class="col-sm-7">
+                                    <label for="p01" class="col-sm-4 col-form-label fw-bold">Load per unit length (P)</label>
+                                    <div class="col-sm-6">
                                         <input type="text" class="form-control" id="p01" readonly>
                                     </div>
                                     <div class="col-sm-2 col-form-label">kN/m</div>
@@ -343,24 +343,24 @@
 
                             <!-- Square Foundation -->
                             <div class="tab-pane fade" id="square" role="tabpanel" aria-labelledby="square-tab">
-                                 <h6 class="mb-3 text-center text-primary">Square Foundation</h6>
+                                 <h6 class="mb-3 text-center text-primary fw-bold">Square Foundation</h6>
                                 <div class="mb-2 row align-items-center">
-                                    <label for="qu02" class="col-sm-3 col-form-label">Ultimate q<sub>u</sub></label>
-                                    <div class="col-sm-7">
+                                    <label for="qu02" class="col-sm-4 col-form-label fw-bold">Ultimate q<sub>u</sub></label>
+                                    <div class="col-sm-6">
                                         <input type="text" class="form-control" id="qu02" readonly>
                                     </div>
                                     <div class="col-sm-2 col-form-label">kPa</div>
                                 </div>
                                 <div class="mb-2 row align-items-center">
-                                    <label for="qall02" class="col-sm-3 col-form-label">Allowable q<sub>all</sub></label>
-                                    <div class="col-sm-7">
+                                    <label for="qall02" class="col-sm-4 col-form-label fw-bold">Allowable q<sub>all</sub></label>
+                                    <div class="col-sm-6">
                                         <input type="text" class="form-control" id="qall02" readonly>
                                     </div>
                                     <div class="col-sm-2 col-form-label">kPa</div>
                                 </div>
                                 <div class="mb-2 row align-items-center" style="display:none;">
-                                    <label for="p02" class="col-sm-3 col-form-label">Total Allowable Load (P)</label>
-                                    <div class="col-sm-7">
+                                    <label for="p02" class="col-sm-4 col-form-label fw-bold">Total Allowable Load (P)</label>
+                                    <div class="col-sm-6">
                                         <input type="text" class="form-control" id="p02" readonly>
                                     </div>
                                     <div class="col-sm-2 col-form-label">kN</div>
@@ -369,24 +369,24 @@
 
                             <!-- Circular Foundation -->
                             <div class="tab-pane fade" id="circular" role="tabpanel" aria-labelledby="circular-tab">
-                                 <h6 class="mb-3 text-center text-primary">Circular Foundation</h6>
+                                 <h6 class="mb-3 text-center text-primary fw-bold">Circular Foundation</h6>
                                 <div class="mb-2 row align-items-center">
-                                    <label for="qu03" class="col-sm-3 col-form-label">Ultimate q<sub>u</sub></label>
-                                    <div class="col-sm-7">
+                                    <label for="qu03" class="col-sm-4 col-form-label fw-bold">Ultimate q<sub>u</sub></label>
+                                    <div class="col-sm-6">
                                         <input type="text" class="form-control" id="qu03" readonly>
                                     </div>
                                     <div class="col-sm-2 col-form-label">kPa</div>
                                 </div>
                                 <div class="mb-2 row align-items-center">
-                                    <label for="qall03" class="col-sm-3 col-form-label">Allowable q<sub>all</sub></label>
-                                    <div class="col-sm-7">
+                                    <label for="qall03" class="col-sm-4 col-form-label fw-bold">Allowable q<sub>all</sub></label>
+                                    <div class="col-sm-6">
                                         <input type="text" class="form-control" id="qall03" readonly>
                                     </div>
                                     <div class="col-sm-2 col-form-label">kPa</div>
                                 </div>
                                 <div class="mb-2 row align-items-center" style="display:none;">
-                                    <label for="p03" class="col-sm-3 col-form-label">Total Allowable Load (P)</label>
-                                    <div class="col-sm-7">
+                                    <label for="p03" class="col-sm-4 col-form-label">Total Allowable Load (P)</label>
+                                    <div class="col-sm-6">
                                         <input type="text" class="form-control" id="p03" readonly>
                                     </div>
                                     <div class="col-sm-2 col-form-label">kN</div>

@@ -5,13 +5,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Geotechnical Calculators</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Google Fonts Import -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+
   <style>
+    /* Apply imported fonts */
+    body {
+      font-family: 'Lato', sans-serif; /* Default body font */
+    }
+    .display-4 {
+      font-family: 'Montserrat', sans-serif; /* Font for the main title */
+      font-weight: 700; /* Bolder Montserrat */
+    }
+    .lead {
+      font-family: 'Lato', sans-serif; /* Font for the subtitle */
+      font-weight: 400; /* Regular Lato */
+    }
+    .card-title {
+        font-family: 'Montserrat', sans-serif; /* Font for card titles */
+        font-weight: 600; /* Semi-bold Montserrat */
+    }
+
     .calculator-btn {
       transition: all 0.3s ease;
+      /* Removed border-0, default card border will apply */
+      /* Optional: Define a specific light border */
+      border: 1px solid #dee2e6; /* Bootstrap's light gray border */
+      border-radius: 0.5rem;
     }
     .calculator-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transform: translateY(-5px); /* More lift on hover */
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1); /* Slightly stronger shadow */
     }
     .logo-container {
       display: flex;
@@ -29,6 +56,27 @@
       color: white;
       font-weight: bold;
     }
+
+    /* Ensure cards fill height */
+    .row.equal-height-cards > [class*='col-'] {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .row.equal-height-cards .card {
+        flex-grow: 1; /* Make card grow to fill column */
+    }
+
+    /* Align button to bottom if needed */
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+    .card-body .btn {
+        margin-top: auto; /* Pushes button to the bottom */
+    }
+
   </style>
 </head>
 <body>
@@ -40,12 +88,12 @@
         <div class="logo">GEO</div>
         <span>GeoCalc</span>
       </a>
-      
+
       <!-- Toggle Button for Mobile -->
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      
+
       <!-- Navigation Items -->
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
@@ -56,7 +104,7 @@
             <a class="nav-link" href="about.html">About</a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Calculators
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -75,16 +123,19 @@
   <div class="container py-5">
     <div class="row">
       <div class="col-12 text-center mb-5">
-        <h1 class="display-4">Calculators</h1>
+        <!-- Title and Subtitle using new fonts -->
+        <h1 class="display-4">Geotechnical Calculators</h1>
         <p class="lead text-muted">Select a calculator to begin your geotechnical analysis</p>
       </div>
     </div>
-    
-    <!-- Calculator Buttons -->
-    <div class="row g-4 justify-content-center">
+
+    <!-- Calculator Buttons - Added 'equal-height-cards' class to row -->
+    <div class="row g-4 justify-content-center equal-height-cards">
       <!-- Terzaghi Calculator -->
       <div class="col-md-6 col-lg-3">
-        <div class="card h-100 border-0 calculator-btn">
+         <!-- Removed border-0 -->
+        <div class="card h-100 calculator-btn">
+          <!-- Added d-flex utils to card-body -->
           <div class="card-body text-center p-4">
             <div class="mb-3">
               <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="#0d6efd" class="bi bi-calculator" viewBox="0 0 16 16">
@@ -92,16 +143,18 @@
                 <path d="M4 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-2zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-4z"/>
               </svg>
             </div>
-            <h3 class="card-title h5 mb-3">Terzaghi</h3>
+            <!-- Card title uses new font -->
+            <h3 class="card-title h5 mb-3">Terzaghi Bearing Capacity</h3>
             <p class="card-text small text-muted mb-4">Bearing capacity calculation based on Terzaghi's theory</p>
+            <!-- Button pushed to bottom -->
             <a href="views/terzaghi.html" class="btn btn-primary">Open Calculator</a>
           </div>
         </div>
       </div>
-      
+
       <!-- Shallow Square Footing Calculator -->
       <div class="col-md-6 col-lg-3">
-        <div class="card h-100 border-0 calculator-btn">
+        <div class="card h-100 calculator-btn">
           <div class="card-body text-center p-4">
             <div class="mb-3">
               <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="#0d6efd" class="bi bi-bounding-box" viewBox="0 0 16 16">
@@ -114,10 +167,10 @@
           </div>
         </div>
       </div>
-      
+
       <!-- Shallow Rectangular Footing Calculator -->
       <div class="col-md-6 col-lg-3">
-        <div class="card h-100 border-0 calculator-btn">
+        <div class="card h-100 calculator-btn">
           <div class="card-body text-center p-4">
             <div class="mb-3">
               <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="#0d6efd" class="bi bi-layers" viewBox="0 0 16 16">
@@ -125,15 +178,15 @@
               </svg>
             </div>
             <h3 class="card-title h5 mb-3">Shallow Rectangular Footing</h3>
-            <p class="card-text small text-muted mb-4">Design and analysis for shallowing rectangular footings</p>
+            <p class="card-text small text-muted mb-4">Design and analysis for shallow rectangular footings</p>
             <a href="views/shallow_rectangle_footing.html" class="btn btn-primary">Open Calculator</a>
           </div>
         </div>
       </div>
-      
+
       <!-- Deep Foundation Calculator -->
       <div class="col-md-6 col-lg-3">
-        <div class="card h-100 border-0 calculator-btn">
+        <div class="card h-100 calculator-btn">
           <div class="card-body text-center p-4">
             <div class="mb-3">
               <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="#0d6efd" class="bi bi-arrow-down-square" viewBox="0 0 16 16">
