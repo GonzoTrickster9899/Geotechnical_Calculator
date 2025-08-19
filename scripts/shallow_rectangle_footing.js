@@ -546,17 +546,17 @@ function computeFootingDesign() {
     // ** Keeping original formula as requested **
     // This formula interpolates pressure at distance 'rfd_d' [m] from the edge where pressure is q1,
     // assuming pressure varies over dimension 'rfd_b' [m]. This is likely only correct if rfd_om = 1.
-    let rfd_qu4 = rfd_qu1; // Default if pressure is uniform or b=0
-    if (rfd_qu1 !== rfd_qu2 && rfd_b > 0) {
-        rfd_qu4 = ((rfd_qu2 - rfd_qu1) * (rfd_d - 0)) / (rfd_b - 0) + rfd_qu1;
-    }
+    //let rfd_qu4 = rfd_qu1; // Default if pressure is uniform or b=0
+    //if (rfd_qu1 !== rfd_qu2 && rfd_b > 0) {
+    rfd_qu4 = ((rfd_qu2 - rfd_qu1) * (rfd_d - 0)) / (rfd_b - 0) + rfd_qu1;
+    //}
     // Displays the calculated qu4
     document.getElementById("rfd_qu4").value = rfd_qu4.toFixed(3);
 
     //* --- Step 6: Ultimate Moment ---
     // ** Keeping original formula as requested **
     // This formula for Mu is non-standard and uses sqrt(dimension - distance). Units seem inconsistent.
-    const rfd_mu = (rfd_l * Math.sqrt(Math.max(0, rfd_b - rfd_d)) / 6) * (rfd_qu4 - rfd_qu2); // Added Math.max to avoid sqrt of negative
+    const rfd_mu = (rfd_l * Math.pow(rfd_b - rfd_d, 2) / 6) * (rfd_qu4 + 2 * rfd_qu2); // Added Math.max to avoid sqrt of negative
 
     // Displays the calculated ultimate moment
     document.getElementById("rfd_mu").value = rfd_mu.toFixed(3);
@@ -572,19 +572,18 @@ function computeFootingDesign() {
 
     //* --- Step 8: Number of Top Bars and Bottom Bars (Based on Minimum Steel) ---
     // Area of steel = rho * b * d
-    const As_min_long_dir = rfd_msr * (rfd_b * 1000) * rfd_db; // Use width B for long bars, d_B
-    const As_min_short_dir = rfd_msr * (rfd_l * 1000) * rfd_dl;// Use width L for short bars, d_L
+    //const As_min_long_dir = rfd_msr * (rfd_b * 1000) * rfd_db; // Use width B for long bars, d_B
+    //const As_min_short_dir = rfd_msr * (rfd_l * 1000) * rfd_dl;// Use width L for short bars, d_L
 
     // Corrected: Area of one bar = pi/4 * d^2
-    const area_one_bar = 0.25 * Math.PI * Math.pow(rfd_rbd, 2); // mm^2
+    //const area_one_bar = 0.25 * Math.PI * Math.pow(rfd_rbd, 2); // mm^2
 
     let rfd_bld = 0; // Bars Long Direction (Bottom)
     let rfd_bsd = 0; // Bars Short Direction (Top) - Note: Short bars usually go bottom if main moment is that way
 
-    if (area_one_bar > 0) {
-         rfd_bld = Math.ceil(As_min_long_dir / area_one_bar); // Round up
-         rfd_bsd = Math.ceil(As_min_short_dir / area_one_bar); // Round up
-    }
+    rfd_bld = Math.ceil((rfd_msr * rfd_l * 1000 * rfd_db) / (0.25 * Math.PI * Math.pow(rfd_rbd, 2))); // Round up
+    rfd_bsd = Math.ceil((rfd_msr * rfd_b * 1000 * rfd_dl) / (0.25 * Math.PI * Math.pow(rfd_rbd, 2))); // Round up
+
 
     // Display the result in the output field
     document.getElementById("rfd_bld").value = rfd_bld; // Display as integer
