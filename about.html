@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About - Geotechnical Calculators</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+
+  <!-- Google Fonts Import -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Apply imported fonts */
+    body {
+      font-family: 'Lato', sans-serif; /* Default body font */
+    }
+    .display-4 {
+      font-family: 'Montserrat', sans-serif; /* Font for the main title */
+      font-weight: 700; /* Bolder Montserrat */
+    }
+    .lead {
+      font-family: 'Lato', sans-serif; /* Font for the subtitle */
+      font-weight: 400; /* Regular Lato */
+    }
+    .card-title {
+        font-family: 'Montserrat', sans-serif; /* Font for card titles */
+        font-weight: 600; /* Semi-bold Montserrat */
+    }
+
+    .calculator-btn {
+      transition: all 0.3s ease;
+      border: 1px solid #dee2e6; /* Bootstrap's light gray border */
+      border-radius: 0.5rem;
+    }
+    .calculator-btn:hover {
+      transform: translateY(-5px); /* More lift on hover */
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1); /* Slightly stronger shadow */
+    }
+    .logo-container {
+      display: flex;
+      align-items: center;
+    }
+    .logo {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+      background-color: #0d6efd;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+    }
+
+    /* About Page Specific Styles */
+    :root {
+        --primary-color: #2c3e50;
+        --accent-color: #3498db;
+        --success-color: #27ae60;
+        --warning-color: #f39c12;
+    }
+    
+    .hero-section {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+        color: white;
+        padding: 80px 0;
+    }
+    
+    .feature-card {
+        border: none;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .feature-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .team-section {
+        background-color: #f8f9fa;
+    }
+    
+    .team-card {
+        border: none;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .team-card:hover {
+        transform: scale(1.05);
+    }
+    
+    .university-logo {
+        max-width: 150px;
+        height: auto;
+    }
+    
+    .stats-section {
+        background: var(--primary-color);
+        color: white;
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: var(--accent-color);
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <div class="container">
+      <!-- Logo and Brand Name -->
+      <a class="navbar-brand logo-container" href="index.html">
+        <div class="logo">GEO</div>
+        <span>GeoCalc</span>
+      </a>
+
+      <!-- Toggle Button for Mobile -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Navigation Items -->
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="about.html">About</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Calculators
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="views/terzaghi.html">Terzaghi</a></li>
+              <li><a class="dropdown-item" href="views/shallow_square_footing.html">Shallow Square Footing</a></li>
+              <li><a class="dropdown-item" href="views/shallow_rectangle_footing.html">Shallow Rectangular Footing</a></li>
+              <li><a class="dropdown-item" href="views/deep_foundation.html">Deep Foundation</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-8 mx-auto text-center">
+          <h1 class="display-4 fw-bold mb-4">About Us and Project</h1>
+          <p class="lead mb-4">A comprehensive digital platform designed to streamline geotechnical engineering calculations for academic excellence and professional development.</p>
+          <div class="d-flex justify-content-center align-items-center flex-wrap gap-3">
+            <span class="badge bg-light text-dark px-3 py-2">Academic Project</span>
+            <span class="badge bg-light text-dark px-3 py-2">Civil Engineering</span>
+            <span class="badge bg-light text-dark px-3 py-2">Bicol University</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission & Vision Section -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 mb-4">
+          <div class="card feature-card p-4">
+            <div class="text-center">
+              <i class="bi bi-bullseye feature-icon text-primary"></i>
+              <h3 class="h4 mb-3 card-title">Our Mission</h3>
+            </div>
+            <p class="text-muted">To provide civil engineering students and professionals with accessible, accurate, and user-friendly geotechnical calculation tools that enhance learning, improve productivity, and support evidence-based engineering decisions.</p>
+          </div>
+        </div>
+        <div class="col-lg-6 mb-4">
+          <div class="card feature-card p-4">
+            <div class="text-center">
+              <i class="bi bi-eye feature-icon text-success"></i>
+              <h3 class="h4 mb-3 card-title">Our Vision</h3>
+            </div>
+            <p class="text-muted">To become the leading educational platform for geotechnical engineering calculations, fostering innovation in civil engineering education and contributing to the development of competent engineering professionals.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center mb-5">
+          <h2 class="display-6 fw-bold">Platform Features</h2>
+          <p class="lead text-muted">Comprehensive tools designed for modern geotechnical engineering</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card feature-card p-4 text-center">
+            <i class="bi bi-calculator feature-icon" style="color: var(--accent-color);"></i>
+            <h5 class="card-title">Bearing Capacity Analysis</h5>
+            <p class="text-muted small">Advanced calculations based on Terzaghi's bearing capacity theory for shallow foundation design.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card feature-card p-4 text-center">
+            <i class="bi bi-building feature-icon" style="color: var(--success-color);"></i>
+            <h5 class="card-title">Foundation Design</h5>
+            <p class="text-muted small">Comprehensive tools for both shallow and deep foundation analysis and design optimization.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card feature-card p-4 text-center">
+            <i class="bi bi-graph-up feature-icon" style="color: var(--warning-color);"></i>
+            <h5 class="card-title">Real-time Results</h5>
+            <p class="text-muted small">Instant calculations with detailed results and professional-grade output formatting.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Statistics Section -->
+  <section class="stats-section py-5">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="stat-number">4+</div>
+          <p class="mb-0">Calculator Tools</p>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="stat-number">100%</div>
+          <p class="mb-0">Academic Focus</p>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="stat-number">24/7</div>
+          <p class="mb-0">Available Access</p>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="stat-number">∞</div>
+          <p class="mb-0">Learning Opportunities</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Section -->
+  <section class="team-section py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center mb-5">
+          <h2 class="display-6 fw-bold">Meet Our Team</h2>
+          <p class="lead text-muted">Dedicated individuals committed to advancing geotechnical engineering education</p>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card team-card p-4 text-center">
+            <div class="mb-3">
+              <i class="bi bi-person-circle" style="font-size: 4rem; color: var(--primary-color);"></i>
+            </div>
+            <h5 class="card-title">Jedrick Colico</h5>
+            <p class="card-subtitle text-muted mb-2">Project Lead & Civil Engineer</p>
+            <p class="card-text small">Leading the academic initiative with extensive knowledge in geotechnical engineering principles and educational methodology.</p>
+            <div class="d-flex justify-content-center">
+              <span class="badge bg-primary me-1">Project Management</span>
+              <span class="badge bg-secondary">Geotechnical Expert</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card team-card p-4 text-center">
+            <div class="mb-3">
+              <i class="bi bi-code-slash" style="font-size: 4rem; color: var(--accent-color);"></i>
+            </div>
+            <h5 class="card-title">Lancelot Oleriana</h5>
+            <p class="card-subtitle text-muted mb-2">Lead Developer</p>
+            <p class="card-text small">Responsible for the technical development and implementation of the platform's sophisticated calculation algorithms and user interface.</p>
+            <div class="d-flex justify-content-center">
+              <span class="badge bg-info me-1">Full-Stack Development</span>
+              <span class="badge bg-success">UI/UX Design</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- University Section -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <h3 class="fw-bold mb-3">Bicol University Partnership</h3>
+          <p class="text-muted mb-4">This project represents a collaborative effort between the Civil Engineering Department at Bicol University and dedicated students committed to advancing engineering education through technology.</p>
+          <div class="row">
+            <div class="col-sm-6">
+              <h6 class="fw-semibold text-primary">Academic Excellence</h6>
+              <p class="small text-muted">Aligned with university standards and curriculum requirements.</p>
+            </div>
+            <div class="col-sm-6">
+              <h6 class="fw-semibold text-success">Innovation Focus</h6>
+              <p class="small text-muted">Promoting technological integration in traditional engineering education.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 text-center">
+          <div class="p-4 bg-light rounded">
+            <i class="bi bi-mortarboard-fill" style="font-size: 5rem; color: var(--primary-color);"></i>
+            <h5 class="mt-3 card-title">Bicol University</h5>
+            <p class="text-muted small">Civil Engineering Department</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Purpose Section -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <div class="card border-0 shadow-sm p-4">
+            <h3 class="text-center mb-4 card-title">Project Purpose & Impact</h3>
+            <div class="row">
+              <div class="col-md-6">
+                <h6 class="fw-semibold text-primary"><i class="bi bi-book me-2"></i>Educational Focus</h6>
+                <p class="small text-muted mb-3">Designed specifically for academic purposes to enhance learning experiences in geotechnical engineering courses.</p>
+                
+                <h6 class="fw-semibold text-success"><i class="bi bi-people me-2"></i>Student Engagement</h6>
+                <p class="small text-muted mb-3">Promotes active learning through interactive calculations and immediate feedback mechanisms.</p>
+              </div>
+              <div class="col-md-6">
+                <h6 class="fw-semibold text-info"><i class="bi bi-lightbulb me-2"></i>Innovation</h6>
+                <p class="small text-muted mb-3">Demonstrates the integration of modern web technologies with traditional engineering principles.</p>
+                
+                <h6 class="fw-semibold text-warning"><i class="bi bi-globe me-2"></i>Accessibility</h6>
+                <p class="small text-muted mb-3">Provides free, web-based access to professional-grade geotechnical calculation tools.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact & Acknowledgment -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <h3 class="mb-4 card-title">Acknowledgments</h3>
+          <p class="text-muted mb-4">This project would not have been possible without the support and guidance of the Civil Engineering faculty at Bicol University and the collaborative spirit of our student community.</p>
+          <div class="d-flex justify-content-center align-items-center flex-wrap gap-3">
+            <span class="text-muted"><i class="bi bi-envelope me-1"></i>Academic Project</span>
+            <span class="text-muted"><i class="bi bi-calendar me-1"></i>Ongoing Development</span>
+            <span class="text-muted"><i class="bi bi-code-square me-1"></i>Open Source Initiative</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bootstrap JS with Popper -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
